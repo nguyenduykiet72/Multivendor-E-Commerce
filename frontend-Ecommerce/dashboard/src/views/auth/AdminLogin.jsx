@@ -1,9 +1,15 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { admin_login } from "../../store/Reducers/authReducer";
-
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { admin_login, messageClear } from "../../store/Reducers/authReducer";
+import { PropagateLoader } from "react-spinners";
+import toast from "react-hot-toast";
 const AdminLogin = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { loader, errorMessage, successMessage } = useSelector(
+    (state) => state.auth
+  );
 
   const [state, setState] = useState({
     email: "",
@@ -20,8 +26,28 @@ const AdminLogin = () => {
   const submit = (e) => {
     e.preventDefault();
     dispatch(admin_login(state));
-    // console.log(state);
   };
+
+  const overrideDisplay = {
+    display: "flex",
+    margin: "0 auto",
+    height: "24px",
+    justifyContent: "center",
+    alignItems: "center",
+  };
+
+  useEffect(() => {
+    if (errorMessage) {
+      toast.error(errorMessage);
+      dispatch(messageClear());
+    }
+    if (successMessage) {
+      toast.success(successMessage);
+      dispatch(messageClear());
+      navigate("/");
+    }
+  }, [dispatch, errorMessage, navigate, successMessage]);
+
   return (
     <div className="min-h-screen min-w-screen bg-[#ffffff] flex justify-center items-center">
       <div className="w-[400px] text-[#ffffff] p-2">
@@ -30,7 +56,7 @@ const AdminLogin = () => {
             <div className="w-[180px] h-[50px]">
               <img
                 className="w-full h-full"
-                src="../../../public/images/logo.png"
+                src="../../../public/images/logo.jpg"
                 alt="image"
               />
             </div>
@@ -79,8 +105,15 @@ const AdminLogin = () => {
               </label>
             </div>
 
-            <button className="w-full py-2 mb-3 text-white bg-black rounded-md hover:shadow-black-300/50 hover:shadow-lg px-7">
-              Đăng Nhập
+            <button
+              disabled={loader ? true : false}
+              className="w-full py-2 mb-3 text-white bg-black rounded-md hover:shadow-black-300/50 hover:shadow-lg px-7"
+            >
+              {loader ? (
+                <PropagateLoader cssOverride={overrideDisplay} color="white" />
+              ) : (
+                "Đăng Nhập"
+              )}
             </button>
           </form>
         </div>
