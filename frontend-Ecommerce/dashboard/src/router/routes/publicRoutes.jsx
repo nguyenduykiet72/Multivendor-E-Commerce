@@ -1,7 +1,7 @@
 import { lazy } from "react";
-const Login = lazy(() => import("../../views/auth/Login"));
-const Register = lazy(() => import("../../views/auth/Register"));
-const AdminLogin = lazy(() => import("../../views/auth/AdminLogin"));
+const Login = lazy(() => import("../../components/auth/Login"));
+const Register = lazy(() => import("../../components/auth/Register"));
+const AdminLogin = lazy(() => import("../../components/auth/AdminLogin"));
 const publicRoutes = [
   {
     path: "/login",

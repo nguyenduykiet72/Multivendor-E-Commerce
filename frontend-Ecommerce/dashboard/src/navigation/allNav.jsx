@@ -3,7 +3,6 @@ import { FaShoppingCart } from "react-icons/fa";
 import { PiUsersFourFill, PiUsersThreeFill } from "react-icons/pi";
 import { FaCodePullRequest } from "react-icons/fa6";
 import { IoMdChatbubbles } from "react-icons/io";
-import { RiLogoutBoxFill } from "react-icons/ri";
 
 export const allNav = [
   {
@@ -62,11 +61,4 @@ export const allNav = [
     role: "admin",
     path: "/admin/dashboard/chat-seller",
   },
-  // {
-  //   id: 9,
-  //   title: "Log Out",
-  //   icon: <RiLogoutBoxFill />,
-  //   role: "admin",
-  //   path: "/admin/dashboard/logout",
-  // },
 ];
