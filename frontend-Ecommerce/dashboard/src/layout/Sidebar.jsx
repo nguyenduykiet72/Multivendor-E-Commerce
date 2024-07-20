@@ -3,9 +3,10 @@ import { Link, useLocation } from "react-router-dom";
 import { getNav } from "./../navigation/index";
 import { RiLogoutBoxFill } from "react-icons/ri";
 
-const Sidebar = () => {
+const Sidebar = ({ showSidebar, setShowSidebar }) => {
   const { pathname } = useLocation();
   const [allNav, setAllNav] = useState([]);
+
   useEffect(() => {
     const navs = getNav("admin");
     setAllNav(navs);
@@ -13,10 +14,17 @@ const Sidebar = () => {
 
   return (
     <div>
-      <div></div>
-      {/* bg-[#283046]  */}
       <div
-        className={`w-[260px] fixed bg-[#ffffff] z-50 top-0 h-screen shadow-[0_0_15px_0_rgb(34_41_47_/_5%)] transition-all`}
+        onClick={() => setShowSidebar(false)}
+        className={`fixed duration-200 ${
+          !showSidebar ? "invisible" : "visible"
+        } w-screen h-screen bg-[#22292f80] top-0 left-0 z-10`}
+      ></div>
+
+      <div
+        className={`w-[260px] fixed bg-[#ffffff] z-50 top-0 h-screen shadow-[0_0_15px_0_rgb(34_41_47_/_5%)] transition-all font-sans ${
+          showSidebar ? "left-0" : "-left-[260px] lg:left-0"
+        }`}
       >
         <div className="h-[70px] flex justify-center items-center">
           <Link to="/" className="w-[180px] h-[50px]">
