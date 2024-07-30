@@ -21,10 +21,10 @@ export const allNav = [
   },
   {
     id: 3,
-    title: "Category",
+    title: "Products",
     icon: <MdCategory />,
     role: "admin",
-    path: "/admin/dashboard/category",
+    path: "/admin/dashboard/products",
   },
   {
     id: 4,
