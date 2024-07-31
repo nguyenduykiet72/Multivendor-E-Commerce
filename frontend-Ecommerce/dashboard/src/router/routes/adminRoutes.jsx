@@ -11,6 +11,9 @@ const ProductDashboard = lazy(() =>
 const SellerDashboard = lazy(() =>
   import("../../components/admin/SellerDashboard")
 );
+const PaymentRequest = lazy(() =>
+  import("../../components/admin/PaymentRequest")
+);
 export const adminRoutes = [
   {
     path: "admin/dashboard",
@@ -30,6 +33,11 @@ export const adminRoutes = [
   {
     path: "admin/dashboard/sellers",
     element: <SellerDashboard />,
+    role: "admin",
+  },
+  {
+    path: "admin/dashboard/payment-request",
+    element: <PaymentRequest />,
     role: "admin",
   },
 ];
