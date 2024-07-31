@@ -264,7 +264,7 @@ const AdminDashboard = () => {
 
             <tbody>
               {[1, 2, 3, 4, 5].map((k, index) => (
-                <tr key={index}>
+                <tr key={index} className="border-b border-slate-300">
                   <td
                     scope="row"
                     className="px-4 py-3 font-medium whitespace-nowrap"

@@ -67,7 +67,7 @@ const ProductDashboard = () => {
 
                 <tbody>
                   {[1, 2, 3, 4, 5].map((k, item) => (
-                    <tr key={item}>
+                    <tr key={item} className="border-b border-slate-300">
                       <td
                         scope="row"
                         className="px-4 py-[6.7px] font-medium whitespace-nowrap"

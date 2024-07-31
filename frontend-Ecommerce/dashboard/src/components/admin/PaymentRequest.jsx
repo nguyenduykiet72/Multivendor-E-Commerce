@@ -36,9 +36,9 @@ const PaymentRequest = () => {
     <div className="px-2 pt-5 lg:px-7">
       <div className="w-full p-4 bg-white rounded-md">
         <h2 className="pb-5 text-xl font-medium">Withdrawal Request</h2>
-        <div className="w-full">
-          <div className="w-full overflow-x-auto">
-            <div className="flex bg-[#d0ced0] uppercase text-xs min-w-[340px] font-bold rounded-md text-center">
+        <div className="w-full ">
+          <div className="w-full overflow-x-auto ">
+            <div className="flex bg-[#d0ced0] uppercase text-xs min-w-[340px] font-bold rounded-md text-center ">
               <div className="w-[15%] p-2">No</div>
               <div className="w-[25%] p-2">Amount</div>
               <div className="w-[25%] p-2">Status</div>
@@ -48,7 +48,7 @@ const PaymentRequest = () => {
             {
               <List
                 style={{ minWidth: "340px" }}
-                className="List"
+                className="List "
                 height={350}
                 itemCount={10}
                 itemSize={35}

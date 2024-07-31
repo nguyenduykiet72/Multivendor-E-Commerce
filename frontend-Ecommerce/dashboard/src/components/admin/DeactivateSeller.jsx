@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 import { TiEye } from "react-icons/ti";
 
-const SellerDashboard = () => {
+const DeactivateSeller = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
   const [nextPage, setNextPage] = useState(5);
@@ -11,7 +11,7 @@ const SellerDashboard = () => {
 
   return (
     <div className="px-2 pt-5 lg:px-7">
-      <h1 className="text-[20px] font-bold mb-3"> Sellers</h1>
+      <h1 className="text-[20px] font-bold mb-3">Deactivated Sellers</h1>
 
       <div className="w-full p-4 bg-white rounded-md">
         <div className="flex items-center justify-between">
@@ -46,20 +46,15 @@ const SellerDashboard = () => {
                   Image
                 </th>
                 <th scope="col" className="px-4 py-3">
-                  Shop Name
+                  Email
                 </th>
                 <th scope="col" className="px-4 py-3">
                   Payment Status
                 </th>
                 <th scope="col" className="px-4 py-3">
-                  Email
+                  Status
                 </th>
-                <th scope="col" className="px-4 py-3">
-                  City
-                </th>
-                <th scope="col" className="px-4 py-3">
-                  Address
-                </th>
+
                 <th scope="col" className="px-4 py-3">
                   Action
                 </th>
@@ -96,7 +91,7 @@ const SellerDashboard = () => {
                     scope="row"
                     className="px-4 py-[6.7px] font-medium whitespace-nowrap"
                   >
-                    Mr.Robot
+                    mrrobot@anonymously.com
                   </td>
                   <td
                     scope="row"
@@ -108,21 +103,8 @@ const SellerDashboard = () => {
                     scope="row"
                     className="px-4 py-[6.7px] font-medium whitespace-nowrap"
                   >
-                    mrrobot@unknown.gmail
+                    Pending
                   </td>
-                  <td
-                    scope="row"
-                    className="px-4 py-[6.7px] font-medium whitespace-nowrap"
-                  >
-                    Da Nang
-                  </td>
-                  <td
-                    scope="row"
-                    className="px-4 py-[6.7px] font-medium whitespace-nowrap"
-                  >
-                    122/12 Something
-                  </td>
-
                   <td
                     scope="row"
                     className="px-4 py-[6.7px] font-medium whitespace-nowrap "
@@ -153,4 +135,4 @@ const SellerDashboard = () => {
   );
 };
 
-export default SellerDashboard;
+export default DeactivateSeller;

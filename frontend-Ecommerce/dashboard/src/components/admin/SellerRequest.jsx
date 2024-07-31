@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 import { TiEye } from "react-icons/ti";
 
-const SellerDashboard = () => {
+const SellerRequest = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
   const [nextPage, setNextPage] = useState(5);
@@ -11,7 +11,7 @@ const SellerDashboard = () => {
 
   return (
     <div className="px-2 pt-5 lg:px-7">
-      <h1 className="text-[20px] font-bold mb-3"> Sellers</h1>
+      <h1 className="text-[20px] font-bold mb-3">Seller Requests</h1>
 
       <div className="w-full p-4 bg-white rounded-md">
         <div className="flex items-center justify-between">
@@ -43,23 +43,15 @@ const SellerDashboard = () => {
                   Name
                 </th>
                 <th scope="col" className="px-4 py-3">
-                  Image
-                </th>
-                <th scope="col" className="px-4 py-3">
-                  Shop Name
+                  Email
                 </th>
                 <th scope="col" className="px-4 py-3">
                   Payment Status
                 </th>
                 <th scope="col" className="px-4 py-3">
-                  Email
+                  Status
                 </th>
-                <th scope="col" className="px-4 py-3">
-                  City
-                </th>
-                <th scope="col" className="px-4 py-3">
-                  Address
-                </th>
+
                 <th scope="col" className="px-4 py-3">
                   Action
                 </th>
@@ -71,61 +63,38 @@ const SellerDashboard = () => {
                 <tr key={index} className="border-b border-slate-300">
                   <td
                     scope="row"
-                    className="px-4 py-[6.7px] font-medium whitespace-nowrap"
+                    className="px-4 py-2 font-medium whitespace-nowrap"
                   >
                     {k}
                   </td>
                   <td
                     scope="row"
-                    className="px-4 py-[6.7px] font-medium whitespace-nowrap"
+                    className="px-4 py-2 font-medium whitespace-nowrap"
                   >
                     Elliot
-                  </td>
-                  <td
-                    scope="row"
-                    className="flex items-center justify-center px-4 py-[6.7px] font-medium whitespace-nowrap"
-                  >
-                    <img
-                      className="w-[45px] h-[45px]"
-                      src={`../../../public/images/category/${k}.jpg`}
-                      alt=""
-                    />
                   </td>
 
                   <td
                     scope="row"
-                    className="px-4 py-[6.7px] font-medium whitespace-nowrap"
+                    className="px-4 py-2 font-medium whitespace-nowrap"
                   >
-                    Mr.Robot
+                    mrrobot@anonymously.com
                   </td>
                   <td
                     scope="row"
-                    className="px-4 py-[6.7px] font-medium whitespace-nowrap"
+                    className="px-4 py-2 font-medium whitespace-nowrap"
+                  >
+                    Inactivate
+                  </td>
+                  <td
+                    scope="row"
+                    className="px-4 py-2 font-medium whitespace-nowrap"
                   >
                     Pending
                   </td>
                   <td
                     scope="row"
-                    className="px-4 py-[6.7px] font-medium whitespace-nowrap"
-                  >
-                    mrrobot@unknown.gmail
-                  </td>
-                  <td
-                    scope="row"
-                    className="px-4 py-[6.7px] font-medium whitespace-nowrap"
-                  >
-                    Da Nang
-                  </td>
-                  <td
-                    scope="row"
-                    className="px-4 py-[6.7px] font-medium whitespace-nowrap"
-                  >
-                    122/12 Something
-                  </td>
-
-                  <td
-                    scope="row"
-                    className="px-4 py-[6.7px] font-medium whitespace-nowrap "
+                    className="px-4 py-2 font-medium whitespace-nowrap "
                   >
                     <div className="flex items-center justify-center gap-4">
                       <Link className="p-[6px] bg-[#37fbb0] rounded hover:shadow-lg hover:shadow-green-500/50 text-black">
@@ -153,4 +122,4 @@ const SellerDashboard = () => {
   );
 };
 
-export default SellerDashboard;
+export default SellerRequest;
