@@ -27,6 +27,7 @@ const ProductDashboard = () => {
       <div className="flex flex-wrap w-full">
         <div className="w-full lg:w-7/12 ">
           <div className="w-full p-4 bg-white rounded-md">
+            
             <div className="flex items-center justify-between">
               <select
                 onChange={(e) => setNextPage(parseInt(e.target.value))}
@@ -65,8 +66,8 @@ const ProductDashboard = () => {
                 </thead>
 
                 <tbody>
-                  {[1, 2, 3, 4, 5].map((k, index) => (
-                    <tr key={index}>
+                  {[1, 2, 3, 4, 5].map((k, item) => (
+                    <tr key={item}>
                       <td
                         scope="row"
                         className="px-4 py-[6.7px] font-medium whitespace-nowrap"
