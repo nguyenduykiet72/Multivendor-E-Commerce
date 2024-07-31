@@ -23,6 +23,7 @@ const Pagination = ({
     for (let i = startPage; i < endPage; i++) {
       buttons.push(
         <li
+          key={i}
           onClick={() => setPageNumber(i)}
           className={`${
             pageNumber === i
