@@ -87,7 +87,7 @@ const SellerDashboard = () => {
                   >
                     <img
                       className="w-[45px] h-[45px]"
-                      src={`../../../public/images/category/${k}.jpg`}
+                      src={`/images/category/${k}.jpg`}
                       alt=""
                     />
                   </td>

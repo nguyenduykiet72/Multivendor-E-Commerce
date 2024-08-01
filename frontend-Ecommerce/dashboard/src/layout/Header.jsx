@@ -31,7 +31,7 @@ const Header = ({ showSidebar, setShowSidebar }) => {
               </div>
               <img
                 className="w-[45px] h-[45px]"
-                src="../../public/images/admin.png"
+                src="/images/admin.png"
                 alt=""
               />
             </div>

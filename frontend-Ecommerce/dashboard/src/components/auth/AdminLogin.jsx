@@ -56,7 +56,7 @@ const AdminLogin = () => {
             <div className="w-[180px] h-[50px]">
               <img
                 className="w-full h-full"
-                src="../../../public/images/logo.jpg"
+                src="/images/logo.jpg"
                 alt="image"
               />
             </div>

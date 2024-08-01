@@ -167,7 +167,7 @@ const AdminDashboard = () => {
                   <div className="absolute flex items-center justify-center w-10 h-10 shadow-lg -left-5 p-[6px] bg-gray-400/40 rounded-full z-20">
                     <img
                       className="w-full h-full rounded-lg"
-                      src="../../../public/images/admin.png"
+                      src="/images/admin.png"
                       alt=""
                     />
                   </div>
@@ -189,7 +189,7 @@ const AdminDashboard = () => {
                   <div className="absolute flex items-center justify-center w-10 h-10 shadow-lg -left-5 p-[6px] bg-gray-400/40 rounded-full z-20">
                     <img
                       className="w-full h-full rounded-lg"
-                      src="../../../public/images/admin.png"
+                      src="/images/admin.png"
                       alt=""
                     />
                   </div>
@@ -211,7 +211,7 @@ const AdminDashboard = () => {
                   <div className="absolute flex items-center justify-center w-10 h-10 shadow-lg -left-5 p-[6px] bg-gray-400/40 rounded-full z-20">
                     <img
                       className="w-full h-full rounded-lg"
-                      src="../../../public/images/admin.png"
+                      src="/images/admin.png"
                       alt=""
                     />
                   </div>
