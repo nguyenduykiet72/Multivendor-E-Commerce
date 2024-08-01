@@ -97,7 +97,10 @@ const SellerRequest = () => {
                     className="px-4 py-2 font-medium whitespace-nowrap "
                   >
                     <div className="flex items-center justify-center gap-4">
-                      <Link className="p-[6px] bg-[#37fbb0] rounded hover:shadow-lg hover:shadow-green-500/50 text-black">
+                      <Link
+                        to="/admin/dashboard/seller/detail/2"
+                        className="p-[6px] bg-[#37fbb0] rounded hover:shadow-lg hover:shadow-green-500/50 text-black"
+                      >
                         <TiEye />
                       </Link>
                     </div>
