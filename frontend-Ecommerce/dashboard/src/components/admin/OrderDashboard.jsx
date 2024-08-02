@@ -145,7 +145,7 @@ const OrderDashboard = () => {
                 <div className="py-3 w-[18%] font-medium">Pending</div>
                 <div className="py-3 w-[18%] font-medium">Pending</div>
                 <div className="py-3 w-[18%] font-medium">
-                  <Link>View</Link>
+                  <Link to="/admin/dashboard/order/detail/3">View</Link>
                 </div>
                 <div
                   onClick={(e) => setShow(!show)}

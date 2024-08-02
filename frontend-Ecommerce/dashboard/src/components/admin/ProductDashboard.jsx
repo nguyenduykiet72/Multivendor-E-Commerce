@@ -27,7 +27,6 @@ const ProductDashboard = () => {
       <div className="flex flex-wrap w-full">
         <div className="w-full lg:w-7/12 ">
           <div className="w-full p-4 bg-white rounded-md">
-            
             <div className="flex items-center justify-between">
               <select
                 onChange={(e) => setNextPage(parseInt(e.target.value))}
@@ -70,19 +69,19 @@ const ProductDashboard = () => {
                     <tr key={item} className="border-b border-slate-300">
                       <td
                         scope="row"
-                        className="px-4 py-[6.7px] font-medium whitespace-nowrap"
+                        className="px-4 py-[6.5px] font-medium whitespace-nowrap"
                       >
                         {k}
                       </td>
                       <td
                         scope="row"
-                        className="px-4 py-[6.7px] font-medium whitespace-nowrap"
+                        className="px-4 py-[6.5px] font-medium whitespace-nowrap"
                       >
                         Clothes
                       </td>
                       <td
                         scope="row"
-                        className="flex items-center justify-center px-4 py-[6.7px] font-medium whitespace-nowrap"
+                        className="flex items-center justify-center px-4 py-[6.5px] font-medium whitespace-nowrap"
                       >
                         <img
                           className="w-[45px] h-[45px]"
@@ -93,7 +92,7 @@ const ProductDashboard = () => {
 
                       <td
                         scope="row"
-                        className="px-4 py-[6.7px] font-medium whitespace-nowrap "
+                        className="px-4 py-[6.5px] font-medium whitespace-nowrap "
                       >
                         <div className="flex items-center justify-center gap-4">
                           <Link className="p-[6px] bg-[#51a8ff] rounded hover:shadow-lg hover:shadow-blue-500/50 text-white">
