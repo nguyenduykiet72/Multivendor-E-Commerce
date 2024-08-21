@@ -81,7 +81,7 @@ export const allNav = [
     title: "All Product",
     icon: <FaSitemap  />,
     role: "seller",
-    path: "/seller/dashboard/all-product",
+    path: "/seller/dashboard/products",
   },
   {
     id: 12,

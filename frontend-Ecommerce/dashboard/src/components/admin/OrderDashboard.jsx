@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FaArrowAltCircleDown } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
+import Search from "../shared/Search";
 
 const OrderDashboard = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -12,23 +13,7 @@ const OrderDashboard = () => {
   return (
     <div className="px-2 pt-5 lg:px-7">
       <div className="w-full p-4 bg-white rounded-md">
-        <div className="flex items-center justify-between">
-          <select
-            onChange={(e) => setNextPage(parseInt(e.target.value))}
-            className="px-4 py-2 bg-white border border-blue-400 rounded-md outline-none focus:border-blue-600"
-            name=""
-            id=""
-          >
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
-          </select>
-          <input
-            className="px-4 py-2 bg-white border border-blue-400 rounded-md outline-none focus:border-blue-600"
-            type="text"
-            placeholder="search"
-          />
-        </div>
+        <Search setNextPage={setNextPage} />
 
         <div className="relative mt-5 overflow-x-auto">
           <div className="w-full text-sm text-center">

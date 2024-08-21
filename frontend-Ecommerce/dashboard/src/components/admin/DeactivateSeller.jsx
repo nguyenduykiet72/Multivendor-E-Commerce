@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 import { TiEye } from "react-icons/ti";
+import Search from "./../shared/Search";
 
 const DeactivateSeller = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -14,23 +15,7 @@ const DeactivateSeller = () => {
       <h1 className="text-[20px] font-bold mb-3">Deactivated Sellers</h1>
 
       <div className="w-full p-4 bg-white rounded-md">
-        <div className="flex items-center justify-between">
-          <select
-            onChange={(e) => setNextPage(parseInt(e.target.value))}
-            className="px-4 py-2 bg-white border border-blue-400 rounded-md outline-none focus:border-blue-600"
-            name=""
-            id=""
-          >
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
-          </select>
-          <input
-            className="px-4 py-2 bg-white border border-blue-400 rounded-md outline-none focus:border-blue-600"
-            type="text"
-            placeholder="search"
-          />
-        </div>
+        <Search setNextPage={setNextPage} />
 
         <div className="relative overflow-x-auto">
           <table className="w-full text-sm text-center">
