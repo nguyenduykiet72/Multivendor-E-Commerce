@@ -166,7 +166,7 @@ const ProductDashboard = () => {
                     id="image"
                   />
                   <div>
-                    <button className="w-full bg-[#fc334d]  hover:shadow-red-500/50 hover:shadow-sm rounded-md px-7 py-3 my-2">
+                    <button className="w-full bg-[#fc334d]  hover:shadow-red-500/50 hover:shadow-sm rounded-md px-7 py-3 my-2 text-white">
                       Add Product
                     </button>
                   </div>
