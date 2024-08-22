@@ -1,6 +1,6 @@
 import React from "react";
 
-const Search = ({setNextPage}) => {
+const Search = ({ setNextPage, setSearchValue, searchValue }) => {
   return (
     <div className="flex items-center justify-between">
       <select
@@ -14,6 +14,8 @@ const Search = ({setNextPage}) => {
         <option value="20">20</option>
       </select>
       <input
+        onChange={(e) => setSearchValue(e.target.value)}
+        value={searchValue}
         className="px-4 py-2 bg-white border border-blue-400 rounded-md outline-none focus:border-blue-600"
         type="text"
         placeholder="search"

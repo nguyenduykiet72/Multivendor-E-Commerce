@@ -36,7 +36,7 @@ const AddProduct = () => {
     discount: "",
     price: "",
     brand: "",
-    stock: "",
+    quantity: "",
   });
 
   const inputHandle = (e) => {
@@ -102,7 +102,7 @@ const AddProduct = () => {
       <div className="w-full p-4 bg-white rounded-md">
         <div className="flex items-center justify-between pb-4">
           <h1 className="text-xl font-semibold">Add Product</h1>
-          <Link className="py-2 my-2 text-white bg-blue-500 rounded-sm hover:shadow-blue-500/50 hover:shadow-sm px-7">
+          <Link to='/seller/dashboard/products' className="py-2 my-2 text-white bg-blue-500 rounded-sm hover:shadow-blue-500/50 hover:shadow-sm px-7">
             All Product
           </Link>
         </div>
@@ -187,14 +187,14 @@ const AddProduct = () => {
               </div>
 
               <div className="flex flex-col w-full gap-1">
-                <label htmlFor="stock">Product Stock</label>
+                <label htmlFor="quantity">Product Quantity</label>
                 <input
                   onChange={inputHandle}
-                  value={state.stock}
+                  value={state.quantity}
                   type="text"
-                  name="stock"
-                  id="stock"
-                  placeholder="Stock"
+                  name="quantity"
+                  id="quantity"
+                  placeholder="quantity"
                   className="px-4 py-2 bg-white border border-blue-400 rounded-md outline-none focus:border-blue-600"
                 />
               </div>

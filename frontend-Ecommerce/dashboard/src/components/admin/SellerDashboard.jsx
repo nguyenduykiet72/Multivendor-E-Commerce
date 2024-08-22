@@ -17,7 +17,7 @@ const SellerDashboard = () => {
       <div className="w-full p-4 bg-white rounded-md">
         <Search setNextPage={setNextPage} />
 
-        <div className="relative overflow-x-auto">
+        <div className="relative mt-2 overflow-x-auto">
           <table className="w-full text-sm text-center">
             <thead className="text-sm uppercase border-b border-black">
               <tr>
@@ -113,7 +113,7 @@ const SellerDashboard = () => {
                     className="px-4 py-[6.7px] font-medium whitespace-nowrap "
                   >
                     <div className="flex items-center justify-center gap-4">
-                      <Link className="p-[6px] bg-[#37fbb0] rounded hover:shadow-lg hover:shadow-green-500/50 text-black">
+                      <Link className="p-[6px] bg-[#37fbb0] rounded hover:shadow-lg hover:shadow-green-500/50 text-white">
                         <TiEye />
                       </Link>
                     </div>

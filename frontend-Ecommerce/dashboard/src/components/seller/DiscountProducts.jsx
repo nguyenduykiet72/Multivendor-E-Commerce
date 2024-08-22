@@ -6,13 +6,13 @@ import { FaEdit } from "react-icons/fa";
 import { BiSolidTrashAlt } from "react-icons/bi";
 import { TiEye } from "react-icons/ti";
 
-const Product = () => {
+const DiscountProducts = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
   const [nextPage, setNextPage] = useState(5);
   return (
     <div className="px-2 pt-2 lg:px-7">
-      <h1 className="mb-3 text-lg font-semibold">All Products</h1>
+      <h1 className="mb-3 text-lg font-semibold">Discount Products</h1>
       <div className="w-full p-4 bg-white rounded-md">
         <Search
           setNextPage={setNextPage}
@@ -144,4 +144,4 @@ const Product = () => {
   );
 };
 
-export default Product;
+export default DiscountProducts;

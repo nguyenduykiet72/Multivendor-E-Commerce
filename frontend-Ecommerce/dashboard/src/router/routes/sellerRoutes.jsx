@@ -5,6 +5,7 @@ const SellerDashboard = lazy(() =>
 );
 const AddProduct = lazy(() => import("../../components/seller/AddProduct"));
 const ProductDashboard = lazy(() => import("../../components/seller/ProductDashboard"));
+const DiscountProducts = lazy(() => import("../../components/seller/DiscountProducts"));
 export const sellerRoutes = [
   {
     path: "/",
@@ -24,6 +25,11 @@ export const sellerRoutes = [
   {
     path: "seller/dashboard/products",
     element: <ProductDashboard />,
+    ability: ["seller"],
+  },
+  {
+    path: "seller/dashboard/discount-product",
+    element: <DiscountProducts />,
     ability: ["seller"],
   },
 ];

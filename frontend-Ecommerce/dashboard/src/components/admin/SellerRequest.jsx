@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 import { TiEye } from "react-icons/ti";
+import Search from "../shared/Search";
 
 const SellerRequest = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -16,7 +17,7 @@ const SellerRequest = () => {
       <div className="w-full p-4 bg-white rounded-md">
         <Search setNextPage={setNextPage} />
 
-        <div className="relative overflow-x-auto">
+        <div className="relative mt-2 overflow-x-auto">
           <table className="w-full text-sm text-center">
             <thead className="text-sm uppercase border-b border-black">
               <tr>
@@ -83,7 +84,7 @@ const SellerRequest = () => {
                     <div className="flex items-center justify-center gap-4">
                       <Link
                         to="/admin/dashboard/seller/detail/2"
-                        className="p-[6px] bg-[#37fbb0] rounded hover:shadow-lg hover:shadow-green-500/50 text-black"
+                        className="p-[6px] bg-[#37fbb0] rounded hover:shadow-lg hover:shadow-green-500/50 text-white"
                       >
                         <TiEye />
                       </Link>

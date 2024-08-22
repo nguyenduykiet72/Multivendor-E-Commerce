@@ -15,7 +15,7 @@ const OrderDashboard = () => {
       <div className="w-full p-4 bg-white rounded-md">
         <Search setNextPage={setNextPage} />
 
-        <div className="relative mt-5 overflow-x-auto">
+        <div className="relative mt-2 overflow-x-auto">
           <div className="w-full text-sm text-center">
             <div className="text-sm uppercase border-b border-slate-700">
               <div className="flex items-center justify-between">

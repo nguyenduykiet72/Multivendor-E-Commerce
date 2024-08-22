@@ -30,7 +30,7 @@ const ProductDashboard = () => {
           <div className="w-full p-4 bg-white rounded-md">
             <Search setNextPage={setNextPage} />
 
-            <div className="relative overflow-x-auto">
+            <div className="relative mt-2 overflow-x-auto">
               <table className="w-full text-sm text-center">
                 <thead className="text-sm uppercase border-b border-black">
                   <tr>
