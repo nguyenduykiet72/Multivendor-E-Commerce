@@ -16,6 +16,12 @@ const OrderDashboard = lazy(() =>
 const PaymentDashboard = lazy(() =>
   import("../../components/seller/PaymentDashboard")
 );
+const SellerToCustomer = lazy(() =>
+  import("../../components/seller/SellerToCustomer")
+);
+const SellerToAdmin = lazy(() =>
+  import("../../components/seller/SellerToAdmin")
+);
 export const sellerRoutes = [
   {
     path: "/",
@@ -50,11 +56,28 @@ export const sellerRoutes = [
     path: "seller/dashboard/orders",
     element: <OrderDashboard />,
     role: "seller",
-    ability: ["active","deactivate"],
+    ability: ["active", "deactivate"],
   },
   {
     path: "seller/dashboard/payments",
     element: <PaymentDashboard />,
+    role: "seller",
+    status: "active",
+  },
+  {
+    path: "seller/dashboard/chat-support",
+    element: <SellerToAdmin />,
+    ability: ["active", "deactivate", "pending"],
+  },
+  {
+    path: "seller/dashboard/chat-customer/:customerId",
+    element: <SellerToCustomer />,
+    role: "seller",
+    status: "active",
+  },
+  {
+    path: "seller/dashboard/chat-customer",
+    element: <SellerToCustomer />,
     role: "seller",
     status: "active",
   },
