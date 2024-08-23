@@ -101,7 +101,7 @@ const AdminDashboard = () => {
         <div className="flex items-center justify-between p-5 bg-[#ffffff] rounded-md gap-3">
           <div className="flex flex-col items-start justify-start text-[#000000] font-sans">
             <h2 className="text-3xl font-bold">$1000</h2>
-            <span className="font-medium text-md">Total Sale</span>
+            <span className="font-medium text-md">Total Sales</span>
           </div>
           <div className="w-[40px] h-[47px] rounded-full bg-[#f54d71] flex justify-center items-center text-xl">
             <HiMiniCurrencyDollar className="text-[#fae8e8] shadow-lg" />
@@ -113,8 +113,6 @@ const AdminDashboard = () => {
             <h2 className="text-3xl font-bold">20</h2>
             <span className="font-medium text-md">Products</span>
           </div>
-          {/* 904df5 */}
-          {/* 4db2f5 */}
           <div className="w-[40px] h-[47px] rounded-full bg-[#4db2f5] flex justify-center items-center text-xl">
             <MdProductionQuantityLimits className="text-[#fae8e8] shadow-lg" />
           </div>
@@ -300,7 +298,6 @@ const AdminDashboard = () => {
             </tbody>
           </table>
         </div>
-        
       </div>
     </div>
   );
