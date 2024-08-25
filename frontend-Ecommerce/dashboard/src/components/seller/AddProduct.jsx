@@ -106,7 +106,6 @@ const AddProduct = () => {
             All Product
           </Link>
         </div>
-
         <div>
           <form>
             <div className="flex flex-col w-full gap-4 mb-3 md:flex-row">

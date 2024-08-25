@@ -22,6 +22,7 @@ const SellerToCustomer = lazy(() =>
 const SellerToAdmin = lazy(() =>
   import("../../components/seller/SellerToAdmin")
 );
+const Profile = lazy(() => import("../../components/seller/Profile"));
 export const sellerRoutes = [
   {
     path: "/",
@@ -78,6 +79,12 @@ export const sellerRoutes = [
   {
     path: "seller/dashboard/chat-customer",
     element: <SellerToCustomer />,
+    role: "seller",
+    status: "active",
+  },
+  {
+    path: "seller/dashboard/profile",
+    element: <Profile />,
     role: "seller",
     status: "active",
   },

@@ -1,9 +1,15 @@
-import { MdDashboardCustomize, MdCategory, MdPayments,MdDiscount  } from "react-icons/md";
-import { FaShoppingCart,FaSitemap   } from "react-icons/fa";
+import {
+  MdDashboardCustomize,
+  MdCategory,
+  MdPayments,
+  MdDiscount,
+} from "react-icons/md";
+import { FaShoppingCart, FaSitemap } from "react-icons/fa";
 import { PiUsersFourFill, PiUsersThreeFill } from "react-icons/pi";
 import { FaCodePullRequest } from "react-icons/fa6";
 import { IoMdChatbubbles } from "react-icons/io";
 import { IoChatbubblesSharp } from "react-icons/io5";
+import { CgProfile } from "react-icons/cg";
 
 export const allNav = [
   {
@@ -79,7 +85,7 @@ export const allNav = [
   {
     id: 11,
     title: "All Product",
-    icon: <FaSitemap  />,
+    icon: <FaSitemap />,
     role: "seller",
     path: "/seller/dashboard/products",
   },
@@ -118,6 +124,11 @@ export const allNav = [
     role: "seller",
     path: "/seller/dashboard/chat-support",
   },
+  {
+    id: 17,
+    title: "Profile",
+    icon: <CgProfile />,
+    role: "seller",
+    path: "/seller/dashboard/profile",
+  },
 ];
-
- 
