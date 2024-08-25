@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaImage } from "react-icons/fa6";
 import { IoCloseCircle } from "react-icons/io5";
 
-const AddProduct = () => {
+const EditProduct = () => {
   const categories = [
     {
       id: 1,
@@ -66,42 +66,36 @@ const AddProduct = () => {
 
   const [images, setImages] = useState([]);
   const [imageShow, setImageShow] = useState([]);
-  const imageHandle = (e) => {
-    const files = e.target.files;
-    const length = files.length;
-    if (length > 0) {
-      setImages([...images, ...files]);
-      let imageUrl = [];
-      for (let i = 0; i < length; i++) {
-        imageUrl.push({ url: URL.createObjectURL(files[i]) });
-      }
-      setImageShow([...imageShow, ...imageUrl]);
+
+  const changeImage = (img, files) => {
+    if (files.length > 0) {
+      console.log(img);
+      console.log(files[0]);
     }
   };
 
-  const changeImage = (img, index) => {
-    if (img) {
-      let tempUrl = [...imageShow];
-      let tempImage = [...images];
-      tempImage[index] = img;
-      tempUrl[index] = { url: URL.createObjectURL(img) };
-      setImageShow([...tempUrl]);
-      setImages([...tempImage]);
-    }
-  };
-
-  const removeImage = (i) => {
-    const filterImage = images.filter((img, index) => index !== i);
-    const filterImageUrl = imageShow.filter((img, index) => index !== i);
-    setImages(filterImage);
-    setImageShow(filterImageUrl);
-  };
+  useEffect(() => {
+    setState({
+      name: "Street Wear T-shirt",
+      description: "Street Wear for everyone in the world",
+      discount: 10,
+      price: 200.0,
+      brand: "Mr.Robot",
+      quantity: 20,
+    });
+    setCategory("T-shirt");
+    setImageShow([
+      "/images/category/1.jpg",
+      "/images/category/2.jpg",
+      "/images/category/3.jpg",
+    ]);
+  }, []);
 
   return (
     <div className="px-2 pt-5 lg:px-7">
       <div className="w-full p-4 bg-white rounded-md">
         <div className="flex items-center justify-between pb-4">
-          <h1 className="text-xl font-semibold">Add Product</h1>
+          <h1 className="text-xl font-semibold">Edit Product</h1>
           <Link
             to="/seller/dashboard/products"
             className="py-2 my-2 text-white bg-blue-500 rounded-sm hover:shadow-blue-500/50 hover:shadow-sm px-7"
@@ -249,49 +243,22 @@ const AddProduct = () => {
 
             <div className="grid w-full grid-cols-1 gap-3 mb-4 lg:gird-cols-4 md:grid-cols-3 sm:grid-cols-2 sm:gap-4 md:gap-4">
               {imageShow.map((img, i) => (
-                <div className="h-[250px] relative">
+                <div>
                   <label htmlFor={i}>
-                    <img
-                      className="w-full h-full rounded-sm"
-                      src={img.url}
-                      alt=""
-                    />
+                    <img src={img} alt="" />
                   </label>
                   <input
+                    onChange={(e) => changeImage(img, e.target.files)}
                     type="file"
                     id={i}
                     className="hidden"
-                    onChange={(e) => changeImage(e.target.files[0], i)}
                   />
-                  <span
-                    onClick={() => removeImage(i)}
-                    className="absolute z-10 p-2 text-white bg-[#2a2828] rounded-full cursor-pointer hover:shadow-md hover:shadow-slate-400 top-1 right-1"
-                  >
-                    <IoCloseCircle />
-                  </span>
                 </div>
               ))}
-
-              <label
-                className="flex flex-col items-center justify-center h-[180px] cursor-pointer border border-blue-400 border-dashed hover:border-blue-600 w-full"
-                htmlFor="image"
-              >
-                <span>
-                  <FaImage />
-                </span>
-                <span>Select Image</span>
-              </label>
-              <input
-                type="file"
-                multiple
-                id="image"
-                className="hidden"
-                onChange={imageHandle}
-              />
             </div>
             <div className="flex">
               <button className=" bg-[#fc334d]  hover:shadow-red-500/50 hover:shadow-sm rounded-md px-7 py-3 my-2 text-white">
-                Add Product
+                Save Changes
               </button>
             </div>
           </form>
@@ -301,4 +268,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default EditProduct;

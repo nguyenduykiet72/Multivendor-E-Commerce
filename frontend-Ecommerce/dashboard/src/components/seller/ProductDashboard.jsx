@@ -113,7 +113,7 @@ const Product = () => {
                     className="px-4 py-[6.5px] font-medium whitespace-nowrap "
                   >
                     <div className="flex items-center justify-center gap-4">
-                      <Link className="p-[6px] bg-[#51a8ff] rounded hover:shadow-lg hover:shadow-blue-500/50 text-white">
+                      <Link to={`/seller/dashboard/edit-product/32`} className="p-[6px] bg-[#51a8ff] rounded hover:shadow-lg hover:shadow-blue-500/50 text-white">
                         <FaEdit />
                       </Link>
                       <Link className="p-[6px] bg-[#37fbb0] rounded hover:shadow-lg hover:shadow-green-500/50 text-white">

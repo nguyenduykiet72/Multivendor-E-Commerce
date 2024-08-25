@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import Search from "../shared/Search";
 import Pagination from "../Pagination";
 import { Link } from "react-router-dom";
-import { FaEdit } from "react-icons/fa";
-import { BiSolidTrashAlt } from "react-icons/bi";
 import { TiEye } from "react-icons/ti";
 
 const OrderDashboard = () => {
@@ -73,7 +71,10 @@ const OrderDashboard = () => {
                     className="px-4 py-[6.5px] font-medium whitespace-nowrap "
                   >
                     <div className="flex items-center justify-center gap-4">
-                      <Link className="p-[6px] bg-[#37fbb0] rounded hover:shadow-lg hover:shadow-green-500/50 text-white">
+                      <Link
+                        to={`/seller/dashboard/order/detail/34`}
+                        className="p-[6px] bg-[#37fbb0] rounded hover:shadow-lg hover:shadow-green-500/50 text-white"
+                      >
                         <TiEye />
                       </Link>
                     </div>

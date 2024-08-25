@@ -29,13 +29,8 @@ const OrderDetail = () => {
               <div className="pr-3 text-lg">
                 <div className="flex flex-col gap-1">
                   <h2 className="pb-2 font-semibold">
-                    Deliver to: Elliot Nguyen
+                    Deliver to: Mr.Robot
                   </h2>
-                  <p>
-                    <span className="text-sm">
-                      122/11D Unknown Street Somewhere
-                    </span>
-                  </p>
                 </div>
                 <div className="flex items-center justify-start gap-3">
                   <h2>Payment Status:</h2>
@@ -101,58 +96,6 @@ const OrderDetail = () => {
               </div>
             </div>
 
-            <div className="w-[70%]">
-              <div className="pl-3">
-                <div className="flex flex-col mt-4 bg-[#efe995] rounded-md p-4">
-                  <div className="mt-2">
-                    <div className="flex items-center justify-start gap-3">
-                      <h2>Seller 1 order:</h2>
-                      <span>Pending</span>
-                    </div>
-                    <div className="flex gap-3 m-2 text-md">
-                      <img
-                        className="w-[70px] h-[80px] border-black border"
-                        src="/images/category/3.jpg"
-                        alt=""
-                      />
-                      <div>
-                        <h2 className="">
-                          Name: The ancient watch made in 20th
-                        </h2>
-                        <p>
-                          <span>Brand:</span>
-                          <span>18th Century</span>
-                        </p>
-                        <span className="text-lg">Quantity: 1</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="mt-2">
-                    <div className="flex items-center justify-start gap-3">
-                      <h2>Seller 1 order:</h2>
-                      <span>Pending</span>
-                    </div>
-                    <div className="flex gap-3 m-2 text-md">
-                      <img
-                        className="w-[70px] h-[80px] border-black border"
-                        src="/images/category/5.jpg"
-                        alt=""
-                      />
-                      <div>
-                        <h2 className="">
-                          Name: The ancient watch made in 20th
-                        </h2>
-                        <p>
-                          <span>Brand:</span>
-                          <span>18th Century</span>
-                        </p>
-                        <span className="text-lg">Quantity: 1</span>
-                      </div>
-                    </div>
-                  </div>      
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
