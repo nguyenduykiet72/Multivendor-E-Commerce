@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { admin_login, messageClear } from "../../store/Reducers/authReducer";
 import { PropagateLoader } from "react-spinners";
 import toast from "react-hot-toast";
+import { overrideStyle } from "../../utils/util";
+
 const AdminLogin = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -26,14 +28,6 @@ const AdminLogin = () => {
   const submit = (e) => {
     e.preventDefault();
     dispatch(admin_login(state));
-  };
-
-  const overrideDisplay = {
-    display: "flex",
-    margin: "0 auto",
-    height: "24px",
-    justifyContent: "center",
-    alignItems: "center",
   };
 
   useEffect(() => {
@@ -72,6 +66,7 @@ const AdminLogin = () => {
                 name="email"
                 placeholder="Email"
                 id="email"
+                autocomplete="current-password"
                 required
               />
             </div>
@@ -110,7 +105,7 @@ const AdminLogin = () => {
               className="w-full py-2 mb-3 text-white bg-black rounded-md hover:shadow-black-300/50 hover:shadow-lg px-7"
             >
               {loader ? (
-                <PropagateLoader cssOverride={overrideDisplay} color="white" />
+                <PropagateLoader cssOverride={overrideStyle} color="white" />
               ) : (
                 "Đăng Nhập"
               )}

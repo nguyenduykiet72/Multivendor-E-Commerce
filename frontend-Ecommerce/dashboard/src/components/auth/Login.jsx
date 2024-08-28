@@ -1,9 +1,19 @@
 import { Link } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { PropagateLoader } from "react-spinners";
+import { overrideStyle } from "../../utils/util";
+import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { messageClear, seller_login } from "../../store/Reducers/authReducer";
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const { loader, errorMessage, successMessage } = useSelector(
+    (state) => state.auth
+  );
+
   const [state, setState] = useState({
     email: "",
     password: "",
@@ -18,8 +28,20 @@ const Login = () => {
 
   const submit = (e) => {
     e.preventDefault();
-    console.log(state);
+    dispatch(seller_login(state));
   };
+
+  useEffect(() => {
+    if (successMessage) {
+      toast.success(successMessage);
+      dispatch(messageClear());
+    }
+    if (errorMessage) {
+      toast.error(errorMessage);
+      dispatch(messageClear());
+    }
+  }, [successMessage, errorMessage]);
+
   return (
     <div className="min-h-screen min-w-screen bg-[#ffffff] flex justify-center items-center">
       <div className="w-[400px] text-[#ffffff] p-2">
@@ -66,13 +88,23 @@ const Login = () => {
                 name="checkbox"
                 id="checkbox"
               />
-              <label className="text-sm leading-none text-black" htmlFor="checkbox">
+              <label
+                className="text-sm leading-none text-black"
+                htmlFor="checkbox"
+              >
                 Tôi đồng ý với điều khoản và chính sách
               </label>
             </div>
 
-            <button className="w-full py-2 mb-3 text-white bg-black rounded-md hover:shadow-black-300/50 hover:shadow-lg px-7">
-              Đăng Nhập
+            <button
+              disabled={loader ? true : false}
+              className="w-full py-2 mb-3 text-white bg-black rounded-md hover:shadow-black-300/50 hover:shadow-lg px-7"
+            >
+              {loader ? (
+                <PropagateLoader cssOverride={overrideStyle} color="white" />
+              ) : (
+                "Đăng Nhập"
+              )}
             </button>
 
             <div className="flex items-center justify-center gap-3 mb-3 text-black">
@@ -87,7 +119,7 @@ const Login = () => {
             <div className="flex items-center justify-center w-full mb-3">
               <div className="flex items-center w-full">
                 <div className="flex-grow bg-slate-700 h-[1px]"></div>
-                <span className="px-2 text-slate-700">Or</span>
+                <span className="px-2 text-slate-700">Hoặc</span>
                 <div className="flex-grow bg-slate-700 h-[1px]"></div>
               </div>
             </div>
