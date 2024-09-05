@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 import { FaEdit } from "react-icons/fa";
@@ -6,17 +6,78 @@ import { BiSolidTrashAlt } from "react-icons/bi";
 import { FaImage } from "react-icons/fa6";
 import { IoCloseCircle } from "react-icons/io5";
 import Search from "../shared/Search";
+import { PropagateLoader } from "react-spinners";
+import { overrideStyle } from "../../utils/util";
+import {
+  categoryAdd,
+  messageClear,
+  getCategory,
+} from "./../../store/Reducers/categoryReducer";
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
 
-const ProductDashboard = () => {
+const CategoryDashboard = () => {
+  const dispatch = useDispatch();
+  const { loader, successMessage, errorMessage, categories } = useSelector(
+    (state) => state.category
+  );
+
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
   const [nextPage, setNextPage] = useState(5);
   const [show, setShow] = useState(false);
+  const [imageShow, setImageShow] = useState("");
+
+  const [state, setState] = useState({
+    name: "",
+    image: "",
+  });
+
+  const imageHandle = (e) => {
+    let files = e.target.files;
+    if (files.length > 0) {
+      setImageShow(URL.createObjectURL(files[0]));
+      setState({
+        ...state,
+        image: files[0],
+      });
+    }
+  };
+
+  const add_category = (e) => {
+    e.preventDefault();
+    dispatch(categoryAdd(state));
+  };
+
+  useEffect(() => {
+    if (successMessage) {
+      toast.success(successMessage);
+      dispatch(messageClear());
+      setState({
+        name: "",
+        image: "",
+      });
+      setImageShow("");
+    }
+    if (errorMessage) {
+      toast.error(errorMessage);
+      dispatch(messageClear());
+    }
+  }, [successMessage, errorMessage]);
+
+  useEffect(() => {
+    const obj = {
+      nextPage: parseInt(nextPage),
+      page: parseInt(currentPage),
+      searchValue,
+    };
+    dispatch(getCategory(obj));
+  }, [searchValue, currentPage, nextPage]);
 
   return (
     <div className="px-2 pt-5 lg:px-7">
       <div className="flex items-center justify-between p-4 mb-5 bg-white rounded-md lg:hidden">
-        <h1 className="text-lg font-semibold">Product</h1>
+        <h1 className="text-lg font-semibold">Category</h1>
         <button
           onClick={() => setShow(true)}
           className="bg-[#fc334d] shadow-lg  hover:shadow-red-500/50 px-4 py-2 cursor-pointer rounded-sm font-semibold"
@@ -28,7 +89,11 @@ const ProductDashboard = () => {
       <div className="flex flex-wrap w-full">
         <div className="w-full lg:w-7/12 ">
           <div className="w-full p-4 bg-white rounded-md">
-            <Search setNextPage={setNextPage} />
+            <Search
+              setNextPage={setNextPage}
+              setSearchValue={setSearchValue}
+              searchValue={searchValue}
+            />
 
             <div className="relative mt-2 overflow-x-auto">
               <table className="w-full text-sm text-center">
@@ -50,19 +115,19 @@ const ProductDashboard = () => {
                 </thead>
 
                 <tbody>
-                  {[1, 2, 3, 4, 5].map((k, item) => (
+                  {categories.map((k, item) => (
                     <tr key={item} className="border-b border-slate-300">
                       <td
                         scope="row"
                         className="px-4 py-[6.5px] font-medium whitespace-nowrap"
                       >
-                        {k}
+                        {item + 1}
                       </td>
                       <td
                         scope="row"
                         className="px-4 py-[6.5px] font-medium whitespace-nowrap"
                       >
-                        Clothes
+                        {k.name}
                       </td>
                       <td
                         scope="row"
@@ -70,7 +135,7 @@ const ProductDashboard = () => {
                       >
                         <img
                           className="w-[45px] h-[45px]"
-                          src={`/images/category/${k}.jpg`}
+                          src={k.image}
                           alt=""
                         />
                       </td>
@@ -114,7 +179,7 @@ const ProductDashboard = () => {
             <div className="h-screen px-3 py-2 bg-white lg:h-auto lg:rounded-md">
               <div className="flex items-center justify-between mb-4 ">
                 <h1 className="w-full mb-4 text-xl font-semibold text-center">
-                  Add Product
+                  Add Category
                 </h1>
 
                 <div onClick={() => setShow(false)} className="block lg:hidden">
@@ -122,15 +187,19 @@ const ProductDashboard = () => {
                 </div>
               </div>
 
-              <form action="">
+              <form onSubmit={add_category}>
                 <div className="flex flex-col w-full gap-1 mb-3">
-                  <label htmlFor="name">Product Name</label>
+                  <label htmlFor="name">Category Name</label>
                   <input
+                    value={state.name}
+                    onChange={(e) =>
+                      setState({ ...state, name: e.target.value })
+                    }
                     className="px-4 py-2 bg-white border border-blue-400 rounded-md outline-none focus:border-blue-600"
                     type="text"
                     id="name"
-                    name="product_name"
-                    placeholder="Product Name"
+                    name="category_name"
+                    placeholder="Category Name"
                   />
                 </div>
 
@@ -139,20 +208,37 @@ const ProductDashboard = () => {
                     htmlFor="image"
                     className="flex flex-col items-center justify-center h-[238px] cursor-pointer  border-blue-400 border focus:border-blue-600 w-full "
                   >
-                    <span>
-                      <FaImage />
-                    </span>
-                    <span className="pt-2 text-sm">Select Image</span>
+                    {imageShow ? (
+                      <img className="w-full h-full" src={imageShow} alt="" />
+                    ) : (
+                      <>
+                        <span>
+                          <FaImage />
+                        </span>
+                        <span className="pt-2 text-sm">Select Image</span>
+                      </>
+                    )}
                   </label>
                   <input
+                    onChange={imageHandle}
                     className="hidden"
                     type="file"
                     name="image"
                     id="image"
                   />
-                  <div>
-                    <button className="w-full bg-[#fc334d]  hover:shadow-red-500/50 hover:shadow-sm rounded-md px-7 py-3 my-2 text-white">
-                      Add Product
+                  <div className="mt-4">
+                    <button
+                      disabled={loader ? true : false}
+                      className="w-full py-2 mb-3 text-white bg-red-500 rounded-md hover:shadow-red-300/50 hover:shadow-lg px-7"
+                    >
+                      {loader ? (
+                        <PropagateLoader
+                          cssOverride={overrideStyle}
+                          color="white"
+                        />
+                      ) : (
+                        "Add Category"
+                      )}
                     </button>
                   </div>
                 </div>
@@ -165,4 +251,4 @@ const ProductDashboard = () => {
   );
 };
 
-export default ProductDashboard;
+export default CategoryDashboard;

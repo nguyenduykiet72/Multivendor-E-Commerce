@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
 import { useEffect, useState } from "react";
@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { messageClear, seller_login } from "../../store/Reducers/authReducer";
 
 const Login = () => {
+  const navigate = useNavigate();
+
   const dispatch = useDispatch();
   const { loader, errorMessage, successMessage } = useSelector(
     (state) => state.auth
@@ -35,6 +37,7 @@ const Login = () => {
     if (successMessage) {
       toast.success(successMessage);
       dispatch(messageClear());
+      navigate("/");
     }
     if (errorMessage) {
       toast.error(errorMessage);

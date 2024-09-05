@@ -1,5 +1,4 @@
 import { lazy } from "react";
-const Home = lazy(() => import("../../components/Home"));
 const SellerDashboard = lazy(() =>
   import("../../components/seller/SellerDashboard")
 );
@@ -25,17 +24,24 @@ const SellerToAdmin = lazy(() =>
 const Profile = lazy(() => import("../../components/seller/Profile"));
 const EditProduct = lazy(() => import("../../components/seller/EditProduct"));
 const OrderDetail = lazy(() => import("../../components/seller/OrderDetail"));
+const Inactive = lazy(() => import("../../components/Inactive"));
+const Pending = lazy(() => import("../../components/Pending"));
 export const sellerRoutes = [
-  {
-    path: "/",
-    element: <Home />,
-    ability: ["admin", "seller"],
-  },
   {
     path: "/seller/dashboard",
     element: <SellerDashboard />,
     role: "seller",
     status: "active",
+  },
+  {
+    path: "/seller/account-pending",
+    element: <Pending />,
+    ability: "seller",
+  },
+  {
+    path: "/seller/account-inactive",
+    element: <Inactive />,
+    ability: "seller",
   },
   {
     path: "/seller/dashboard/add-product",
@@ -65,13 +71,13 @@ export const sellerRoutes = [
     path: "/seller/dashboard/orders",
     element: <OrderDashboard />,
     role: "seller",
-    ability: ["active", "deactivate"],
+    visibility: ["active", "inactive"],
   },
   {
     path: "/seller/dashboard/order/detail/:orderId",
     element: <OrderDetail />,
     role: "seller",
-    ability: ["active", "deactivate"],
+    visibility: ["active", "inactive"],
   },
   {
     path: "/seller/dashboard/payments",
@@ -82,7 +88,8 @@ export const sellerRoutes = [
   {
     path: "/seller/dashboard/chat-support",
     element: <SellerToAdmin />,
-    ability: ["active", "deactivate", "pending"],
+    role: "seller",
+    visibility: ["active", "inactive", "pending"],
   },
   {
     path: "/seller/dashboard/chat-customer/:customerId",

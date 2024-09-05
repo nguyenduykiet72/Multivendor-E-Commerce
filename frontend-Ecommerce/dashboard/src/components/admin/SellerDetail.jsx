@@ -86,7 +86,7 @@ const SellerDetail = () => {
               >
                 <option value="">- Select Status -</option>
                 <option value="active"> Active </option>
-                <option value="deactivate"> Deactivate </option>
+                <option value="inactive"> Inactive </option>
               </select>
               <button className="w-[170px] bg-[#fc334d]  hover:shadow-red-500/50 hover:shadow-sm rounded-md px-7 py-3">
                 Submit

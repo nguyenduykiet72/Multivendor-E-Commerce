@@ -6,7 +6,7 @@ import {
 } from "react-icons/md";
 import { FaShoppingCart, FaSitemap } from "react-icons/fa";
 import { PiUsersFourFill, PiUsersThreeFill } from "react-icons/pi";
-import { FaCodePullRequest } from "react-icons/fa6";
+import { FaCodePullRequest, FaCirclePlus } from "react-icons/fa6";
 import { IoMdChatbubbles } from "react-icons/io";
 import { IoChatbubblesSharp } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
@@ -28,10 +28,10 @@ export const allNav = [
   },
   {
     id: 3,
-    title: "Products",
+    title: "Category",
     icon: <MdCategory />,
     role: "admin",
-    path: "/admin/dashboard/products",
+    path: "/admin/dashboard/category",
   },
   {
     id: 4,
@@ -49,10 +49,10 @@ export const allNav = [
   },
   {
     id: 6,
-    title: "Deactivate Sellers",
+    title: "Inactive Sellers",
     icon: <PiUsersThreeFill />,
     role: "admin",
-    path: "/admin/dashboard/deactivate-sellers",
+    path: "/admin/dashboard/inactive-sellers",
   },
   {
     id: 7,
@@ -78,7 +78,7 @@ export const allNav = [
   {
     id: 10,
     title: "Add Product",
-    icon: <MdCategory />,
+    icon: <FaCirclePlus />,
     role: "seller",
     path: "/seller/dashboard/add-product",
   },

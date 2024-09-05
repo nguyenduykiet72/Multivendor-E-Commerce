@@ -3,11 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { seller_register,messageClear } from "../../store/Reducers/authReducer";
 import toast from "react-hot-toast";
 import { FaFacebook, FaGoogle } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PropagateLoader } from "react-spinners";
 import { overrideStyle } from "../../utils/util";
 
 const Register = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { loader, successMessage, errorMessage } = useSelector(
     (state) => state.auth
@@ -35,6 +36,7 @@ const Register = () => {
     if (successMessage) {
       toast.success(successMessage);
       dispatch(messageClear());
+      navigate('/')
     }
     if (errorMessage) {
       toast.error(errorMessage);

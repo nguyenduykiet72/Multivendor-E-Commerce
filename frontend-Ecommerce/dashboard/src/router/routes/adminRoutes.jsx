@@ -5,8 +5,8 @@ const AdminDashboard = lazy(() =>
 const OrderDashboard = lazy(() =>
   import("../../components/admin/OrderDashboard")
 );
-const ProductDashboard = lazy(() =>
-  import("../../components/admin/ProductDashboard")
+const CategoryDashboard = lazy(() =>
+  import("../../components/admin/CategoryDashboard")
 );
 const SellerDashboard = lazy(() =>
   import("../../components/admin/SellerDashboard")
@@ -36,8 +36,8 @@ export const adminRoutes = [
     role: "admin",
   },
   {
-    path: "admin/dashboard/products",
-    element: <ProductDashboard />,
+    path: "admin/dashboard/category",
+    element: <CategoryDashboard />,
     role: "admin",
   },
   {
@@ -51,7 +51,7 @@ export const adminRoutes = [
     role: "admin",
   },
   {
-    path: "admin/dashboard/deactivate-sellers",
+    path: "admin/dashboard/inactive-sellers",
     element: <DeactivateSeller />,
     role: "admin",
   },

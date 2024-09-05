@@ -12,7 +12,7 @@ const DeactivateSeller = () => {
 
   return (
     <div className="px-2 pt-5 lg:px-7">
-      <h1 className="text-[20px] font-bold mb-3">Deactivated Sellers</h1>
+      <h1 className="text-[20px] font-bold mb-3">Inactivated Sellers</h1>
 
       <div className="w-full p-4 bg-white rounded-md">
         <Search setNextPage={setNextPage} />
