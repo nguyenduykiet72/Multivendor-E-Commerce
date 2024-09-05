@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const authRoutes = require("./routes/authRoutes");
+const categoryRoutes = require("./routes/dashboard/categoryRoutes");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
@@ -28,9 +29,7 @@ app.use(
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use("/api", authRoutes);
-app.get("/", (req, res) => {
-  res.send("Hello, World!");
-});
+app.use("/api", categoryRoutes);
 dbConnect();
 
-module.exports = app
+module.exports = app;
