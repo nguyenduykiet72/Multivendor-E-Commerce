@@ -1,7 +1,8 @@
 ### Multivendor E-commerce website 
 
 ### Overview
-This project is built using the MERN stack. The primary goal of this project is to deepen my understanding of these technologies and enhance my skills in full-stack development.
+This Multivendor E-commerce project leverages the MERN stack (MongoDB, Express.js, React, and Node.js) to create a comprehensive online marketplace where multiple vendors can list and sell their products. The platform provides a seamless and user-friendly interface for both vendors and customers, featuring robust functionalities such as product management, order processing, and payment integration. This project aims to facilitate a dynamic E-commerce environment while enhancing my skills in full-stack development and applying modern web technologies.
+
 
 ## Objectives
 - **Enhance Development Skills**: Improve my skills in front-end and back-end development, focusing on both the integration and individual components of the stack.
