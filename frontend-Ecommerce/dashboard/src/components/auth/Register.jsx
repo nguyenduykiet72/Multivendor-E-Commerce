@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { seller_register,messageClear } from "../../store/Reducers/authReducer";
+import {
+  seller_register,
+  messageClear,
+} from "../../store/Reducers/authReducer";
 import toast from "react-hot-toast";
 import { FaFacebook, FaGoogle } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
@@ -18,6 +21,7 @@ const Register = () => {
     name: "",
     email: "",
     password: "",
+    confirmPassword: "",
   });
 
   const inputHandle = (e) => {
@@ -29,6 +33,12 @@ const Register = () => {
 
   const submit = (e) => {
     e.preventDefault();
+
+    if (state.password !== state.confirmPassword) {
+      toast.error("Mật khẩu không khớp, vui lòng thử lại!");
+      return;
+    }
+
     dispatch(seller_register(state));
   };
 
@@ -36,13 +46,13 @@ const Register = () => {
     if (successMessage) {
       toast.success(successMessage);
       dispatch(messageClear());
-      navigate('/')
+      navigate("/");
     }
     if (errorMessage) {
       toast.error(errorMessage);
       dispatch(messageClear());
     }
-  }, [successMessage, errorMessage]);
+  }, [successMessage, errorMessage, dispatch, navigate]);
 
   return (
     <div className="min-h-screen min-w-screen bg-[#ffffff] flex justify-center items-center">
@@ -97,6 +107,20 @@ const Register = () => {
               />
             </div>
 
+            <div className="flex flex-col w-full gap-1 mb-3 text-black">
+              <label htmlFor="confirmPassword">Nhập Lại Mật Khẩu</label>
+              <input
+                onChange={inputHandle}
+                value={state.confirmPassword}
+                className="px-3 py-2 bg-transparent border rounded-md outline-none border-slate-400"
+                type="password"
+                name="confirmPassword"
+                placeholder="Confirm Password"
+                id="confirmPassword"
+                required
+              />
+            </div>
+
             <div className="flex items-center w-full gap-3 mb-3">
               <input
                 className="w-4 h-4 overflow-hidden text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500"
@@ -122,6 +146,7 @@ const Register = () => {
                 "Đăng Ký"
               )}
             </button>
+
             <div className="flex items-center justify-center gap-3 mb-3 text-black">
               <p>
                 Bạn đã có tài khoản?
