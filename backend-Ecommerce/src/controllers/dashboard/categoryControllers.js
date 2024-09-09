@@ -48,19 +48,22 @@ exports.add_category = async (req, res) => {
 
 exports.get_category = async (req, res) => {
   const { page, searchValue, nextPage } = req.query;
-  const skipPage = parseInt(nextPage) * (parseInt(page) - 1);
   try {
+    let skipPage = "";
+    if (nextPage && page) {
+      skipPage = parseInt(nextPage) * (parseInt(page) - 1);
+    }
     if (searchValue && page && nextPage) {
       const categories = await categoryModel
         .find({
-          $text: { $search: searchValue },
+          name: { $regex: searchValue, $options: "i" },
         })
         .skip(skipPage)
         .limit(nextPage)
         .sort({ createdAt: -1 });
       const totalCategory = await categoryModel
         .find({
-          $text: { $search: searchValue },
+          name: { $regex: searchValue, $options: "i" },
         })
         .countDocuments();
       responseReturn(res, 200, { categories, totalCategory });

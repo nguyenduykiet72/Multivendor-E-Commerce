@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const authRoutes = require("./routes/authRoutes");
 const categoryRoutes = require("./routes/dashboard/categoryRoutes");
+const productRoutes = require("./routes/dashboard/productRoutes");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
@@ -30,6 +31,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use("/api", authRoutes);
 app.use("/api", categoryRoutes);
+app.use("/api", productRoutes);
 dbConnect();
 
 module.exports = app;
