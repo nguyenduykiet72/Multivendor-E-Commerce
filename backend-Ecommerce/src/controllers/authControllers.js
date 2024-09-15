@@ -4,6 +4,8 @@ const sellerCustomerModel = require("../models/chat/sellerCustomer");
 const { createToken } = require("../utils/createToken");
 const { responseReturn } = require("../utils/response");
 const bcrypt = require("bcrypt");
+const { formidable } = require("formidable");
+const cloudinary = require("cloudinary").v2;
 
 exports.admin_login = async (req, res) => {
   const { email, password } = req.body;
@@ -108,5 +110,64 @@ exports.seller_register = async (req, res) => {
     }
   } catch (error) {
     responseReturn(res, 500, { error: "Internal Server Error" });
+  }
+};
+
+exports.upload_profile_image = async (req, res) => {
+  const { id } = req;
+  const form = formidable({ multiples: true });
+  form.parse(req, async (error, _, files) => {
+    cloudinary.config({
+      cloud_name: process.env.CLOUD_NAME,
+      api_key: process.env.API_KEY,
+      api_secret: process.env.API_SECRET_KEY,
+      secure: true,
+    });
+
+    const { image } = files;
+    try {
+      const result = await cloudinary.uploader.upload(image.filepath, {
+        folder: "profile",
+      });
+      if (result) {
+        await sellerModel.findByIdAndUpdate(id, {
+          image: result.url,
+        });
+        const userInfo = await sellerModel.findById(id);
+        responseReturn(res, 200, {
+          message: "Profile Image Upload Successfully",
+          userInfo,
+        });
+      } else {
+        responseReturn(res, 404, {
+          message: "Profile Image Upload Failed",
+          userInfo,
+        });
+      }
+    } catch (error) {
+      responseReturn(res, 500, { error: error.message });
+    }
+  });
+};
+
+exports.add_profile_info = async (req, res) => {
+  const { city, district, shopName, address } = req.body;
+  const { id } = req;
+  try {
+    await sellerModel.findByIdAndUpdate(id, {
+      shopInfo: {
+        shopName,
+        city,
+        district,
+        address,
+      },
+    });
+    const userInfo = await sellerModel.findById(id);
+    responseReturn(res, 201, {
+      userInfo,
+      message: "Profile Info Added Successfully",
+    });
+  } catch (error) {
+    responseReturn(res, 500, { error: error.message });
   }
 };

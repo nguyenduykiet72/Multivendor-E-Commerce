@@ -57,3 +57,126 @@ exports.add_product = async (req, res) => {
     }
   });
 };
+
+exports.get_products = async (req, res) => {
+  const { page, searchValue, nextPage } = req.query;
+  const { id } = req;
+
+  const skipPage = parseInt(nextPage) * (parseInt(page) - 1);
+  try {
+    if (searchValue) {
+      const products = await productModel
+        .find({
+          // name: { $regex: searchValue, $options: "i" },
+          $text: { $search: searchValue },
+          sellerId: id,
+        })
+        .skip(skipPage)
+        .limit(nextPage)
+        .sort({ createdAt: -1 });
+      const totalProduct = await productModel
+        .find({
+          // name: { $regex: searchValue, $options: "i" },
+          $text: { $search: searchValue },
+          sellerId: id,
+        })
+        .countDocuments();
+      responseReturn(res, 200, { products, totalProduct });
+    } else {
+      const products = await productModel
+        .find({ sellerId: id })
+        .skip(skipPage)
+        .limit(nextPage)
+        .sort({ createdAt: -1 });
+      const totalProduct = await productModel
+        .find({ sellerId: id })
+        .countDocuments();
+      responseReturn(res, 200, { products, totalProduct });
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+exports.get_product = async (req, res) => {
+  const { productId } = req.params;
+  try {
+    const product = await productModel.findById(productId);
+    responseReturn(res, 200, { product });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+exports.update_product = async (req, res) => {
+  let { name, description, quantity, price, discount, brand, productId } =
+    req.body;
+  name = name.trim();
+  const slug = name.split(" ").join("-");
+  try {
+    await productModel.findByIdAndUpdate(productId, {
+      name,
+      description,
+      quantity,
+      price,
+      discount,
+      brand,
+      productId,
+      slug,
+    });
+    const product = await productModel.findById(productId);
+    responseReturn(res, 200, {
+      product,
+      message: "Product Updated Successfully",
+    });
+  } catch (error) {
+    responseReturn(res, 500, { error: error.message });
+  }
+};
+
+exports.update_product_image = async (req, res, next) => {
+  const form = formidable({ multiples: true });
+  form.parse(req, async (error, fields, files) => {
+    // console.log(`Fields::`, fields);
+    // console.log(`Files::`, files);
+    const { oldImage, productId } = fields;
+    const { newImage } = files;
+    if (error) {
+      responseReturn(res, 400, { error: error.message });
+    } else {
+      try {
+        cloudinary.config({
+          cloud_name: process.env.CLOUD_NAME,
+          api_key: process.env.API_KEY,
+          api_secret: process.env.API_SECRET_KEY,
+          secure: true,
+        });
+
+        const result = await cloudinary.uploader.upload(newImage.filepath, {
+          folder: "products",
+        });
+        if (result) {
+          let { images } = await productModel.findById(productId);
+          const index = images.findIndex((img) => img === oldImage);
+          images[index] = result.url;
+          await productModel.findByIdAndUpdate(productId, { images });
+          const product = await productModel.findById(productId);
+          responseReturn(res, 200, {
+            product,
+            message: "Product Images Updated Successfully",
+          });
+        } else {
+          responseReturn(res, 404, {
+            error: " Images Updated Failed",
+          });
+        }
+      } catch (error) {
+        responseReturn(res, 404, {
+          error: error.message,
+        });
+      }
+    }
+  });
+};
+
+
