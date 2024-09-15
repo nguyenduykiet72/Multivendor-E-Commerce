@@ -5,7 +5,7 @@ import { RiLogoutBoxFill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 
 const Sidebar = ({ showSidebar, setShowSidebar }) => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const { role } = useSelector((state) => state.auth);
   const { pathname } = useLocation();
   const [allNav, setAllNav] = useState([]);

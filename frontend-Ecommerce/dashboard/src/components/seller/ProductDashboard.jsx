@@ -1,15 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Search from "../shared/Search";
 import Pagination from "../Pagination";
 import { Link } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
 import { BiSolidTrashAlt } from "react-icons/bi";
 import { TiEye } from "react-icons/ti";
+import { useDispatch, useSelector } from "react-redux";
+import { get_products } from "../../store/Reducers/productReducer";
 
 const Product = () => {
+  const dispatch = useDispatch();
+  const { products, totalProduct } = useSelector((state) => state.product);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
   const [nextPage, setNextPage] = useState(5);
+
+  useEffect(() => {
+    const obj = {
+      nextPage: parseInt(nextPage),
+      page: parseInt(currentPage),
+      searchValue,
+    };
+    dispatch(get_products(obj));
+  }, [searchValue, currentPage, nextPage]);
+
   return (
     <div className="px-2 pt-2 lg:px-7">
       <h1 className="mb-3 text-lg font-semibold">All Products</h1>
@@ -54,19 +69,19 @@ const Product = () => {
             </thead>
 
             <tbody>
-              {[1, 2, 3, 4, 5].map((k, item) => (
+              {products.map((k, item) => (
                 <tr key={item} className="border-b border-slate-300">
                   <td
                     scope="row"
                     className="px-4 py-[6.5px] font-medium whitespace-nowrap"
                   >
-                    {k}
+                    {item + 1}
                   </td>
                   <td
                     scope="row"
                     className="px-4 py-[6.5px] font-medium whitespace-nowrap"
                   >
-                    Clothes
+                    {k?.name?.slice(0, 15)}...
                   </td>
                   <td
                     scope="row"
@@ -74,7 +89,7 @@ const Product = () => {
                   >
                     <img
                       className="w-[45px] h-[45px]"
-                      src={`/images/category/${k}.jpg`}
+                      src={k.images[0]}
                       alt=""
                     />
                   </td>
@@ -82,38 +97,45 @@ const Product = () => {
                     scope="row"
                     className="px-4 py-[6.5px] font-medium whitespace-nowrap"
                   >
-                    Book
+                    {k.category}
                   </td>
                   <td
                     scope="row"
                     className="px-4 py-[6.5px] font-medium whitespace-nowrap"
                   >
-                    Mr.Robot
+                    {k.brand}
                   </td>
                   <td
                     scope="row"
                     className="px-4 py-[6.5px] font-medium whitespace-nowrap"
                   >
-                    200.000 VND
+                    {k.price}VND
                   </td>
                   <td
                     scope="row"
                     className="px-4 py-[6.5px] font-medium whitespace-nowrap"
                   >
-                    10%
+                    {k.discount === 0 ? (
+                      <span>No Discount</span>
+                    ) : (
+                      <span>{k.discount}%</span>
+                    )}
                   </td>
                   <td
                     scope="row"
                     className="px-4 py-[6.5px] font-medium whitespace-nowrap"
                   >
-                    20
+                    {k.quantity}
                   </td>
                   <td
                     scope="row"
                     className="px-4 py-[6.5px] font-medium whitespace-nowrap "
                   >
                     <div className="flex items-center justify-center gap-4">
-                      <Link to={`/seller/dashboard/edit-product/32`} className="p-[6px] bg-[#51a8ff] rounded hover:shadow-lg hover:shadow-blue-500/50 text-white">
+                      <Link
+                        to={`/seller/dashboard/edit-product/${k._id}`}
+                        className="p-[6px] bg-[#51a8ff] rounded hover:shadow-lg hover:shadow-blue-500/50 text-white"
+                      >
                         <FaEdit />
                       </Link>
                       <Link className="p-[6px] bg-[#37fbb0] rounded hover:shadow-lg hover:shadow-green-500/50 text-white">
@@ -130,15 +152,19 @@ const Product = () => {
           </table>
         </div>
 
-        <div className="flex justify-end w-full mt-4 bottom-4 right-4">
-          <Pagination
-            pageNumber={currentPage}
-            setPageNumber={setCurrentPage}
-            totalItem={50}
-            nextPage={nextPage}
-            showItem={3}
-          />
-        </div>
+        {totalProduct <= nextPage ? (
+          ""
+        ) : (
+          <div className="flex justify-end w-full mt-4 bottom-4 right-4">
+            <Pagination
+              pageNumber={currentPage}
+              setPageNumber={setCurrentPage}
+              totalItem={50}
+              nextPage={nextPage}
+              showItem={3}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

@@ -40,7 +40,7 @@ const AdminLogin = () => {
       dispatch(messageClear());
       navigate("/");
     }
-  }, [dispatch, errorMessage, navigate, successMessage]);
+  }, [errorMessage, successMessage]);
 
   return (
     <div className="min-h-screen min-w-screen bg-[#ffffff] flex justify-center items-center">
@@ -66,7 +66,7 @@ const AdminLogin = () => {
                 name="email"
                 placeholder="Email"
                 id="email"
-                autocomplete="current-password"
+                autoComplete="email"
                 required
               />
             </div>
@@ -85,7 +85,7 @@ const AdminLogin = () => {
               />
             </div>
 
-            <div className="flex items-center w-full gap-3 mb-3">
+            {/* <div className="flex items-center w-full gap-3 mb-3">
               <input
                 className="w-4 h-4 overflow-hidden text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500"
                 type="checkbox"
@@ -98,7 +98,7 @@ const AdminLogin = () => {
               >
                 Tôi đồng ý với điều khoản và chính sách
               </label>
-            </div>
+            </div> */}
 
             <button
               disabled={loader ? true : false}

@@ -21,7 +21,6 @@ const Register = () => {
     name: "",
     email: "",
     password: "",
-    confirmPassword: "",
   });
 
   const inputHandle = (e) => {
@@ -33,12 +32,6 @@ const Register = () => {
 
   const submit = (e) => {
     e.preventDefault();
-
-    if (state.password !== state.confirmPassword) {
-      toast.error("Mật khẩu không khớp, vui lòng thử lại!");
-      return;
-    }
-
     dispatch(seller_register(state));
   };
 
@@ -103,20 +96,6 @@ const Register = () => {
                 name="password"
                 placeholder="Password"
                 id="password"
-                required
-              />
-            </div>
-
-            <div className="flex flex-col w-full gap-1 mb-3 text-black">
-              <label htmlFor="confirmPassword">Nhập Lại Mật Khẩu</label>
-              <input
-                onChange={inputHandle}
-                value={state.confirmPassword}
-                className="px-3 py-2 bg-transparent border rounded-md outline-none border-slate-400"
-                type="password"
-                name="confirmPassword"
-                placeholder="Confirm Password"
-                id="confirmPassword"
                 required
               />
             </div>

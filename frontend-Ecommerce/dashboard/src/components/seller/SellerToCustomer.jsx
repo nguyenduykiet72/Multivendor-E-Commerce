@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import React, { useState } from "react";
 import { IoCloseCircle } from "react-icons/io5";
 import { FaList } from "react-icons/fa";
@@ -148,7 +149,7 @@ const SellerToCustomer = () => {
                       />
                     </div>
                     <div className="flex flex-col items-start justify-center w-full bg-[#51a8ff] shadow-lg py-1 px-2 rounded-sm">
-                      <span>Let's hack something</span>
+                      <span>Let's hack something &apos;</span>
                     </div>
                   </div>
                 </div>

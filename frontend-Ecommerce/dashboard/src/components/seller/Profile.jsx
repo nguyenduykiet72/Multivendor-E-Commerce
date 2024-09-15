@@ -1,26 +1,74 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaImage } from "react-icons/fa6";
-import { FadeLoader } from "react-spinners";
+import { FadeLoader, PropagateLoader } from "react-spinners";
 import { FaEdit } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  add_profile_info,
+  messageClear,
+  uploadProfileImage,
+} from "../../store/Reducers/authReducer";
+import toast from "react-hot-toast";
+import { overrideStyle } from "../../utils/util";
 
 const Profile = () => {
-  const image = true;
-  const loader = true;
+  const [state, setState] = useState({
+    city: "",
+    district: "",
+    shopName: "",
+    address: "",
+  });
+
+  const dispatch = useDispatch();
+  const { userInfo, loader, successMessage, errorMessage } = useSelector(
+    (state) => state.auth
+  );
+
   const status = "active";
-  const userInfo = true;
+
+  const add_image = (e) => {
+    if (e.target.files.length > 0) {
+      const formData = new FormData();
+      formData.append("image", e.target.files[0]);
+      dispatch(uploadProfileImage(formData));
+    }
+  };
+
+  useEffect(() => {
+    if (successMessage) {
+      toast.success(successMessage);
+      console.log(successMessage);
+      messageClear();
+    }
+    if (errorMessage) {
+      toast.error(errorMessage);
+      messageClear();
+    }
+  }, [successMessage, errorMessage]);
+
+  const inputHandle = (e) => {
+    setState({ ...state, [e.target.name]: e.target.value });
+  };
+
+
+  const add = (e) => {
+    e.preventDefault();
+    dispatch(add_profile_info(state));
+  }
+
   return (
     <div className="px-2 py-5 lg:px-7">
       <div className="flex flex-wrap w-full">
         <div className="w-full md:w-6/12">
           <div className="w-full p-4 bg-white rounded-md">
             <div className="flex items-center justify-center py-3">
-              {image ? (
+              {userInfo?.image ? (
                 <label
                   htmlFor="img"
                   className=" h-[150px] w-[200px] relative p-3 cursor-pointer overflow-hidden bg-[#E0E0E0]"
                 >
-                  <img src="/images/seller.png" alt="" />
-                  {!loader && (
+                  <img src={userInfo.image} alt="" />
+                  {loader && (
                     <div className="absolute top-0 left-0 w-full h-full bg-[#00000080] flex items-center justify-center opacity-70 z-20">
                       <span>
                         <FadeLoader />
@@ -46,7 +94,12 @@ const Profile = () => {
                   )}
                 </label>
               )}
-              <input type="file" className="hidden" id="img" />
+              <input
+                onChange={add_image}
+                type="file"
+                className="hidden"
+                id="img"
+              />
             </div>
 
             <div className="px-0 py-2 md:px-5">
@@ -56,26 +109,26 @@ const Profile = () => {
                 </span>
                 <div className="flex gap-2">
                   <span>Name:</span>
-                  <span>Elliot Nguyen</span>
+                  <span>{userInfo.name}</span>
                 </div>
                 <div className="flex gap-2">
                   <span>Email:</span>
-                  <span>mrrobot@anonymously.com</span>
+                  <span>{userInfo.email}</span>
                 </div>
                 <div className="flex gap-2">
                   <span>Role:</span>
-                  <span>Seller</span>
+                  <span>{userInfo.role}</span>
                 </div>
                 <div className="flex gap-2">
                   <span>Status:</span>
-                  <span>Active</span>
+                  <span>{userInfo.status}</span>
                 </div>
                 <div className="flex gap-2">
                   <span>Payment Account:</span>
                   <p>
                     {status === "active" ? (
-                      <span className="px-2 ml-2 text-xs font-normal text-white bg-green-500 cursor-pointer py-0.5 rounded">
-                        Pending
+                      <span className="px-2 ml-2 text-xs font-normal text-white bg-red-500 cursor-pointer py-0.5 rounded">
+                        {userInfo.payment}
                       </span>
                     ) : (
                       <span className="px-2 ml-2 text-xs font-normal text-white bg-[#51a8ff]  cursor-pointer py-0.5 rounded">
@@ -88,11 +141,13 @@ const Profile = () => {
             </div>
 
             <div className="px-0 py-2 md:px-5">
-              {!userInfo ? (
-                <form action="">
+              {!userInfo?.shopInfo ? (
+                <form action="" onSubmit={add}>
                   <div className="flex flex-col w-full gap-1 mb-2">
                     <label htmlFor="Shop">Shop Name</label>
                     <input
+                      value={state.shopName}
+                      onChange={inputHandle}
                       type="text"
                       name="shopName"
                       id="Shop"
@@ -104,6 +159,8 @@ const Profile = () => {
                   <div className="flex flex-col w-full gap-1 mb-2">
                     <label htmlFor="city">City</label>
                     <input
+                      value={state.city}
+                      onChange={inputHandle}
                       type="text"
                       name="city"
                       id="city"
@@ -115,6 +172,8 @@ const Profile = () => {
                   <div className="flex flex-col w-full gap-1 mb-2">
                     <label htmlFor="district">District</label>
                     <input
+                      value={state.district}
+                      onChange={inputHandle}
                       type="text"
                       name="district"
                       id="district"
@@ -125,6 +184,8 @@ const Profile = () => {
                   <div className="flex flex-col w-full gap-1 mb-2">
                     <label htmlFor="address">Address</label>
                     <input
+                      value={state.address}
+                      onChange={inputHandle}
                       type="text"
                       name="address"
                       id="address"
@@ -132,8 +193,18 @@ const Profile = () => {
                       className="px-4 py-2 bg-white border border-blue-400 rounded-md outline-none focus:border-blue-800"
                     />
                   </div>
-                  <button className=" bg-[#fc334d]  hover:shadow-red-500/50 hover:shadow-sm rounded-md px-7 py-3 my-2 text-white">
-                    Save
+                  <button
+                    disabled={loader ? true : false}
+                    className="w-[200px] py-2 mb-3 text-white bg-red-500 rounded-md hover:shadow-red-300/50 hover:shadow-lg px-7"
+                  >
+                    {loader ? (
+                      <PropagateLoader
+                        cssOverride={overrideStyle}
+                        color="white"
+                      />
+                    ) : (
+                      "Save Changes"
+                    )}
                   </button>
                 </form>
               ) : (
@@ -143,19 +214,19 @@ const Profile = () => {
                   </span>
                   <div className="flex gap-2">
                     <span>Shop Name:</span>
-                    <span>Mr.Robot</span>
+                    <span>{userInfo.shopInfo?.shopName}</span>
                   </div>
                   <div className="flex gap-2">
                     <span>City</span>
-                    <span>Đà Nẵng</span>
+                    <span>{userInfo.shopInfo?.city}</span>
                   </div>
                   <div className="flex gap-2">
                     <span>District:</span>
-                    <span>Thanh Khê</span>
+                    <span>{userInfo.shopInfo?.district}</span>
                   </div>
                   <div className="flex gap-2">
                     <span>Address:</span>
-                    <span>Phan Thanh</span>
+                    <span>{userInfo.shopInfo?.address}</span>
                   </div>
                 </div>
               )}

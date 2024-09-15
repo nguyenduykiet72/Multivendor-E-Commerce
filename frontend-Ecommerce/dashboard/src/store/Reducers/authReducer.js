@@ -34,6 +34,21 @@ export const get_user_info = createAsyncThunk(
   }
 );
 
+export const uploadProfileImage = createAsyncThunk(
+  "auth/upload_profile_image",
+  async (image, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.post("/upload-profile-image", image, {
+        withCredentials: true,
+      });
+      // console.log(data);
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const seller_login = createAsyncThunk(
   "auth/seller_login",
   async (info, { rejectWithValue, fulfillWithValue }) => {
@@ -68,11 +83,25 @@ export const seller_register = createAsyncThunk(
   }
 );
 
+export const add_profile_info = createAsyncThunk(
+  "auth/add_profile_info",
+  async (info, { rejectWithValue, fulfillWithValue }) => {
+    console.log(info);
+    try {
+      const { data } = await api.post("/add-profile-info", info, {
+        withCredentials: true,
+      });
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const returnRole = (token) => {
   if (token) {
     const decodeToken = jwtDecode(token);
     const expireTime = new Date(decodeToken.exp * 1000);
-    // console.log(expireTime);
     if (new Date() > expireTime) {
       localStorage.removeItem("accessToken");
       return "";
@@ -146,6 +175,24 @@ export const authReducer = createSlice({
       .addCase(get_user_info.fulfilled, (state, { payload }) => {
         state.loader = false;
         state.userInfo = payload.userInfo;
+      })
+
+      .addCase(uploadProfileImage.pending, (state, { payload }) => {
+        state.loader = true;
+      })
+      .addCase(uploadProfileImage.fulfilled, (state, { payload }) => {
+        state.loader = false;
+        state.userInfo = payload.userInfo;
+        state.successMessage = payload.message;
+      })
+
+      .addCase(add_profile_info.pending, (state, { payload }) => {
+        state.loader = true;
+      })
+      .addCase(add_profile_info.fulfilled, (state, { payload }) => {
+        state.loader = false;
+        state.userInfo = payload.userInfo;
+        state.successMessage = payload.message;
       });
   },
 });

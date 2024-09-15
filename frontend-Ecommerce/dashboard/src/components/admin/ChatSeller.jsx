@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import React, { useState } from "react";
 import { IoCloseCircle } from "react-icons/io5";
 import { FaList } from "react-icons/fa";

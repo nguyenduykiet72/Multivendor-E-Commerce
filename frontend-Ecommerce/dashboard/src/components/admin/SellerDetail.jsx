@@ -1,6 +1,46 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import {
+  get_seller,
+  messageClear,
+  seller_update_status,
+} from "../../store/Reducers/sellerReducer";
+import toast from "react-hot-toast";
 
 const SellerDetail = () => {
+  const dispatch = useDispatch();
+  const { seller, successMessage } = useSelector((state) => state.seller);
+  const { sellerId } = useParams();
+
+  useEffect(() => {
+    dispatch(get_seller(sellerId));
+  }, [sellerId]);
+
+  const [status, setStatus] = useState("");
+  const submit = (e) => {
+    e.preventDefault();
+    dispatch(
+      seller_update_status({
+        sellerId,
+        status,
+      })
+    );
+  };
+
+  useEffect(() => {
+    if (successMessage) {
+      toast.success(successMessage);
+      dispatch(messageClear());
+    }
+  }, [successMessage]);
+
+  useEffect(() => {
+    if (seller) {
+      setStatus(seller.status);
+    }
+  }, [seller]);
+
   return (
     <div className="px-2 pt-5 lg:px-7">
       <h1 className="text-[20px] font-bold mb-3">Seller Detail</h1>
@@ -8,11 +48,15 @@ const SellerDetail = () => {
         <div className="flex flex-wrap w-full">
           <div className="flex items-center justify-center w-3/12 py-3">
             <div className="">
-              <img
-                className="w-full h-[230px] rounded-lg border  bg-[#d0ced0]"
-                src="/images/seller.png"
-                alt=""
-              />
+              {seller?.image ? (
+                <img
+                  className="w-full h-[230px] rounded-lg border  bg-[#d0ced0]"
+                  src="/images/seller.png"
+                  alt=""
+                />
+              ) : (
+                <span>Image Not Uploaded</span>
+              )}
             </div>
           </div>
 
@@ -24,23 +68,23 @@ const SellerDetail = () => {
               <div className="flex flex-col justify-between gap-2 p-4 text-sm  bg-[#d0ced0] rounded-md">
                 <div className="flex gap-2 font-bold">
                   <span>Name:</span>
-                  <span>Osborn Nguyen</span>
+                  <span>{seller?.name}</span>
                 </div>
                 <div className="flex gap-2 font-bold">
                   <span>Email:</span>
-                  <span>OsbornNguyen@gmail.com</span>
+                  <span>{seller?.email}</span>
                 </div>
                 <div className="flex gap-2 font-bold">
                   <span>Role:</span>
-                  <span>Seller</span>
+                  <span>{seller?.role}</span>
                 </div>
                 <div className="flex gap-2 font-bold">
                   <span>Status:</span>
-                  <span>Active</span>
+                  <span>{seller?.status}</span>
                 </div>
                 <div className="flex gap-2 font-bold">
                   <span>Payment Status:</span>
-                  <span>Active</span>
+                  <span>{seller?.payment}</span>
                 </div>
               </div>
             </div>
@@ -54,41 +98,44 @@ const SellerDetail = () => {
               <div className="flex flex-col justify-between gap-2 p-4 text-sm  bg-[#d0ced0] rounded-md">
                 <div className="flex gap-2 font-bold">
                   <span>Shop Name:</span>
-                  <span>Osborn Corp</span>
+                  <span>{seller?.shopInfo?.shopName}</span>
                 </div>
                 <div className="flex gap-2 font-bold">
                   <span>City:</span>
-                  <span>Da Nang</span>
+                  <span>{seller?.shopInfo?.city}</span>
+                </div>
+                <div className="flex gap-2 font-bold">
+                  <span>District:</span>
+                  <span>{seller?.shopInfo?.district}</span>
                 </div>
                 <div className="flex gap-2 font-bold">
                   <span>Address:</span>
-                  <span>122/11D Unknown Street</span>
+                  <span>{seller?.shopInfo?.address}</span>
                 </div>
-                <div className="flex gap-2 font-bold">
-                  <span>Phone Number:</span>
-                  <span>0110925568</span>
-                </div>
-                <div className="flex gap-2 font-bold">
+                {/* <div className="flex gap-2 font-bold">
                   <span>Country:</span>
-                  <span>Viet Nam</span>
-                </div>
+                  <span>{seller?.shopInfo?.country}</span>
+                </div> */}
               </div>
             </div>
           </div>
         </div>
         <div>
-          <form action="">
+          <form onSubmit={submit}>
             <div className="flex gap-4 py-3">
               <select
+                onChange={(e) => setStatus(e.target.value)}
+                value={status}
                 className="px-4 py-2 bg-white border border-blue-400 rounded-md outline-none focus:border-blue-600"
                 name=""
                 id=""
+                required
               >
                 <option value="">- Select Status -</option>
                 <option value="active"> Active </option>
                 <option value="inactive"> Inactive </option>
               </select>
-              <button className="w-[170px] bg-[#fc334d]  hover:shadow-red-500/50 hover:shadow-sm rounded-md px-7 py-3">
+              <button className="w-[170px] bg-[#fc334d]  hover:shadow-red-500/50 hover:shadow-sm rounded-md px-7 py-3 text-white">
                 Submit
               </button>
             </div>

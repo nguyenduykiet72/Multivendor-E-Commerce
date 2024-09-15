@@ -286,7 +286,7 @@ const AddProduct = () => {
 
             <div className="grid w-full grid-cols-1 gap-3 mb-4 lg:gird-cols-4 md:grid-cols-3 sm:grid-cols-2 sm:gap-4 md:gap-4">
               {imageShow.map((img, i) => (
-                <div className="h-[250px] relative">
+                <div className="h-[250px] relative" key={i}>
                   <label htmlFor={i}>
                     <img
                       className="w-full h-full rounded-sm"
