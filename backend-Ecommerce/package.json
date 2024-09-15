@@ -11,7 +11,6 @@
   "description": "",
   "dependencies": {
     "bcrypt": "^5.1.1",
-    "body-parser": "^1.20.2",
     "cloudinary": "^2.2.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -26,6 +25,7 @@
     "uuid": "^10.0.0"
   },
   "devDependencies": {
+    "body-parser": "^1.20.3",
     "compression": "^1.7.4",
     "morgan": "^1.10.0",
     "nodemon": "^3.1.4"
