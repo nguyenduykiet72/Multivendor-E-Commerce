@@ -54,6 +54,6 @@ const FeatureProducts = () => {
       </div>
     </div>
   );
-};
+}; 
 
 export default FeatureProducts;
