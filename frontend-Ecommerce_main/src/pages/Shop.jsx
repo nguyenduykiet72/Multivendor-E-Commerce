@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import Header from "../components/shared/Header";
+import Footer from "../components/shared/Footer";
 import { Link } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
 import { Range } from "react-range";
@@ -28,10 +28,9 @@ const Shop = () => {
   const [state, setState] = useState({ values: [20000, 5000000] });
   const [rating, setRating] = useState("");
   const [style, setStyle] = useState("grid");
-  
+
   const [nextPage, setNextPage] = useState(1);
   const [pageNumber, setPageNumber] = useState(1);
-
 
   return (
     <div>
@@ -303,14 +302,18 @@ const Shop = () => {
                   </div>
                 </div>
 
-                  <div className="pb-8">
-                    <ShopProduct style={style}/>
-                  </div>
-                <div>
-                  <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalItem={10} nextPage={nextPage} showItem={Math.floor(10/3)}/>
+                <div className="pb-8">
+                  <ShopProduct style={style} />
                 </div>
-                      
-
+                <div>
+                  <Pagination
+                    pageNumber={pageNumber}
+                    setPageNumber={setPageNumber}
+                    totalItem={10}
+                    nextPage={nextPage}
+                    showItem={Math.floor(10 / 3)}
+                  />
+                </div>
               </div>
             </div>
           </div>

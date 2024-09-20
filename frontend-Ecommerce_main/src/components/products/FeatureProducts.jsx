@@ -1,6 +1,6 @@
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import { IoEye } from "react-icons/io5";
-import Rating from "../Rating";
+import Rating from "../shared/Rating";
 
 const FeatureProducts = () => {
   return (
@@ -45,7 +45,7 @@ const FeatureProducts = () => {
               <div className="flex items-center justify-start gap-3">
                 <span className="font-semibold text-md">100.000 VND</span>
                 <div className="flex">
-                    <Rating ratings={4.5}/>
+                  <Rating ratings={4.5} />
                 </div>
               </div>
             </div>
@@ -54,6 +54,6 @@ const FeatureProducts = () => {
       </div>
     </div>
   );
-}; 
+};
 
 export default FeatureProducts;

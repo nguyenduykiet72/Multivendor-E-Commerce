@@ -1,7 +1,7 @@
 import Banner from "../components/Banner";
 import Category from "../components/Category";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
+import Footer from "../components/shared/Footer";
+import Header from "../components/shared/Header";
 import FeatureProducts from "../components/products/FeatureProducts";
 import Products from "../components/products/Products";
 
@@ -31,8 +31,7 @@ const Home = () => {
         </div>
       </div>
 
-    <Footer />
-
+      <Footer />
     </div>
   );
 };
