@@ -1,5 +1,5 @@
-import Header from "../components/shared/Header";
-import Footer from "../components/shared/Footer";
+import Header from "../layout/Header";
+import Footer from "../layout/Footer";
 import { IoIosArrowForward } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 

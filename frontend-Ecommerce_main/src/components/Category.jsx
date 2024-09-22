@@ -47,8 +47,8 @@ const Category = () => {
 
   return (
     <div className="w-[87%] mx-auto relative">
-       <div className="w-full">
-        <div className="relative flex flex-col items-center justify-center text-3xl font-bold text-center text-slate-600 pb-[35px]">
+      <div className="w-full">
+        <div className="relative flex flex-col items-center justify-center text-3xl font-bold text-center text-slate-800 pb-[35px]">
           <h2>Top Category</h2>
           <div className="w-[108px] h-[2px] bg-[#059473] mt-4"></div>
         </div>

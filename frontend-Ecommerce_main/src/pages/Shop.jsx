@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Header from "../components/shared/Header";
-import Footer from "../components/shared/Footer";
+import Header from "../layout/Header";
+import Footer from "../layout/Footer";
 import { Link } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
 import { Range } from "react-range";
@@ -10,7 +10,7 @@ import Products from "../components/products/Products";
 import { BsFillGridFill } from "react-icons/bs";
 import { FaThList } from "react-icons/fa";
 import ShopProduct from "../components/products/ShopProduct";
-import Pagination from "../components/Pagination";
+import Pagination from "../components/shared/Pagination";
 
 const Shop = () => {
   const [filter, setFilter] = useState(true);
@@ -71,7 +71,7 @@ const Shop = () => {
                   : "md:h-auto md:overflow-auto md:mb-0"
               }`}
             >
-              <h2 className="mb-3 text-3xl font-bold text-slate-600">
+              <h2 className="mb-3 text-3xl font-bold text-slate-800">
                 Category
               </h2>
               <div className="py-2">
@@ -83,7 +83,7 @@ const Shop = () => {
                     <input type="checkbox" id={c} />
                     <label
                       htmlFor={c}
-                      className="block cursor-pointer text-slate-600"
+                      className="block cursor-pointer text-slate-800"
                     >
                       {c}
                     </label>
@@ -92,7 +92,7 @@ const Shop = () => {
               </div>
 
               <div className="flex flex-col gap-5 py-2">
-                <h2 className="mb-3 text-3xl font-bold text-slate-600 ">
+                <h2 className="mb-3 text-3xl font-bold text-slate-800 ">
                   Price
                 </h2>
                 <Range
@@ -133,7 +133,7 @@ const Shop = () => {
               </div>
 
               <div className="flex flex-col gap-4 py-3">
-                <h2 className="mb-3 text-3xl font-bold text-slate-600">
+                <h2 className="mb-3 text-3xl font-bold text-slate-800">
                   Rating
                 </h2>
                 <div className="flex flex-col gap-3">

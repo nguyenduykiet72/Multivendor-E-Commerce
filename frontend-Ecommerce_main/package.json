@@ -23,7 +23,8 @@
     "react-router-dom": "^6.26.2",
     "react-spinners": "^0.13.8",
     "socket.io-client": "^4.7.5",
-    "stripe": "^14.25.0"
+    "stripe": "^14.25.0",
+    "swiper": "^11.1.14"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",

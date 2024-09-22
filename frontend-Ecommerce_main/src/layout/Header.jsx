@@ -105,7 +105,7 @@ const Header = () => {
                 </Link>
                 <div
                   onClick={() => setShowSideBar(false)}
-                  className="items-center justify-center w-[30px] h-[30px] bg-white text-slate-600 border border-slate-600 rounded-sm cursor-pointer lg:hidden md-lg:flex xl:hidden hidden"
+                  className="items-center justify-center w-[30px] h-[30px] bg-white text-slate-800 border border-slate-600 rounded-sm cursor-pointer lg:hidden md-lg:flex xl:hidden hidden"
                 >
                   <span>
                     <FaList />
@@ -120,7 +120,7 @@ const Header = () => {
                   <li>
                     <Link
                       className={`p-2 block ${
-                        pathname === "/" ? "text-[#059473]" : "text-slate-600"
+                        pathname === "/" ? "text-[#059473]" : "text-slate-800"
                       }`}
                     >
                       Home
@@ -132,7 +132,7 @@ const Header = () => {
                       className={`p-2 block ${
                         pathname === "/shops"
                           ? "text-[#059473]"
-                          : "text-slate-600"
+                          : "text-slate-800"
                       }`}
                     >
                       Shop
@@ -143,7 +143,7 @@ const Header = () => {
                       className={`p-2 block ${
                         pathname === "/blog"
                           ? "text-[#059473]"
-                          : "text-slate-600"
+                          : "text-slate-800"
                       }`}
                     >
                       Blog
@@ -154,7 +154,7 @@ const Header = () => {
                       className={`p-2 block ${
                         pathname === "/about"
                           ? "text-[#059473]"
-                          : "text-slate-600"
+                          : "text-slate-800"
                       }`}
                     >
                       About Us
@@ -165,7 +165,7 @@ const Header = () => {
                       className={`p-2 block ${
                         pathname === "/contact"
                           ? "text-[#059473]"
-                          : "text-slate-600"
+                          : "text-slate-800"
                       }`}
                     >
                       Contact Us
@@ -255,7 +255,7 @@ const Header = () => {
               <li>
                 <Link
                   className={`py-2 block ${
-                    pathname === "/" ? "text-[#059473]" : "text-slate-600"
+                    pathname === "/" ? "text-[#059473]" : "text-slate-800"
                   }`}
                 >
                   Home
@@ -265,7 +265,7 @@ const Header = () => {
                 <Link
                   to="/shops"
                   className={`py-2 block ${
-                    pathname === "/shops" ? "text-[#059473]" : "text-slate-600"
+                    pathname === "/shops" ? "text-[#059473]" : "text-slate-800"
                   }`}
                 >
                   Shop
@@ -274,7 +274,7 @@ const Header = () => {
               <li>
                 <Link
                   className={`py-2 block ${
-                    pathname === "/blog" ? "text-[#059473]" : "text-slate-600"
+                    pathname === "/blog" ? "text-[#059473]" : "text-slate-800"
                   }`}
                 >
                   Blog
@@ -283,7 +283,7 @@ const Header = () => {
               <li>
                 <Link
                   className={`py-2 block ${
-                    pathname === "/about" ? "text-[#059473]" : "text-slate-600"
+                    pathname === "/about" ? "text-[#059473]" : "text-slate-800"
                   }`}
                 >
                   About Us
@@ -294,7 +294,7 @@ const Header = () => {
                   className={`py-2 block ${
                     pathname === "/contact"
                       ? "text-[#059473]"
-                      : "text-slate-600"
+                      : "text-slate-800"
                   }`}
                 >
                   Contact Us
@@ -359,7 +359,7 @@ const Header = () => {
                   showCategory ? "h-0" : "h-[400px]"
                 } overflow-hidden transition-all md-lg:relative duration-500 z-[9999] bg-[#dbf3ed] w-full border-x`}
               >
-                <ul className="py-2 font-medium text-slate-600">
+                <ul className="py-2 font-medium text-slate-800">
                   {categories.map((c, i) => {
                     return (
                       <li
@@ -382,7 +382,7 @@ const Header = () => {
                   <div className="relative after:absolute after:h-[25px] after:w-[1px] after:bg-[#afafaf] after:-right-[15px] md:hidden">
                     <select
                       onChange={(e) => setCategory(e.target.value)}
-                      className="w-[150px] text-slate-600 font-semibold bg-transparent px-2 h-full border-none outline-0"
+                      className="w-[150px] text-slate-800 font-semibold bg-transparent px-2 h-full border-none outline-0"
                       name=""
                       id=""
                     >

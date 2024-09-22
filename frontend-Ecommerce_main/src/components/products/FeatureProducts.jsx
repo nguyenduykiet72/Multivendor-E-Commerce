@@ -1,12 +1,13 @@
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import { IoEye } from "react-icons/io5";
 import Rating from "../shared/Rating";
+import { Link } from "react-router-dom";
 
 const FeatureProducts = () => {
   return (
     <div className="w-[85%] flex flex-wrap mx-auto">
       <div className="w-full">
-        <div className="relative flex flex-col items-center justify-center text-4xl font-bold text-center text-slate-600 pb-[45px]">
+        <div className="relative flex flex-col items-center justify-center text-4xl font-bold text-center text-slate-800 pb-[45px]">
           <h2>Feature Products</h2>
           <div className="w-[108px] h-[2px] bg-[#059473] mt-4"></div>
         </div>
@@ -31,16 +32,19 @@ const FeatureProducts = () => {
                 <li className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#059473] hover:text-white hover:rotate-[720deg] transition-all">
                   <FaHeart />
                 </li>
-                <li className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#059473] hover:text-white hover:rotate-[720deg] transition-all">
+                <Link
+                  to="/product/details/new"
+                  className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#059473] hover:text-white hover:rotate-[720deg] transition-all"
+                >
                   <IoEye />
-                </li>
+                </Link>
                 <li className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#059473] hover:text-white hover:rotate-[720deg] transition-all">
                   <FaShoppingCart />
                 </li>
               </ul>
             </div>
 
-            <div className="px-2 py-3 text-slate-600">
+            <div className="px-2 py-3 text-slate-800">
               <h2 className="font-bold">Product Name</h2>
               <div className="flex items-center justify-start gap-3">
                 <span className="font-semibold text-md">100.000 VND</span>

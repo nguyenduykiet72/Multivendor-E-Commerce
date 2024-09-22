@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { RiFacebookFill } from "react-icons/ri";
 import { FaGoogle } from "react-icons/fa";
@@ -11,10 +10,10 @@ const Footer = () => {
           <div className="flex flex-col gap-3">
             <img
               className="w-[200px] h-[50px]"
-              src="images/logo.png"
+              src="/images/logo.png"
               alt="logo"
             />
-            <ul className="flex flex-col gap-2 text-slate-600">
+            <ul className="flex flex-col gap-2 text-slate-800">
               <li>Address: Anonymous Street In Da Nang City Maybe?</li>
               <li>Phone: 0123456789</li>
               <li>Email: alwaysSupport@gmail.com</li>
@@ -27,7 +26,7 @@ const Footer = () => {
             <div>
               <h2 className="mb-2 text-lg font-bold">Useful Link</h2>
               <div className="flex justify-between gap-[80px] lg:gap-[40px]">
-                <ul className="flex flex-col gap-2 text-sm font-semibold text-slate-600">
+                <ul className="flex flex-col gap-2 text-sm font-semibold text-slate-800">
                   <li>
                     <Link>About Us</Link>
                   </li>
@@ -45,7 +44,7 @@ const Footer = () => {
                   </li>
                 </ul>
 
-                <ul className="flex flex-col gap-2 text-sm font-semibold text-slate-600">
+                <ul className="flex flex-col gap-2 text-sm font-semibold text-slate-800">
                   <li>
                     <Link>Our Service</Link>
                   </li>
@@ -104,7 +103,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="w-[90%] flex flex-wrap justify-center items-center text-slate-600 mx-auto py-5 text-center">
+      <div className="w-[90%] flex flex-wrap justify-center items-center text-slate-800 mx-auto py-5 text-center">
         <span>Copyright @ 2024</span>
       </div>
     </footer>

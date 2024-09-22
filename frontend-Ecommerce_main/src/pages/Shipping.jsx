@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import Footer from "../components/shared/Footer";
-import Header from "../components/shared/Header";
+import Footer from "../layout/Footer";
+import Header from "../layout/Header";
 import { IoIosArrowForward } from "react-icons/io";
 import { useState } from "react";
 
@@ -183,7 +183,7 @@ const Shipping = () => {
                           Change
                         </span>
                       </p>
-                      <p className="text-sm text-slate-600">
+                      <p className="text-sm text-slate-800">
                         Email To Elliot@gmail.com
                       </p>
                     </div>
@@ -267,8 +267,10 @@ const Shipping = () => {
                     </span>
                   </div>
                   <button
-                  disabled={response ? false : true}
-                    className={`px-5 py-[6px] rounded-sm hover:shadow-red-500/30 hover:shadow-lg ${response ? 'bg-[#fc334d]' : 'bg-red-300'}  text-sm text-white uppercase font-semibold`}
+                    disabled={response ? false : true}
+                    className={`px-5 py-[6px] rounded-sm hover:shadow-red-500/30 hover:shadow-lg ${
+                      response ? "bg-[#fc334d]" : "bg-red-300"
+                    }  text-sm text-white uppercase font-semibold`}
                   >
                     Place Order
                   </button>

@@ -1,7 +1,7 @@
 import Banner from "../components/Banner";
 import Category from "../components/Category";
-import Footer from "../components/shared/Footer";
-import Header from "../components/shared/Header";
+import Footer from "../layout/Footer";
+import Header from "../layout/Header";
 import FeatureProducts from "../components/products/FeatureProducts";
 import Products from "../components/products/Products";
 
