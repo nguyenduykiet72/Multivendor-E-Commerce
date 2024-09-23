@@ -6,22 +6,22 @@ import { Link, useLocation } from "react-router-dom";
 import { FaUser, FaList, FaShoppingCart } from "react-icons/fa";
 import { useState } from "react";
 
-const Header = () => {
+const Header = ({categories}) => {
   const { pathname } = useLocation();
   const [showSideBar, setShowSideBar] = useState(true);
   const [showCategory, setShowCategory] = useState(true);
   const user = true;
   const wishlist_count = 4;
-  const categories = [
-    "Mobiles",
-    "Laptops",
-    "Speakers",
-    "Top wear",
-    "Footwear",
-    "Watches",
-    "Home Decor",
-    "Smart Watches",
-  ];
+  // const categories = [
+  //   "Mobiles",
+  //   "Laptops",
+  //   "Speakers",
+  //   "Top wear",
+  //   "Footwear",
+  //   "Watches",
+  //   "Home Decor",
+  //   "Smart Watches",
+  // ];
 
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("");
@@ -366,7 +366,8 @@ const Header = () => {
                         key={i}
                         className="flex items-center justify-start gap-2 px-[24px] py-[6px]"
                       >
-                        <Link className="block text-sm">{c}</Link>
+                        <img src={c.image} alt="" className="w-[30px] h-[30px] rounded-full overflow-hidden"/>
+                        <Link className="block text-sm">{c.name}</Link>
                       </li>
                     );
                   })}
@@ -389,7 +390,7 @@ const Header = () => {
                       <option value="">Select Category</option>
                       {categories.map((c, i) => (
                         <option key={i} value={c}>
-                          {c}
+                          {c.name}
                         </option>
                       ))}
                     </select>

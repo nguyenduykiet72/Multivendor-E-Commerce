@@ -3,11 +3,7 @@ import { Link } from "react-router-dom";
 import "react-multi-carousel/lib/styles.css";
 import { MdArrowBack, MdArrowForward } from "react-icons/md";
 
-const Products = ({ title }) => {
-  const products = [
-    [1, 2, 3],
-    [4, 5, 6],
-  ];
+const Products = ({ title,products }) => {
 
   const responsive = {
     superLargeDesktop: {
@@ -68,12 +64,12 @@ const Products = ({ title }) => {
                 <Link to="#" key={j} className="flex items-start justify-start">
                   <img
                     className="w-[110px] h-[110px]"
-                    src={`/images/products/${pl + 1}.webp`}
+                    src={pl.images[0]}
                     alt=""
                   />
                   <div className="flex flex-col items-start justify-start gap-1 px-3 text-slate-800">
-                    <h2>Product Name</h2>
-                    <span className="text-lg font-bold">250.000 VND</span>
+                    <h2>{pl.name}</h2>
+                    <span className="text-lg font-bold">{pl.price} VND</span>
                   </div>
                 </Link>
               ))}
