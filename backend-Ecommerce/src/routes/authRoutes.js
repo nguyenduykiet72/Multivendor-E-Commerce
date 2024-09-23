@@ -13,7 +13,7 @@ router.post(
   authController.upload_profile_image
 );
 router.post(
-  "/add-profile-info",
+  "/add-profile-info",  
   authMiddleware,
   authController.add_profile_info
 );

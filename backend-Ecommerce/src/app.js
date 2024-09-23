@@ -13,6 +13,7 @@ const authRoutes = require("./routes/authRoutes");
 const categoryRoutes = require("./routes/dashboard/categoryRoutes");
 const productRoutes = require("./routes/dashboard/productRoutes");
 const sellerRoutes = require("./routes/dashboard/sellerRoutes");
+const homeRoutes = require('./routes/home/homeRoutes')
 
 app.use(morgan("dev"));
 app.use(compression());
@@ -36,6 +37,7 @@ app.use("/api", authRoutes);
 app.use("/api", categoryRoutes);
 app.use("/api", productRoutes);
 app.use("/api", sellerRoutes);
+app.use("/api", homeRoutes);
 dbConnect();
 
 module.exports = app;
