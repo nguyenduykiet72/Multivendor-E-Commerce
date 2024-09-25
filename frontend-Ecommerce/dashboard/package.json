@@ -45,7 +45,6 @@
     "micromatch": "^4.0.8",
     "postcss": "^8.4.39",
     "tailwindcss": "^3.4.4",
-    "vite": "^5.3.1",
-    "vite-plugin-eslint": "^1.8.1"
+    "vite": "^5.3.1"
   }
 }
