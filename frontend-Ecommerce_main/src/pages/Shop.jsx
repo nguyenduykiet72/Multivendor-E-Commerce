@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../layout/Header";
 import Footer from "../layout/Footer";
 import { Link } from "react-router-dom";
@@ -6,31 +6,91 @@ import { IoIosArrowForward } from "react-icons/io";
 import { Range } from "react-range";
 import { AiFillStar } from "react-icons/ai";
 import { HiOutlineStar } from "react-icons/hi2";
-import Products from "../components/products/Products";
 import { BsFillGridFill } from "react-icons/bs";
 import { FaThList } from "react-icons/fa";
 import ShopProduct from "../components/products/ShopProduct";
 import Pagination from "../components/shared/Pagination";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  price_range_product,
+  query_products,
+} from "../store/Reducers/homeReducer";
+import Products from "../components/products/Products";
 
 const Shop = () => {
-  const [filter, setFilter] = useState(true);
-  const categories = [
-    "Mobiles",
-    "Laptops",
-    "Speakers",
-    "Top wear",
-    "Footwear",
-    "Watches",
-    "Home Decor",
-    "Smart Watches",
-  ];
+  const {
+    products,
+    categories,
+    priceRange,
+    latestProduct,
+    totalProduct,
+    nextPage,
+  } = useSelector((state) => state.home);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(price_range_product());
+  }, []);
 
-  const [state, setState] = useState({ values: [20000, 5000000] });
+  useEffect(() => {
+    setState({
+      values: [priceRange.low, priceRange.high],
+    });
+  }, [priceRange]);
+
+  const [filter, setFilter] = useState(true);
+
+  const [state, setState] = useState({
+    values: [priceRange.low, priceRange.high],
+  });
+
   const [rating, setRating] = useState("");
   const [style, setStyle] = useState("grid");
 
-  const [nextPage, setNextPage] = useState(1);
   const [pageNumber, setPageNumber] = useState(1);
+
+  const [sortPrice, setSortPrice] = useState("");
+  const [category, setCategory] = useState("");
+  const queryCategory = (e, value) => {
+    if (e.target.checked) {
+      setCategory(value);
+    } else {
+      setCategory("");
+    }
+  };
+
+  useEffect(() => {
+    dispatch(
+      query_products({
+        low: state.values[0],
+        high: state.values[1],
+        category,
+        rating,
+        sortPrice,
+        pageNumber,
+      })
+    );
+  }, [
+    state.values[0],
+    state.values[1],
+    category,
+    rating,
+    sortPrice,
+    pageNumber,
+  ]);
+
+  const resetRating = () => {
+    setRating("");
+    dispatch(
+      query_products({
+        low: state.values[0],
+        high: state.values[1],
+        category,
+        rating: "",
+        sortPrice,
+        pageNumber,
+      })
+    );
+  };
 
   return (
     <div>
@@ -80,12 +140,17 @@ const Shop = () => {
                     className="flex items-center justify-start gap-2 py-1"
                     key={i}
                   >
-                    <input type="checkbox" id={c} />
+                    <input
+                      checked={category === c.name ? true : false}
+                      onChange={(e) => queryCategory(e, c.name)}
+                      type="checkbox"
+                      id={c.name}
+                    />
                     <label
-                      htmlFor={c}
+                      htmlFor={c.name}
                       className="block cursor-pointer text-slate-800"
                     >
-                      {c}
+                      {c.name}
                     </label>
                   </div>
                 ))}
@@ -97,8 +162,8 @@ const Shop = () => {
                 </h2>
                 <Range
                   step={5}
-                  min={20000}
-                  max={5000000}
+                  min={priceRange.low}
+                  max={priceRange.high}
                   values={state.values}
                   onChange={(values) => setState({ values })}
                   renderTrack={({ props, children }) => {
@@ -158,7 +223,7 @@ const Shop = () => {
                     </span>
                   </div>
                   <div
-                    onClick={() => setRating(5)}
+                    onClick={() => setRating(4)}
                     className="flex items-start justify-start gap-2 text-xl text-yellow-400 cursor-pointer"
                   >
                     <span>
@@ -178,7 +243,7 @@ const Shop = () => {
                     </span>
                   </div>
                   <div
-                    onClick={() => setRating(5)}
+                    onClick={() => setRating(3)}
                     className="flex items-start justify-start gap-2 text-xl text-yellow-400 cursor-pointer"
                   >
                     <span>
@@ -198,7 +263,7 @@ const Shop = () => {
                     </span>
                   </div>
                   <div
-                    onClick={() => setRating(5)}
+                    onClick={() => setRating(2)}
                     className="flex items-start justify-start gap-2 text-xl text-yellow-400 cursor-pointer"
                   >
                     <span>
@@ -218,7 +283,7 @@ const Shop = () => {
                     </span>
                   </div>
                   <div
-                    onClick={() => setRating(5)}
+                    onClick={() => setRating(1)}
                     className="flex items-start justify-start gap-2 text-xl text-yellow-400 cursor-pointer"
                   >
                     <span>
@@ -238,7 +303,7 @@ const Shop = () => {
                     </span>
                   </div>
                   <div
-                    onClick={() => setRating(5)}
+                    onClick={resetRating}
                     className="flex items-start justify-start gap-2 text-xl text-yellow-400 cursor-pointer"
                   >
                     <span>
@@ -261,7 +326,7 @@ const Shop = () => {
               </div>
 
               <div className="flex flex-col gap-4 py-5 md:hidden">
-                <Products title="Latest Product" />
+                <Products title="Latest Product" products={latestProduct} />
               </div>
             </div>
 
@@ -269,10 +334,11 @@ const Shop = () => {
               <div className="pl-8 md:pl-0">
                 <div className="flex items-start justify-between px-3 py-4 mb-10 bg-white border rounded-md">
                   <h2 className="text-lg font-medium text-slate-800">
-                    18 Products
+                    ({totalProduct}) Products
                   </h2>
                   <div className="flex items-center justify-center gap-3">
                     <select
+                      onChange={(e) => setSortPrice(e.target.value)}
                       name=""
                       id=""
                       className="p-1 font-semibold border outline-0 text-slate-800"
@@ -303,16 +369,18 @@ const Shop = () => {
                 </div>
 
                 <div className="pb-8">
-                  <ShopProduct style={style} />
+                  <ShopProduct products={products} style={style} />
                 </div>
                 <div>
-                  <Pagination
-                    pageNumber={pageNumber}
-                    setPageNumber={setPageNumber}
-                    totalItem={10}
-                    nextPage={nextPage}
-                    showItem={Math.floor(10 / 3)}
-                  />
+                  {totalProduct > nextPage && (
+                    <Pagination
+                      pageNumber={pageNumber}
+                      setPageNumber={setPageNumber}
+                      totalItem={totalProduct}
+                      nextPage={nextPage}
+                      showItem={Math.floor(totalProduct / nextPage)}
+                    />
+                  )}
                 </div>
               </div>
             </div>

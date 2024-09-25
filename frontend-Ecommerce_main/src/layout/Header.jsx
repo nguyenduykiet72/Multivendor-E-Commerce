@@ -2,29 +2,26 @@ import { IoIosMail, IoIosArrowDown } from "react-icons/io";
 import { FaPhone, FaHeart } from "react-icons/fa6";
 import { RiFacebookFill, RiLoginBoxFill } from "react-icons/ri";
 import { FaGoogle } from "react-icons/fa";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaUser, FaList, FaShoppingCart } from "react-icons/fa";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
-const Header = ({categories}) => {
+const Header = () => {
+  const navigate = useNavigate();
+  const { categories } = useSelector((state) => state.home);
   const { pathname } = useLocation();
   const [showSideBar, setShowSideBar] = useState(true);
   const [showCategory, setShowCategory] = useState(true);
-  const user = true;
+  const user = false;
   const wishlist_count = 4;
-  // const categories = [
-  //   "Mobiles",
-  //   "Laptops",
-  //   "Speakers",
-  //   "Top wear",
-  //   "Footwear",
-  //   "Watches",
-  //   "Home Decor",
-  //   "Smart Watches",
-  // ];
 
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("");
+
+  const search = () => {
+    navigate(`/products/search?category=${category}&value=${searchValue}`);
+  }
 
   return (
     <div className="w-full bg-white">
@@ -79,7 +76,7 @@ const Header = ({categories}) => {
                     <span>Elliot Nguyen</span>
                   </Link>
                 ) : (
-                  <Link
+                  <Link 
                     className="flex items-center justify-center gap-2 text-sm text-black cursor-pointer"
                     to="/login"
                   >
@@ -357,7 +354,7 @@ const Header = ({categories}) => {
               <div
                 className={`${
                   showCategory ? "h-0" : "h-[400px]"
-                } overflow-hidden transition-all md-lg:relative duration-500 z-[9999] bg-[#dbf3ed] w-full border-x`}
+                } overflow-hidden transition-all absolute md-lg:relative duration-500 z-[99999] bg-[#dbf3ed] w-full border-x`}
               >
                 <ul className="py-2 font-medium text-slate-800">
                   {categories.map((c, i) => {
@@ -367,7 +364,7 @@ const Header = ({categories}) => {
                         className="flex items-center justify-start gap-2 px-[24px] py-[6px]"
                       >
                         <img src={c.image} alt="" className="w-[30px] h-[30px] rounded-full overflow-hidden"/>
-                        <Link className="block text-sm">{c.name}</Link>
+                        <Link to={`/products?category=${c.name}`} className="block text-sm">{c.name}</Link>
                       </li>
                     );
                   })}
@@ -389,7 +386,7 @@ const Header = ({categories}) => {
                     >
                       <option value="">Select Category</option>
                       {categories.map((c, i) => (
-                        <option key={i} value={c}>
+                        <option key={i} value={c.name}>
                           {c.name}
                         </option>
                       ))}
@@ -403,7 +400,7 @@ const Header = ({categories}) => {
                     id=""
                     placeholder="Search Something"
                   />
-                  <button className="bg-[#059473] right-0 absolute px-8 h-full font-semibold uppercase text-white">
+                  <button onClick={search} className="bg-[#059473] right-0 absolute px-8 h-full font-semibold uppercase text-white">
                     Search
                   </button>
                 </div>

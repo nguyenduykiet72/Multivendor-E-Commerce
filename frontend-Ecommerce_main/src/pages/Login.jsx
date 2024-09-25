@@ -62,13 +62,13 @@ const Login = () => {
                     />
                   </div>
 
-                  <button className="w-full px-8 py-2 bg-[#059473] text-white shadow-sm hover:shadow-green-500 rounded-md">
+                  <button className="w-full px-8 py-2 bg-[#059473] text-white shadow-sm hover:shadow-green-500 rounded-md mt-3">
                     Login
                   </button>
                 </form>
                 <div className="flex items-center justify-center py-2">
                   <div className="h-[1px] bg-slate-300 w-[95%]"></div>
-                  <span className="px-3 text-slate-600">Or</span>
+                  <span className="px-3 mt-4 text-slate-600">Or</span>
                   <div className="h-[1px] bg-slate-300 w-[95%]"></div>
                 </div>
                 <button className="flex items-center justify-center w-full gap-2 px-8 py-2 mb-3 text-white bg-indigo-500 rounded-md shadow hover:shadow-indigo-500/50">

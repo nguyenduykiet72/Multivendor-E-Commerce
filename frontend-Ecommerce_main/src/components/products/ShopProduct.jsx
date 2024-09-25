@@ -2,7 +2,7 @@ import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import { IoEye } from "react-icons/io5";
 import Rating from "../shared/Rating";
 
-const ShopProduct = ({ style }) => {
+const ShopProduct = ({ style,products }) => {
   return (
     <div
       className={`w-full grid ${
@@ -11,7 +11,7 @@ const ShopProduct = ({ style }) => {
           : "grid-cols-1 md-lg:grid-cols-2 md:grid-cols-2"
       } gap-3 `}
     >
-      {[1, 2, 3, 4, 5, 6].map((p, i) => (
+      {products.map((p, i) => (
         <div
           key={i}
           className={`flex transition-all duration-500 hover:shadow-md hover:-translate-y-3 ${
@@ -28,7 +28,7 @@ const ShopProduct = ({ style }) => {
             }
           >
             <img
-              src={`/images/products/${i + 1}.webp`}
+              src={p.images[0]}
               alt=""
               className="h-[240px] rounded-md md:h-[270px] xs:h-[170px] w-full object-cover"
             />
@@ -46,11 +46,11 @@ const ShopProduct = ({ style }) => {
           </div>
 
           <div className="flex flex-col items-start justify-start gap-1">
-            <h2 className="font-bold">Product Name</h2>
+            <h2 className="font-bold">{p.name}</h2>
             <div className="flex items-center justify-start gap-3">
-              <span className="font-semibold text-md">100.000 VND</span>
+              <span className="font-semibold text-md">{p.price} VND</span>
               <div className="flex">
-                <Rating ratings={4.5} />
+                <Rating ratings={p.rating} />
               </div>
             </div>
           </div>

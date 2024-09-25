@@ -1,18 +1,10 @@
 import Carousel from "react-multi-carousel";
 import { Link } from "react-router-dom";
 import "react-multi-carousel/lib/styles.css";
+import { useSelector } from "react-redux";
 
-const Category = ({categories}) => {
-  // const categories = [
-  //   "Mobiles",
-  //   "Laptops",
-  //   "Speakers",
-  //   "Top wear",
-  //   "Footwear",
-  //   "Watches",
-  //   "Home Decor",
-  //   "Smart Watches",
-  // ];
+const Category = () => {
+  const { categories } = useSelector((state) => state.home);
 
   const responsive = {
     superLargeDesktop: {
@@ -61,7 +53,11 @@ const Category = ({categories}) => {
         transitionDuration={500}
       >
         {categories.map((c, i) => (
-          <Link className="h-[185px] border block" key={i} to="#">
+          <Link
+            className="h-[185px] border block"
+            key={i}
+            to={`/products?category=${c.name}`}
+          >
             <div className="relative w-full h-full p-3">
               <img src={c.image} alt="" />
               <div className="absolute left-0 flex items-center justify-center w-full mx-auto font-bold bottom-6">
