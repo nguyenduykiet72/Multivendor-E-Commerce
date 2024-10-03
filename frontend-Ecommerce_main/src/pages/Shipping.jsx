@@ -1,10 +1,20 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Footer from "../layout/Footer";
 import Header from "../layout/Header";
 import { IoIosArrowForward } from "react-icons/io";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { place_order } from "../store/Reducers/orderReducer";
 
 const Shipping = () => {
+  const {
+    state: { products, price, shipping_fee, items },
+  } = useLocation(); 
+  const { userInfo } = useSelector((state) => state.auth);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [response, setResponse] = useState(false);
   const [state, setState] = useState({
     name: "",
@@ -26,6 +36,20 @@ const Shipping = () => {
     if (name && address && phone && post && province && city && area) {
       setResponse(true);
     }
+  };
+
+  const placeOrder = () => {
+    dispatch(
+      place_order({
+        price,
+        products,
+        shipping_fee,
+        items,
+        shippingInfo: state,
+        userId: userInfo.id,
+        navigate,
+      })
+    );
   };
 
   return (
@@ -190,27 +214,27 @@ const Shipping = () => {
                   )}
                 </div>
 
-                {[1, 2].map((p, i) => (
+                {products.map((p, i) => (
                   <div className="flex flex-col gap-2 p-4 bg-white" key={i}>
                     <div className="flex items-center justify-start">
                       <h2 className="font-bold text-md text-slate-800">
-                        Mr.Robot Shop
+                        {p.shopName}
                       </h2>
                     </div>
-                    {[1, 2].map((p, i) => (
+                    {p.products.map((pt, i) => (
                       <div className="flex flex-wrap w-full" key={i}>
                         <div className="flex w-7/12 gap-2 sm:w-full">
                           <div className="flex items-center justify-center gap-2">
                             <img
-                              src={`/images/products/${i + 1}.webp`}
+                              src={pt.productInfo.images[0]}
                               alt=""
                               className="h-[80px] w-[80px] "
                             />
                             <div className="pr-4 text-slate-800">
                               <h2 className="font-semibold text-md">
-                                Product Name
+                                {pt.productInfo.name}
                               </h2>
-                              <span>Brand: Elliot</span>
+                              <span>Brand: {pt.productInfo.brand}</span>
                             </div>
                           </div>
                         </div>
@@ -218,23 +242,20 @@ const Shipping = () => {
                         <div className="flex justify-between w-5/12 sm:w-full sm:mt-3">
                           <div className="pl-4 sm:pl-0">
                             <h2 className="text-lg text-orange-500">
-                              100.000 VND
+                              {pt.productInfo.price -
+                                Math.floor(
+                                  (pt.productInfo.price *
+                                    pt.productInfo.discount) /
+                                    100
+                                )}{" "}
+                              VND
                             </h2>
-                            <p className="line-through">150.000 VND</p>
-                            <p className="flex items-center justify-center">
-                              -33%
+                            <p className="line-through">
+                              {pt.productInfo.price} VND
                             </p>
-                          </div>
-
-                          <div className="flex flex-col gap-2">
-                            <div className="flex bg-slate-200 h-[30px] justify-center items-center text-xl">
-                              <div className="px-3 cursor-pointer">-</div>
-                              <div className="px-3">2</div>
-                              <div className="px-3 cursor-pointer">+</div>
-                            </div>
-                            <button className="px-5 py-[3px] bg-[#fc334d] text-white">
-                              Delete
-                            </button>
+                            <p className="flex items-center justify-center">
+                              -{pt.productInfo.discount}%
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -249,24 +270,27 @@ const Shipping = () => {
                 <div className="flex flex-col gap-3 p-3 bg-white text-slate-800">
                   <h2 className="font-bold text-md">Order Summary</h2>
                   <div className="flex items-center justify-between">
-                    <span> Items Total (5)</span>
-                    <span className="font-semibold">120.000 VND</span>
+                    <span> Items Total ({items})</span>
+                    <span className="font-semibold">{price} VND</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span>Delivery Fee</span>
-                    <span className="font-semibold">20.000 VND</span>
+                    <span className="font-semibold">{shipping_fee} VND</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span>Total Payment</span>
-                    <span className="font-semibold">140.000 VND</span>
+                    <span className="font-semibold">
+                      {price + shipping_fee} VND
+                    </span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span>Total</span>
                     <span className="text-lg text-[#059473] font-semibold">
-                      140.000 VND
+                      {price + shipping_fee} VND
                     </span>
                   </div>
                   <button
+                    onClick={placeOrder}
                     disabled={response ? false : true}
                     className={`px-5 py-[6px] rounded-sm hover:shadow-red-500/30 hover:shadow-lg ${
                       response ? "bg-[#fc334d]" : "bg-red-300"

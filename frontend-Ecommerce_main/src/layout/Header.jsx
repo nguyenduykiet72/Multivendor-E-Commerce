@@ -8,12 +8,14 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 
 const Header = () => {
-  const navigate = useNavigate();
   const { categories } = useSelector((state) => state.home);
+  const { userInfo } = useSelector((state) => state.auth);
+  const { cart_product_count } = useSelector((state) => state.cart);
+
+  const navigate = useNavigate();
   const { pathname } = useLocation();
   const [showSideBar, setShowSideBar] = useState(true);
   const [showCategory, setShowCategory] = useState(true);
-  const user = false;
   const wishlist_count = 4;
 
   const [searchValue, setSearchValue] = useState("");
@@ -21,7 +23,15 @@ const Header = () => {
 
   const search = () => {
     navigate(`/products/search?category=${category}&value=${searchValue}`);
-  }
+  };
+
+  const redirect_cart_page = () => {
+    if (userInfo) {
+      navigate("/cart");
+    } else {
+      navigate("/login");
+    }
+  };
 
   return (
     <div className="w-full bg-white">
@@ -65,7 +75,7 @@ const Header = () => {
                   </ul>
                 </div>
 
-                {user ? (
+                {userInfo ? (
                   <Link
                     className="flex items-center justify-center gap-2 text-sm text-black cursor-pointer"
                     to="/dashboard"
@@ -73,10 +83,10 @@ const Header = () => {
                     <span>
                       <FaUser />
                     </span>
-                    <span>Elliot Nguyen</span>
+                    <span>{userInfo.name}</span>
                   </Link>
                 ) : (
-                  <Link 
+                  <Link
                     className="flex items-center justify-center gap-2 text-sm text-black cursor-pointer"
                     to="/login"
                   >
@@ -181,13 +191,18 @@ const Header = () => {
                       </div>
                     </div>
 
-                    <div className="relative flex items-center justify-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2] ">
+                    <div
+                      onClick={redirect_cart_page}
+                      className="relative flex items-center justify-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2] "
+                    >
                       <span className="text-xl text-green-500">
                         <FaShoppingCart />
                       </span>
-                      <div className="w-[20px] h-[20px] absolute bg-red-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px]">
-                        {wishlist_count}
-                      </div>
+                      {cart_product_count !== 0 && (
+                        <div className="w-[20px] h-[20px] absolute bg-red-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px]">
+                          {cart_product_count}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -214,7 +229,7 @@ const Header = () => {
               <img className="pr-4" src="/images/logo.png" alt="" />
             </Link>
             <div className="flex items-center justify-start gap-10">
-              {user ? (
+              {userInfo ? (
                 <Link
                   className="flex items-center justify-center gap-2 text-sm text-black cursor-pointer"
                   to="/dashboard"
@@ -222,7 +237,7 @@ const Header = () => {
                   <span>
                     <FaUser />
                   </span>
-                  <span>Elliot Nguyen</span>
+                  <span>{userInfo.name}</span>
                 </Link>
               ) : (
                 <Link
@@ -363,8 +378,17 @@ const Header = () => {
                         key={i}
                         className="flex items-center justify-start gap-2 px-[24px] py-[6px]"
                       >
-                        <img src={c.image} alt="" className="w-[30px] h-[30px] rounded-full overflow-hidden"/>
-                        <Link to={`/products?category=${c.name}`} className="block text-sm">{c.name}</Link>
+                        <img
+                          src={c.image}
+                          alt=""
+                          className="w-[30px] h-[30px] rounded-full overflow-hidden"
+                        />
+                        <Link
+                          to={`/products?category=${c.name}`}
+                          className="block text-sm"
+                        >
+                          {c.name}
+                        </Link>
                       </li>
                     );
                   })}
@@ -400,7 +424,10 @@ const Header = () => {
                     id=""
                     placeholder="Search Something"
                   />
-                  <button onClick={search} className="bg-[#059473] right-0 absolute px-8 h-full font-semibold uppercase text-white">
+                  <button
+                    onClick={search}
+                    className="bg-[#059473] right-0 absolute px-8 h-full font-semibold uppercase text-white"
+                  >
                     Search
                   </button>
                 </div>

@@ -173,7 +173,7 @@ const Detail = () => {
                     </div>
                     <div>
                       <button className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-md hover:shadow-green-500/40 bg-[#059473] text-white">
-                        Add To Card
+                        Add To Cart
                       </button>
                     </div>
                   </>

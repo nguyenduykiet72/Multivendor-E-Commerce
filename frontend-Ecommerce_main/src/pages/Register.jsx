@@ -2,10 +2,20 @@ import Footer from "../layout/Footer";
 import Header from "../layout/Header";
 import { RiFacebookFill } from "react-icons/ri";
 import { FaGoogle } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { customer_register, messageClear } from "../store/Reducers/authReducer";
+import toast from "react-hot-toast";
+import { FadeLoader } from "react-spinners";
 
 const Register = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { loader, errorMessage, successMessage,userInfo } = useSelector(
+    (state) => state.auth
+  );
+
   const [state, setState] = useState({
     name: "",
     email: "",
@@ -18,11 +28,30 @@ const Register = () => {
 
   const register = (e) => {
     e.preventDefault();
-    console.log(state);
+    dispatch(customer_register(state));
   };
+
+  useEffect(() => {
+    if (successMessage) {
+      toast.success(successMessage);
+      dispatch(messageClear());
+    }
+    if (errorMessage) {
+      toast.error(errorMessage);
+      dispatch(messageClear());
+    }
+    if(userInfo){
+      navigate('/')
+    }
+  }, [successMessage, errorMessage]);
 
   return (
     <div>
+      {loader && (
+        <div className="fixed top-0 left-0 flex items-center justify-center w-screen h-screen bg-[#38303033] z-[999]">
+          <FadeLoader />
+        </div>
+      )}
       <Header />
       <div className="mt-4 bg-slate-200">
         <div className="items-center justify-center w-full p-10">
