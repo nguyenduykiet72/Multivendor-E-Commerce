@@ -37,7 +37,6 @@ const Profile = () => {
   useEffect(() => {
     if (successMessage) {
       toast.success(successMessage);
-      console.log(successMessage);
       messageClear();
     }
     if (errorMessage) {
