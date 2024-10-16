@@ -10,13 +10,14 @@ import { useSelector } from "react-redux";
 const Header = () => {
   const { categories } = useSelector((state) => state.home);
   const { userInfo } = useSelector((state) => state.auth);
-  const { cart_product_count } = useSelector((state) => state.cart);
+  const { cart_product_count, wishlist_count } = useSelector(
+    (state) => state.cart
+  );
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [showSideBar, setShowSideBar] = useState(true);
   const [showCategory, setShowCategory] = useState(true);
-  const wishlist_count = 4;
 
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("");
@@ -186,9 +187,11 @@ const Header = () => {
                       <span className="text-xl text-green-500">
                         <FaHeart />
                       </span>
-                      <div className="w-[20px] h-[20px] absolute bg-red-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px]">
-                        {wishlist_count}
-                      </div>
+                      {wishlist_count !== 0 && (
+                        <div className="w-[20px] h-[20px] absolute bg-red-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px]">
+                          {wishlist_count}
+                        </div>
+                      )}
                     </div>
 
                     <div
