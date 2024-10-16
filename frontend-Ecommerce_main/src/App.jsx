@@ -6,9 +6,6 @@ import Shipping from "./pages/Shipping";
 import Detail from "./pages/Detail";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { get_category } from "./store/Reducers/homeReducer";
 import CategoryShop from "./pages/CategoryShop";
 import SearchProduct from "./components/SearchProduct";
 import Payment from "./pages/Payment";
@@ -18,6 +15,11 @@ import Index from "./components/dashboard/Index";
 import Orders from "./components/dashboard/Orders";
 import ChangePassword from "./components/dashboard/ChangePassword";
 import Wishlist from "./components/dashboard/Wishlist";
+import OrderDetail from "./components/dashboard/OrderDetail";
+import Chat from "./components/dashboard/Chat";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { get_category } from "./store/Reducers/homeReducer";
 
 function App() {
   const dispatch = useDispatch();
@@ -45,6 +47,9 @@ function App() {
             <Route path="my-orders" element={<Orders />} />
             <Route path="change-password" element={<ChangePassword />} />
             <Route path="my-wishlist" element={<Wishlist />} />
+            <Route path="order/details/:orderId" element={<OrderDetail />} />
+            <Route path="chat" element={<Chat />} />
+            <Route path="chat/:sellerId" element={<Chat />} />
           </Route>
         </Route>
       </Routes>
