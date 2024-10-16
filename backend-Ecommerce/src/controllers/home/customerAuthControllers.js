@@ -68,7 +68,17 @@ const customer_login = async (req, res) => {
   }
 };
 
+const customer_logout = async (req, res) => {
+  res.clearCookie("customerToken");
+  responseReturn(res, 200, { message: "Logout Successfully" });
+  // res.cookie('customerToken','',{
+  //   expires: new Date(Date.now()),
+  // })
+  // responseReturn(res, 200, { message: "Logout Successfully"});
+};
+
 module.exports = {
   customer_register,
   customer_login,
+  customer_logout
 };

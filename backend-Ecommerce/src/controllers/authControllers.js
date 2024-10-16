@@ -1,13 +1,13 @@
 const adminModel = require("../models/adminModel");
 const sellerModel = require("../models/sellerModel");
-const sellerCustomerModel = require("../models/chat/sellerCustomer");
+const sellerCustomerModel = require("../models/chat/sellerCustomerModel");
 const { createToken } = require("../utils/createToken");
 const { responseReturn } = require("../utils/response");
 const bcrypt = require("bcrypt");
 const { formidable } = require("formidable");
 const cloudinary = require("cloudinary").v2;
 
-exports.admin_login = async (req, res) => {
+const admin_login = async (req, res) => {
   const { email, password } = req.body;
   try {
     const admin = await adminModel
@@ -25,7 +25,7 @@ exports.admin_login = async (req, res) => {
         res.cookie("accessToken", token, {
           expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         }),
-          responseReturn(res, 200, { token, message: "Login Successfully" });
+          responseReturn(res, 200, { token, message: "Admin Login Successfully" });
       } else {
         responseReturn(res, 404, { error: "Password Wrong!" });
       }
@@ -36,8 +36,7 @@ exports.admin_login = async (req, res) => {
     responseReturn(res, 500, { error: error.message });
   }
 };
-
-exports.getUser = async (req, res) => {
+const getUser = async (req, res) => {
   const { id, role } = req;
   try {
     if (role === "admin") {
@@ -52,7 +51,7 @@ exports.getUser = async (req, res) => {
   }
 };
 
-exports.seller_login = async (req, res) => {
+const seller_login = async (req, res) => {
   const { email, password } = req.body;
   try {
     const seller = await sellerModel
@@ -70,7 +69,7 @@ exports.seller_login = async (req, res) => {
         res.cookie("accessToken", token, {
           expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         }),
-          responseReturn(res, 200, { token, message: "Login Successfully" });
+          responseReturn(res, 200, { token, message: "Seller Login Successfully" });
       } else {
         responseReturn(res, 404, { error: "Password Wrong!" });
       }
@@ -82,7 +81,7 @@ exports.seller_login = async (req, res) => {
   }
 };
 
-exports.seller_register = async (req, res) => {
+const seller_register = async (req, res) => {
   const { email, name, password } = req.body;
   try {
     const getUser = await sellerModel.findOne({ email });
@@ -113,7 +112,7 @@ exports.seller_register = async (req, res) => {
   }
 };
 
-exports.upload_profile_image = async (req, res) => {
+const upload_profile_image = async (req, res) => {
   const { id } = req;
   const form = formidable({ multiples: true });
   form.parse(req, async (error, _, files) => {
@@ -149,8 +148,7 @@ exports.upload_profile_image = async (req, res) => {
     }
   });
 };
-
-exports.add_profile_info = async (req, res) => {
+const add_profile_info = async (req, res) => {
   const { city, district, shopName, address } = req.body;
   const { id } = req;
   try {
@@ -171,3 +169,25 @@ exports.add_profile_info = async (req, res) => {
     responseReturn(res, 500, { error: error.message });
   }
 };
+
+const logout = async (req, res) => {
+  try {
+    res.cookie("accessToken", "", {
+      expires: new Date(Date.now()),
+      httpOnly: true,
+    });
+    responseReturn(res, 200, { message: "Logout Successfully" });
+  } catch (error) {
+    responseReturn(res, 500, { error: error.message });
+  }
+};
+
+module.exports = {
+  admin_login,
+  getUser,
+  seller_login,
+  seller_register,
+  upload_profile_image,
+  add_profile_info,
+  logout,
+}

@@ -2,7 +2,8 @@ const { formidable } = require("formidable");
 const { responseReturn } = require("../../utils/response");
 const cloudinary = require("cloudinary").v2;
 const productModel = require("../../models/productModel");
-exports.add_product = async (req, res) => {
+
+const add_product = async (req, res) => {
   const { id } = req;
   const form = formidable({
     multiples: true,
@@ -58,7 +59,7 @@ exports.add_product = async (req, res) => {
   });
 };
 
-exports.get_products = async (req, res) => {
+const get_products = async (req, res) => {
   const { page, searchValue, nextPage } = req.query;
   const { id } = req;
 
@@ -97,8 +98,7 @@ exports.get_products = async (req, res) => {
     console.log(error.message);
   }
 };
-
-exports.get_product = async (req, res) => {
+const get_product = async (req, res) => {
   const { productId } = req.params;
   try {
     const product = await productModel.findById(productId);
@@ -107,8 +107,7 @@ exports.get_product = async (req, res) => {
     console.log(error.message);
   }
 };
-
-exports.update_product = async (req, res) => {
+const update_product = async (req, res) => {
   let { name, description, quantity, price, discount, brand, productId } =
     req.body;
   name = name.trim();
@@ -134,7 +133,7 @@ exports.update_product = async (req, res) => {
   }
 };
 
-exports.update_product_image = async (req, res, next) => {
+const update_product_image = async (req, res, next) => {
   const form = formidable({ multiples: true });
   form.parse(req, async (error, fields, files) => {
     // console.log(`Fields::`, fields);
@@ -180,3 +179,10 @@ exports.update_product_image = async (req, res, next) => {
 };
 
 
+module.exports = {
+  add_product,
+  get_products,
+  get_product,
+  update_product,
+  update_product_image,
+}

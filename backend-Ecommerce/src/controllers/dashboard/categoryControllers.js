@@ -3,7 +3,7 @@ const { responseReturn } = require("../../utils/response");
 const cloudinary = require("cloudinary").v2;
 const categoryModel = require("../../models/categoryModel");
 
-exports.add_category = async (req, res) => {
+const add_category = async (req, res) => {
   const form = formidable();
   form.parse(req, async (err, fields, files) => {
     if (err) {
@@ -46,7 +46,7 @@ exports.add_category = async (req, res) => {
   });
 };
 
-exports.get_category = async (req, res) => {
+const get_category = async (req, res) => {
   const { page, searchValue, nextPage } = req.query;
   try {
     let skipPage = "";
@@ -84,3 +84,8 @@ exports.get_category = async (req, res) => {
     console.log(error.message);
   }
 };
+
+module.exports = {
+  add_category,
+  get_category,
+}
