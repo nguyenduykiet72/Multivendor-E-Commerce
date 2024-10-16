@@ -25,7 +25,6 @@
     "uuid": "^10.0.0"
   },
   "devDependencies": {
-    "body-parser": "^1.20.3",
     "compression": "^1.7.4",
     "morgan": "^1.10.0",
     "nodemon": "^3.1.4"
