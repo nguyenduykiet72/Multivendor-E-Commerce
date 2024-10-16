@@ -54,6 +54,26 @@ export const seller_update_status = createAsyncThunk(
   }
 );
 
+export const get_active_sellers = createAsyncThunk(
+  "seller/get_active_sellers",
+  async (
+    { nextPage, page, searchValue },
+    { rejectWithValue, fulfillWithValue }
+  ) => {
+    try {
+      const { data } = await api.get(
+        `/get-active-seller?page=${page}&&searchValue=${searchValue}&&nextPage=${nextPage}`,
+        {
+          withCredentials: true,
+        }
+      );
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const sellerReducer = createSlice({
   name: "seller",
   initialState: {
