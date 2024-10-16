@@ -2,9 +2,9 @@ import Header from "../layout/Header";
 import Footer from "../layout/Footer";
 import { IoIosArrowForward } from "react-icons/io";
 import Carousel from "react-multi-carousel";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import "react-multi-carousel/lib/styles.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Rating from "./../components/shared/Rating";
 import { FaHeart } from "react-icons/fa6";
 import { RiFacebookFill } from "react-icons/ri";
@@ -14,12 +14,42 @@ import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
+import { useDispatch, useSelector } from "react-redux";
+import { product_detail } from "../store/Reducers/homeReducer";
+import toast from "react-hot-toast";
+import {
+  add_to_cart,
+  add_to_wishlist,
+  messageClear,
+} from "../store/Reducers/cartReducer";
 
 const Detail = () => {
-  const images = [1, 2, 3, 4, 5, 6];
+  const { slug } = useParams();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { userInfo } = useSelector((state) => state.auth);
+  const { productDetail, relatedProduct, moreProduct } = useSelector(
+    (state) => state.home
+  );
+  const { errorMessage, successMessage } = useSelector((state) => state.cart);
+
+  useEffect(() => {
+    dispatch(product_detail(slug));
+  }, [slug]);
+
+  useEffect(() => {
+    if (successMessage) {
+      toast.success(successMessage);
+      dispatch(messageClear());
+    }
+    if (errorMessage) {
+      toast.error(errorMessage);
+      dispatch(messageClear());
+    }
+  }, [successMessage, errorMessage]);
+
   const [image, setImage] = useState("");
-  const discount = 5;
-  const stock = 3;
   const [state, setState] = useState("reviews");
 
   const responsive = {
@@ -53,6 +83,87 @@ const Detail = () => {
     },
   };
 
+  const [quantity, setQuantity] = useState(1);
+
+  const increase = () => {
+    if (quantity >= productDetail.quantity) {
+      toast.error("Out of Stock");
+    } else {
+      setQuantity(quantity + 1);
+    }
+  };
+
+  const decrease = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
+
+  const addCart = () => {
+    if (userInfo) {
+      dispatch(
+        add_to_cart({
+          userId: userInfo.id,
+          quantity,
+          productId: productDetail._id,
+        })
+      );
+    } else {
+      navigate("/login");
+    }
+  };
+
+  const add_wishlist = () => {
+    if (userInfo) {
+      dispatch(
+        add_to_wishlist({
+          userId: userInfo.id,
+          productId: productDetail._id,
+          name: productDetail.name,
+          price: productDetail.price,
+          image: productDetail.images[0],
+          discount: productDetail.discount,
+          rating: productDetail.rating,
+          slug: productDetail.slug,
+        })
+      );
+    } else {
+      navigate("/login");
+    }
+  };
+
+  const buy_now = () => {
+    let price = 0;
+    if (productDetail.discount !== 0) {
+      price =
+        productDetail.price -
+        Math.floor((productDetail.price * productDetail.discount) / 100);
+    } else {
+      price = productDetail.price;
+    }
+    const obj = [
+      {
+        sellerId: productDetail.sellerId,
+        shopName: productDetail.shopName,
+        price: quantity * (price - Math.floor((price * 5) / 100)),
+        products: [
+          {
+            quantity,
+            productInfo: productDetail,
+          },
+        ],
+      },
+    ];
+    navigate("/shipping", {
+      state: {
+        products: obj,
+        price: price * quantity,
+        shipping_fee: 20000,
+        items: 1,
+      },
+    });
+  };
+
   return (
     <div>
       <Header />
@@ -81,45 +192,41 @@ const Detail = () => {
               <span className="pt-1">
                 <IoIosArrowForward />
               </span>
-              <Link to="/">Category</Link>
+              <Link to="/">{productDetail.category}</Link>
               <span className="pt-1">
                 <IoIosArrowForward />
               </span>
-              <span className="pt-1">Product Name</span>
+              <span className="pt-1">{productDetail.name}</span>
             </div>
           </div>
         </div>
       </section>
 
       <section>
-        <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto">
+        <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto pb-10">
           <div className="grid grid-cols-2 gap-8 md-lg:grid-cols-1">
             <div>
               <div className="p-5 border">
                 <img
                   className="h-[400px] w-full"
-                  src={
-                    image
-                      ? `/images/products/${image}.webp`
-                      : `/images/products/${images[2]}.webp`
-                  }
+                  src={image ? image : productDetail.images?.[0]}
                   alt=""
                 />
               </div>
               <div className="py-3">
-                {images && (
+                {productDetail.images && (
                   <Carousel
                     autoPlay={true}
                     infinite={true}
                     responsive={responsive}
                     transitionDuration={500}
                   >
-                    {images.map((img, i) => {
+                    {productDetail.images.map((img, i) => {
                       return (
                         <div key={i} onClick={() => setImage(img)}>
                           <img
                             className="h-[120px] cursor-pointer"
-                            src={`/images/products/${img}.webp`}
+                            src={img}
                             alt=""
                           />
                         </div>
@@ -132,7 +239,7 @@ const Detail = () => {
 
             <div className="flex flex-col gap-5">
               <div className="text-3xl font-bold text-slate-800">
-                <h3>Product Name</h3>
+                <h3>{productDetail.name}</h3>
               </div>
               <div className="flex items-center justify-start gap-4">
                 <div className="flex text-xl">
@@ -141,38 +248,47 @@ const Detail = () => {
                 <span className="text-green-600">(24 reviews)</span>
               </div>
               <div className="flex gap-3 text-2xl font-bold text-red-500">
-                {discount !== 0 ? (
+                {productDetail.discount !== 0 ? (
                   <>
-                    Price: <h2 className="line-through">120000 VND</h2>
+                  
+                    Price:{" "}
+                    <h2 className="line-through">{productDetail.price} VND</h2>
                     <h2>
-                      {120000 - Math.floor((120000 * discount) / 100)} VND (-
-                      {discount}%)
+                      {productDetail.price -
+                        Math.floor(
+                          (productDetail.price * productDetail.discount) / 100
+                        )}{" "}
+                      VND (-
+                      {productDetail.discount}%)
                     </h2>
                   </>
                 ) : (
-                  <h2>Price: 100000 VND</h2>
+                  <h2>Price: {productDetail.price} VND</h2>
                 )}
               </div>
 
               <div className="text-slate-800">
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum
-                  vero, maxime illum, quidem, quo dicta assumenda atque sed modi
-                  sapiente est necessitatibus possimus suscipit incidunt
-                  dolores? Repellat quas dicta labore!
-                </p>
+                <p>{productDetail.description}</p>
+                <p className="py-1 pb-5 font-bold text-slate-800">Shop Name: {productDetail.shopName}</p>
               </div>
-
+                
               <div className="flex gap-3 pb-10 border-b">
-                {stock ? (
+                {productDetail.quantity ? (
                   <>
                     <div className="flex bg-slate-200 h-[50px] justify-center items-center text-xl">
-                      <div className="px-6 cursor-pointer">-</div>
-                      <div className="px-6">2</div>
-                      <div className="px-6 cursor-pointer">+</div>
+                      <div onClick={decrease} className="px-6 cursor-pointer">
+                        -
+                      </div>
+                      <div className="px-6">{quantity}</div>
+                      <div onClick={increase} className="px-6 cursor-pointer">
+                        +
+                      </div>
                     </div>
                     <div>
-                      <button className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-md hover:shadow-green-500/40 bg-[#059473] text-white">
+                      <button
+                        onClick={addCart}
+                        className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-md hover:shadow-green-500/40 bg-[#059473] text-white"
+                      >
                         Add To Cart
                       </button>
                     </div>
@@ -181,8 +297,11 @@ const Detail = () => {
                   ""
                 )}
 
-                <div className="">
-                  <div className="h-[50px] w-[50px] flex justify-center items-center cursor-pointer hover:shadow-md hover:shadow-cyan-500/40 bg-cyan-500 text-white">
+                <div>
+                  <div
+                    onClick={add_wishlist}
+                    className="h-[50px] w-[50px] flex justify-center items-center cursor-pointer hover:shadow-md hover:shadow-cyan-500/40 bg-cyan-500 text-white"
+                  >
                     <FaHeart />
                   </div>
                 </div>
@@ -194,8 +313,14 @@ const Detail = () => {
                   <span>Share To</span>
                 </div>
                 <div className="flex flex-col gap-5">
-                  <span className={`text-${stock ? "green" : "red"}-500`}>
-                    {stock ? `In Stock  (${stock})` : "Out of Stock"}
+                  <span
+                    className={`text-${
+                      productDetail.quantity ? "green" : "red"
+                    }-500`}
+                  >
+                    {productDetail.quantity
+                      ? `In Stock  (${productDetail.quantity})`
+                      : "Out of Stock"}
                   </span>
 
                   <ul className="flex items-center justify-start gap-3">
@@ -220,15 +345,18 @@ const Detail = () => {
               </div>
 
               <div className="flex gap-3">
-                {stock ? (
-                  <button className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-md hover:shadow-orange-500-500/40 bg-[#eb684a] text-white rounded-full">
+                {productDetail.quantity ? (
+                  <button
+                    onClick={buy_now}
+                    className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-md hover:shadow-orange-500-500/40 bg-[#eb684a] text-white rounded-full"
+                  >
                     Buy Now
                   </button>
                 ) : (
                   ""
                 )}
                 <Link
-                  to="#"
+                  to={`/dashboard/chat/${productDetail.sellerId}`}
                   className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-md hover:shadow-red-500/40 bg-red-500 text-white rounded-full"
                 >
                   Chat With Seller
@@ -269,13 +397,10 @@ const Detail = () => {
 
                 <div>
                   {state === "reviews" ? (
-                    <Review />
+                    <Review product={productDetail} />
                   ) : (
                     <p className="py-5 text-slate-800">
-                      Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                      Distinctio officiis, autem aut, velit dolorum vitae nulla
-                      minima dignissimos quam odit quae quo tempore labore quis,
-                      illo doloribus nemo minus enim.
+                      {productDetail.description}
                     </p>
                   )}
                 </div>
@@ -285,34 +410,34 @@ const Detail = () => {
             <div className="w-[28%] md-lg:w-full">
               <div className="pl-4 md-lg:pl-0">
                 <div className="px-3 py-2 text-slate-800 bg-slate-200">
-                  <h2 className="font-bold">From Mr.Robot</h2>
+                  <h2 className="font-bold">From {productDetail.shopName}</h2>
                 </div>
                 <div className="flex flex-col gap-5 p-3 mt-3 border">
-                  {[1, 2, 3].map((p, i) => {
+                  {moreProduct.map((p, i) => {
                     return (
                       <Link className="block" key={i}>
                         <div className="relative h-[270px]">
                           <img
                             className="w-full h-full"
-                            src={`/images/products/${p}.webp`}
+                            src={p.images[0]}
                             alt=""
                           />
-                          {discount !== 0 && (
+                          {p.discount !== 0 && (
                             <div className="absolute flex items-center justify-center text-white w-[38px] h-[38px] rounded-full bg-red-500 font-semibold text-xs left-2 top-2">
-                              {discount}%
+                              {p.discount}%
                             </div>
                           )}
                         </div>
 
                         <h2 className="py-1 font-bold text-slate-800">
-                          Product Name
+                          {p.name}
                         </h2>
                         <div className="flex gap-2">
                           <h2 className="text-lg font-bold text-slate-800">
-                            200000 VND
+                            {p.price} VND
                           </h2>
                           <div className="flex items-center gap-2">
-                            <Rating ratings={4.5} />
+                            <Rating ratings={p.rating} />
                           </div>
                         </div>
                       </Link>
@@ -327,7 +452,9 @@ const Detail = () => {
 
       <section>
         <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto">
-          <h2 className="py-8 text-2xl font-semibold text-slate-800">Related Products</h2>
+          <h2 className="py-8 text-2xl font-semibold text-slate-800">
+            Related Products
+          </h2>
           <div>
             <Swiper
               slidesPerView="auto"
@@ -344,7 +471,7 @@ const Detail = () => {
               modules={[Pagination]}
               className="mySwiper"
             >
-              {[1, 2, 3, 4, 5, 6].map((p, i) => {
+              {relatedProduct.map((p, i) => {
                 return (
                   <SwiperSlide key={i}>
                     <Link className="block">
@@ -352,28 +479,28 @@ const Detail = () => {
                         <div className="w-[300px] h-full">
                           <img
                             className="w-full h-full"
-                            src={`/images/products/${p}.webp`}
+                            src={p.images[0]}
                             alt=""
                           />
                           <div className="absolute top-0 left-0 w-[300px] h-full transition-all duration-500 bg-black opacity-25 hover:opacity-50"></div>
                         </div>
-                        {discount !== 0 && (
+                        {p.discount !== 0 && (
                           <div className="absolute flex items-center justify-center text-white w-[38px] h-[38px] rounded-full bg-red-500 font-semibold text-xs left-2 top-2">
-                            {discount}%
+                            {p.discount}%
                           </div>
                         )}
                       </div>
 
                       <div className="flex flex-col gap-1 p-4">
                         <h2 className="text-lg font-bold text-slate-800">
-                          Product Name
+                          {p.name}
                         </h2>
                         <div className="flex items-center justify-start gap-3">
                           <h2 className="font-bold text-md text-slate-800">
-                            200000 VND
+                            {p.price} VND
                           </h2>
                           <div className="flex">
-                            <Rating ratings={4.5} />
+                            <Rating ratings={p.rating} />
                           </div>
                         </div>
                       </div>
@@ -383,7 +510,6 @@ const Detail = () => {
               })}
             </Swiper>
           </div>
-
           <div className="flex items-center justify-center w-full py-8">
             <div className="justify-center !w-auto gap-3 custom_bullet"></div>
           </div>
