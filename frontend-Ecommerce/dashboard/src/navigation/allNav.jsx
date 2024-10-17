@@ -49,7 +49,7 @@ export const allNav = [
   },
   {
     id: 6,
-    title: "Inactive Sellers",
+    title: "Deactivate Sellers",
     icon: <PiUsersThreeFill />,
     role: "admin",
     path: "/admin/dashboard/inactive-sellers",
