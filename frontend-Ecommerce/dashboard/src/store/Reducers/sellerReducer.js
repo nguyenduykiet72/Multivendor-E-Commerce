@@ -74,6 +74,26 @@ export const get_active_sellers = createAsyncThunk(
   }
 );
 
+export const get_deactivate_sellers = createAsyncThunk(
+  "seller/get_deactivate_sellers",
+  async (
+    { nextPage, page, searchValue },
+    { rejectWithValue, fulfillWithValue }
+  ) => {
+    try {
+      const { data } = await api.get(
+        `/get-deactivate-seller?page=${page}&&searchValue=${searchValue}&&nextPage=${nextPage}`,
+        {
+          withCredentials: true,
+        }
+      );
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const sellerReducer = createSlice({
   name: "seller",
   initialState: {
@@ -103,7 +123,16 @@ export const sellerReducer = createSlice({
       .addCase(seller_update_status.fulfilled, (state, { payload }) => {
         state.seller = payload.seller;
         state.successMessage = payload.message;
-      });
+      })
+
+      .addCase(get_active_sellers.fulfilled, (state, { payload }) => {
+        state.sellers = payload.sellers;
+        state.totalSeller = payload.totalSeller;
+      })
+      .addCase(get_deactivate_sellers.fulfilled, (state, { payload }) => {
+        state.sellers = payload.sellers;
+        state.totalSeller = payload.totalSeller;
+      })
   },
 });
 
