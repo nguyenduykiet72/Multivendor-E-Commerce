@@ -45,4 +45,20 @@ const sellerSchema = new Schema(
   }
 );
 
+// Đánh index cho các trường name và email để tìm kiếm nhanh hơn
+sellerSchema.index(
+  {
+    name: "text",
+    email: "text",
+  },
+  {
+    weights: {
+      name: 5,
+      email: 4,
+    },
+    default_language: "english",
+    collation: { locale: "en", strength: 2 }, // Sử dụng collation để tìm kiếm không phân biệt hoa thường
+  }
+);
+
 module.exports = model("sellers", sellerSchema);
