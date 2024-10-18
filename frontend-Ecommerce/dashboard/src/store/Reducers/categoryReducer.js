@@ -26,7 +26,7 @@ export const getCategory = createAsyncThunk(
   ) => {
     try {
       const { data } = await api.get(
-        `/category-get?page=${page}&&searchValue=${searchValue}&&nextPage=${nextPage}`,
+        `/category-get?page=${page}&searchValue=${searchValue}&nextPage=${nextPage}`,
         {
           withCredentials: true,
         }

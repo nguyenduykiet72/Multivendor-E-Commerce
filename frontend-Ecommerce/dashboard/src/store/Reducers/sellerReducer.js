@@ -9,7 +9,7 @@ export const get_seller_request = createAsyncThunk(
   ) => {
     try {
       const { data } = await api.get(
-        `/get-seller-request?page=${page}&&searchValue=${searchValue}&&nextPage=${nextPage}`,
+        `/get-seller-request?page=${page}&searchValue=${searchValue}&nextPage=${nextPage}`,
         {
           withCredentials: true,
         }
@@ -62,7 +62,7 @@ export const get_active_sellers = createAsyncThunk(
   ) => {
     try {
       const { data } = await api.get(
-        `/get-active-seller?page=${page}&&searchValue=${searchValue}&&nextPage=${nextPage}`,
+        `/get-active-seller?page=${page}&searchValue=${searchValue}&nextPage=${nextPage}`,
         {
           withCredentials: true,
         }
