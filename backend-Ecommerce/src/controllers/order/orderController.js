@@ -165,9 +165,144 @@ const get_detail_order = async (req, res) => {
   }
 };
 
+const get_admin_orders = async (req, res) => {
+  let { page, searchValue, nextPage } = req.query;
+  page = parseInt(page);
+  nextPage = parseInt(nextPage);
+  const skipPage = nextPage * (page - 1);
+  try {
+    if (searchValue) {
+    } else {
+      //aggregate dùng để tạo connection giữa các collection
+      const orders = await customerOrderModel
+        .aggregate([
+          {
+            $lookup: {
+              from: "authorders",
+              localField: "_id",
+              foreignField: "orderId",
+              as: "subOrders",
+            },
+          },
+        ])
+        .skip(skipPage)
+        .limit(nextPage)
+        .sort({ createdAt: -1 });
+
+      const totalOrder = await customerOrderModel.aggregate([
+        {
+          $lookup: {
+            from: "authorders",
+            localField: "_id",
+            foreignField: "orderId",
+            as: "subOrders",
+          },
+        },
+      ]);
+      responseReturn(res, 200, { orders, totalOrder: totalOrder.length });
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+const get_admin_order_detail = async (req, res) => {
+  const { orderId } = req.params;
+  try {
+    const order = await customerOrderModel.aggregate([
+      {
+        $match: {
+          _id: mongoose.Types.ObjectId.createFromHexString(orderId),
+        },
+      },
+      {
+        $lookup: {
+          from: "authorders",
+          localField: "_id",
+          foreignField: "orderId",
+          as: "subOrders",
+        },
+      },
+    ]);
+    responseReturn(res, 200, { order: order[0] });
+  } catch (error) {
+    console.log("Get admin order detail " + error.message);
+  }
+};
+
+const update_admin_order_status = async (req, res) => {
+  const { orderId } = req.params;
+  const { status } = req.body;
+  try {
+    await customerOrderModel.findByIdAndUpdate(orderId, {
+      delivery_status: status,
+    });
+    responseReturn(res, 200, { message: "Order status updated successfully" });
+  } catch (error) {
+    console.log(error.message);
+    responseReturn(res, 500, { message: "Internal Sever Error" });
+  }
+};
+
+const get_seller_orders = async (req, res) => {
+  const { sellerId } = req.params;
+  let { page, searchValue, nextPage } = req.query;
+  page = parseInt(page);
+  nextPage = parseInt(nextPage);
+  const skipPage = nextPage * (page - 1);
+  try {
+    if (searchValue) {
+    } else {
+      const orders = await authOrderModel
+        .find({ sellerId })
+        .skip(skipPage)
+        .limit(nextPage)
+        .sort({ createdAt: -1 });
+      const totalOrder = await authOrderModel
+        .find({ sellerId })
+        .countDocuments();
+      responseReturn(res, 200, { orders, totalOrder });
+    }
+  } catch (error) {
+    console.log(error.message);
+    responseReturn(res, 500, { message: "Internal Sever Error" });
+  }
+};
+
+const get_seller_order_detail = async (req, res) => {
+  const { orderId } = req.params;
+  try {
+    const order = await authOrderModel.findById(orderId);
+    responseReturn(res, 200, { order });
+  } catch (error) {
+    console.log("Get seller order detail " + error.message);
+    responseReturn(res, 500, { message: "Internal Sever Error" });
+  }
+};
+
+const update_seller_order_status = async (req, res) => {
+  const { orderId } = req.params;
+  const { status } = req.body;
+  try {
+    await authOrderModel.findByIdAndUpdate(orderId,{
+      delivery_status: status
+    })
+    responseReturn(res, 200, { message: "Order status updated successfully" });
+  } catch (error) {
+    console.log(error.message);
+    responseReturn(res, 500, { message: "Internal Sever Error" });
+  }
+};
+
 module.exports = {
   place_order,
   get_customer_dashboard_data,
   get_orders,
   get_detail_order,
+  get_admin_orders,
+  get_admin_order_detail,
+  update_admin_order_status,
+  get_seller_orders,
+  get_seller_order_detail,
+  update_seller_order_status,
 };
