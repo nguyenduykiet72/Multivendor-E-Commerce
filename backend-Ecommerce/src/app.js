@@ -7,15 +7,8 @@ const morgan = require("morgan");
 const { dbConnect } = require("./utils/db");
 require("dotenv").config();
 
-const authRoutes = require("./routes/authRoutes");
-const categoryRoutes = require("./routes/dashboard/categoryRoutes");
-const productRoutes = require("./routes/dashboard/productRoutes");
-const sellerRoutes = require("./routes/dashboard/sellerRoutes");
-const homeRoutes = require("./routes/home/homeRoutes");
-const customerRoutes = require("./routes/home/customerAuthRoutes");
-const cartRoutes = require("./routes/home/cartRoutes");
-const orderRoutes = require("./routes/order/orderRoute");
-const chatRoutes = require("./routes/chatRoutes");
+
+const router = require('./routes/index');
 
 app.use(morgan("dev"));
 app.use(compression());
@@ -36,15 +29,10 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use("/api", authRoutes);
-app.use("/api", categoryRoutes);
-app.use("/api", productRoutes);
-app.use("/api", sellerRoutes);
-app.use("/api", homeRoutes);
-app.use("/api", customerRoutes);
-app.use("/api", cartRoutes);
-app.use("/api", orderRoutes);
-app.use("/api", chatRoutes);
+
+app.use("/",router);
+
+
 dbConnect();
 
 module.exports = app;
