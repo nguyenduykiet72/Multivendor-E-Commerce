@@ -4,10 +4,15 @@ import { RiFacebookFill, RiLoginBoxFill } from "react-icons/ri";
 import { FaGoogle } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaUser, FaList, FaShoppingCart } from "react-icons/fa";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  get_cart_products,
+  get_wishlist_product,
+} from "../store/Reducers/cartReducer";
 
 const Header = () => {
+  const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.home);
   const { userInfo } = useSelector((state) => state.auth);
   const { cart_product_count, wishlist_count } = useSelector(
@@ -33,6 +38,13 @@ const Header = () => {
       navigate("/login");
     }
   };
+
+  useEffect(() => {
+    if (userInfo) {
+      dispatch(get_cart_products(userInfo.id));
+      dispatch(get_wishlist_product(userInfo.id));
+    }
+  }, [userInfo]);
 
   return (
     <div className="w-full bg-white">
@@ -183,7 +195,12 @@ const Header = () => {
 
                 <div className="flex items-center justify-center gap-5 md-lg:hidden">
                   <div className="flex justify-center gap-5">
-                    <div className="relative flex items-center justify-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2] ">
+                    <div
+                      onClick={() =>
+                        navigate(userInfo ? "/dashboard/my-wishlist" : "/login")
+                      }
+                      className="relative flex items-center justify-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2] "
+                    >
                       <span className="text-xl text-green-500">
                         <FaHeart />
                       </span>
