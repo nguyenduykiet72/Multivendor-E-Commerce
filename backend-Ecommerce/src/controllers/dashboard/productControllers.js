@@ -19,7 +19,7 @@ const add_product = async (req, res) => {
       shopName,
       brand,
     } = fields;
-    const { images } = files;
+    let { images } = files;
     name = name.trim();
     const slug = name.split(" ").join("-");
 
@@ -32,11 +32,16 @@ const add_product = async (req, res) => {
 
     try {
       let allImageUrl = [];
+
+      if (!Array.isArray(images)) {
+        images = [images];
+      }
+
       for (let i = 0; i < images.length; i++) {
         const result = await cloudinary.uploader.upload(images[i].filepath, {
           folder: "products",
         });
-        allImageUrl = [...allImageUrl, result.url];
+        allImageUrl.push(result.url);
       }
 
       await productModel.create({
@@ -178,11 +183,10 @@ const update_product_image = async (req, res, next) => {
   });
 };
 
-
 module.exports = {
   add_product,
   get_products,
   get_product,
   update_product,
   update_product_image,
-}
+};
