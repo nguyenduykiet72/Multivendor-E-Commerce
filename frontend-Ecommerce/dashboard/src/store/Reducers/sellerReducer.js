@@ -94,6 +94,34 @@ export const get_deactivate_sellers = createAsyncThunk(
   }
 );
 
+export const create_stripe_connect_account = createAsyncThunk(
+  "seller/create_stripe_connect_account",
+  async () => {
+    try {
+      const { data: {url} } = await api.get("/payment/create-stripe-connect-account", {
+        withCredentials: true,
+      });
+      window.location.href = url;
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  }
+);
+
+export const active_stripe_connect_account = createAsyncThunk(
+  "seller/active_stripe_connect_account",
+  async ( activeCode ,{ rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.put(`/payment/active-stripe-connect-account/${activeCode}`,{}, {
+        withCredentials: true,
+      });
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const sellerReducer = createSlice({
   name: "seller",
   initialState: {
@@ -107,6 +135,7 @@ export const sellerReducer = createSlice({
   reducers: {
     messageClear: (state, _) => {
       state.errorMessage = "";
+      state.successMessage = "";
     },
   },
   extraReducers: (builder) => {
@@ -133,6 +162,20 @@ export const sellerReducer = createSlice({
         state.sellers = payload.sellers;
         state.totalSeller = payload.totalSeller;
       })
+
+      .addCase(active_stripe_connect_account.pending, (state, { payload }) => {
+        state.loader = true;
+      })
+      .addCase(active_stripe_connect_account.rejected, (state, { payload }) => {
+        state.loader = false;
+        state.errorMessage = payload.message;
+      })
+      .addCase(active_stripe_connect_account.fulfilled, (state, { payload }) => {
+        state.loader = false;
+        state.successMessage = payload.message;
+      })
+
+
   },
 });
 

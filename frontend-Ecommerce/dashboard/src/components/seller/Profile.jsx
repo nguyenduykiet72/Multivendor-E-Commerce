@@ -10,8 +10,10 @@ import {
 } from "../../store/Reducers/authReducer";
 import toast from "react-hot-toast";
 import { overrideStyle } from "../../utils/util";
+import { create_stripe_connect_account } from "../../store/Reducers/sellerReducer";
 
 const Profile = () => {
+  const dispatch = useDispatch();
   const [state, setState] = useState({
     city: "",
     district: "",
@@ -19,12 +21,10 @@ const Profile = () => {
     address: "",
   });
 
-  const dispatch = useDispatch();
   const { userInfo, loader, successMessage, errorMessage } = useSelector(
     (state) => state.auth
   );
 
-  const status = "active";
 
   const add_image = (e) => {
     if (e.target.files.length > 0) {
@@ -125,12 +125,12 @@ const Profile = () => {
                 <div className="flex gap-2">
                   <span>Payment Account:</span>
                   <p>
-                    {status === "active" ? (
+                    {userInfo.payment === "active" ? (
                       <span className="px-2 ml-2 text-xs font-normal text-white bg-red-500 cursor-pointer py-0.5 rounded">
                         {userInfo.payment}
                       </span>
                     ) : (
-                      <span className="px-2 ml-2 text-xs font-normal text-white bg-[#51a8ff]  cursor-pointer py-0.5 rounded">
+                      <span onClick={()=>dispatch(create_stripe_connect_account())} className="px-2 ml-2 text-xs font-normal text-white bg-[#51a8ff]  cursor-pointer py-0.5 rounded">
                         Click Active
                       </span>
                     )}

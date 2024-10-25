@@ -96,8 +96,8 @@ const AddProduct = () => {
 
   const changeImage = (img, index) => {
     if (img) {
-      let tempUrl = [...imageShow];
-      let tempImage = [...images];
+      let tempUrl = imageShow;
+      let tempImage = images;
       tempImage[index] = img;
       tempUrl[index] = { url: URL.createObjectURL(img) };
       setImageShow([...tempUrl]);
@@ -204,7 +204,7 @@ const AddProduct = () => {
                   </div>
                   <div className="pt-14"></div>
                   <div className="flex flex-col items-start justify-start h-[250px]">
-                    {allCategory.map((c,i) => (
+                    {allCategory.map((c, i) => (
                       <span
                         key={i}
                         className={`px-4 py-2 cursor-pointer hover:bg-blue-500 hover:text-white w-full ${
