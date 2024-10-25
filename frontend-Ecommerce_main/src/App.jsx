@@ -20,6 +20,7 @@ import Chat from "./components/dashboard/Chat";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { get_category } from "./store/Reducers/homeReducer";
+import ConfirmOrder from "./pages/ConfirmOrder";
 
 function App() {
   const dispatch = useDispatch();
@@ -40,6 +41,7 @@ function App() {
         <Route path="/products?" element={<CategoryShop />} />
         <Route path="/products/search?" element={<SearchProduct />} />
         <Route path="/product/details/:slug" element={<Detail />} />
+        <Route path="/order/confirm?" element={<ConfirmOrder />} />
 
         <Route path="/dashboard" element={<ProtectUser />}>
           <Route path="" element={<UserDashboard />}>

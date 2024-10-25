@@ -47,7 +47,7 @@ const Payment = () => {
 
                 {paymentMethod === "stripe" && (
                   <div>
-                    <Stripe />
+                    <Stripe orderId={orderId} price={price}/>
                   </div>
                 )}
 
