@@ -2,8 +2,12 @@ const moment = require("moment");
 const customerOrderModel = require("../../models/customerOrderModel");
 const authOrderModel = require("../../models/authOrderModel");
 const cartModel = require("../../models/cartModel");
+const myShopWalletModel = require("../../models/myShopWalletModel");
+const sellerWalletModel = require("../../models/sellerWalletModel");
 const { responseReturn } = require("../../utils/response");
+
 const { default: mongoose } = require("mongoose");
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const place_order = async (req, res) => {
   const { price, products, shipping_fee, items, shippingInfo, userId } =
@@ -284,10 +288,72 @@ const update_seller_order_status = async (req, res) => {
   const { orderId } = req.params;
   const { status } = req.body;
   try {
-    await authOrderModel.findByIdAndUpdate(orderId,{
-      delivery_status: status
-    })
+    await authOrderModel.findByIdAndUpdate(orderId, {
+      delivery_status: status,
+    });
     responseReturn(res, 200, { message: "Order status updated successfully" });
+  } catch (error) {
+    console.log(error.message);
+    responseReturn(res, 500, { message: "Internal Sever Error" });
+  }
+};
+
+const create_payment = async (req, res) => {
+  const { price } = req.body;
+  try {
+    const payment = await stripe.paymentIntents.create({
+      amount: price * 100,
+      currency: "VND",
+      automatic_payment_methods: {
+        enabled: true,
+      },
+    });
+    responseReturn(res, 200, { clientSecret: payment.client_secret });
+  } catch (error) {
+    console.log(error.message);
+    responseReturn(res, 500, { message: "Internal Sever Error" });
+  }
+};
+
+const get_confirm_order = async (req, res) => {
+  const { orderId } = req.params;
+  try {
+    await customerOrderModel.findByIdAndUpdate(orderId, {
+      payment_status: "paid",
+    });
+    await authOrderModel.updateMany(
+      { orderId: mongoose.Types.ObjectId.createFromHexString(orderId) },
+      {
+        payment_status: "paid",
+        delivery_status: "pending",
+      }
+    );
+    const customerOrder = await customerOrderModel.findById(orderId);
+    const authorOrder = await authOrderModel.find({
+      orderId: mongoose.Types.ObjectId.createFromHexString(orderId),
+    });
+
+    //m/d/yyyy => 1/1/2025 => [0] = 1, [1] = 1, [2] = 2025
+    const time = moment(Date.now()).format("l");
+    const splitTime = time.split("/");
+
+    await myShopWalletModel.create({
+      amount: customerOrder.price,
+      month: splitTime[0],
+      year: splitTime[2],
+    })
+
+    for (let i = 0; i < authorOrder.length; i++) {
+      await sellerWalletModel.create({
+        sellerId: authorOrder[i].sellerId.toString(),
+        amount: authorOrder[i].price,
+        month: splitTime[0],
+        year: splitTime[2],
+      })
+    }
+
+    responseReturn(res,200,{message: "Order confirmed successfully"});
+
   } catch (error) {
     console.log(error.message);
     responseReturn(res, 500, { message: "Internal Sever Error" });
@@ -305,4 +371,6 @@ module.exports = {
   get_seller_orders,
   get_seller_order_detail,
   update_seller_order_status,
+  create_payment,
+  get_confirm_order,
 };
