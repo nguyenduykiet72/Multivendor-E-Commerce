@@ -10,6 +10,7 @@ const cartRoutes = require("./home/cartRoutes");
 const orderRoutes = require("./order/orderRoute");
 const chatRoutes = require("./chatRoutes");
 const paymentRoutes = require("./payment/paymentRoutes");
+const dashboardRoutes = require("./dashboard/dashboardRoutes");
 
 router.use("/api", authRoutes);
 router.use("/api", categoryRoutes);
@@ -21,5 +22,6 @@ router.use("/api", cartRoutes);
 router.use("/api", orderRoutes);
 router.use("/api", chatRoutes);
 router.use("/api", paymentRoutes);
+router.use("/api", dashboardRoutes);
 
 module.exports = router;
