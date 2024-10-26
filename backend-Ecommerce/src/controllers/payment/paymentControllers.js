@@ -6,7 +6,7 @@ const withdrawRequestModel = require("../../models/withDrawRequestModel");
 const { v4: uuidv4 } = require("uuid");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const { responseReturn } = require("../../utils/response");
-require("dotenv").config();
+const { default: mongoose } = require("mongoose");
 
 const create_stripe_connect_account = async (req, res) => {
   const { id } = req;
@@ -150,9 +150,48 @@ const withdrawal_request = async (req, res) => {
   }
 };
 
+const get_payment_request = async (req, res) => {
+  try {
+    const withdrawRequest = await withdrawRequestModel.find({
+      status: "pending",
+    });
+    responseReturn(res, 200, { withdrawRequest });
+  } catch (error) {
+    console.log(error.message);
+    responseReturn(res, 500, { message: "Internal Server Error" });
+  }
+};
+
+const confirm_request = async (req, res) => {
+  const { paymentId } = req.body;
+  try {
+    const payment = await withdrawRequestModel.findById(paymentId);
+    const { stripeId } = await stripeModel.findOne({
+      sellerId: mongoose.Types.ObjectId.createFromHexString(payment.sellerId),
+    });
+
+    await stripe.transfers.create({
+      amount: payment.amount * 100,
+      currency: "VND",
+      destination: stripeId,
+    });
+
+    await withdrawRequestModel.findByIdAndUpdate(paymentId, {
+      status: "success",
+    });
+
+    responseReturn(res, 200, { payment, message: "Request Confirm Success" });
+  } catch (error) {
+    console.log(error.message);
+    responseReturn(res, 500, { message: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   create_stripe_connect_account,
   active_stripe_connect_account,
   get_seller_payment_details,
   withdrawal_request,
+  get_payment_request,
+  confirm_request,
 };
