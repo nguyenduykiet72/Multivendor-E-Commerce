@@ -7,6 +7,7 @@ import { BiSolidTrashAlt } from "react-icons/bi";
 import { TiEye } from "react-icons/ti";
 import { useDispatch, useSelector } from "react-redux";
 import { get_products } from "../../store/Reducers/productReducer";
+import { FaImage } from "react-icons/fa6";
 
 const Product = () => {
   const dispatch = useDispatch();
@@ -137,6 +138,12 @@ const Product = () => {
                         className="p-[6px] bg-[#51a8ff] rounded hover:shadow-lg hover:shadow-blue-500/50 text-white"
                       >
                         <FaEdit />
+                      </Link>
+                      <Link
+                        to={`/seller/dashboard/add-banner/${k._id}`}
+                        className="p-[6px] bg-[#dfff51] rounded hover:shadow-lg hover:shadow-yellow-500/50 text-white"
+                      >
+                        <FaImage />
                       </Link>
                       <Link className="p-[6px] bg-[#37fbb0] rounded hover:shadow-lg hover:shadow-green-500/50 text-white">
                         <TiEye />
