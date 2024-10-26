@@ -11,13 +11,46 @@ export const categoryAdd = createAsyncThunk(
       const { data } = await api.post("/category-add", formData, {
         withCredentials: true,
       });
-      // console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
   }
 );
+
+export const updateCategory = createAsyncThunk(
+  "category/updateCategory",
+  async ({ id, name, image }, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const formData = new FormData();
+      formData.append("name", name);
+      if (image) {
+        formData.append("image", image);
+      }
+      const { data } = await api.put(`/category-update/${id}`, formData, {
+        withCredentials: true,
+      });
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const deleteCategory = createAsyncThunk(
+  "category/deleteCategory",
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await api.delete(`/category/delete/${id}`, {
+        withCredentials: true,
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data.message);
+    }
+  }
+);
+
 export const getCategory = createAsyncThunk(
   "category/getCategory",
   async (
@@ -31,7 +64,6 @@ export const getCategory = createAsyncThunk(
           withCredentials: true,
         }
       );
-      // console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -67,9 +99,35 @@ export const categoryReducer = createSlice({
         state.successMessage = payload.message;
         state.categories = [...state.categories, payload.category];
       })
+
       .addCase(getCategory.fulfilled, (state, { payload }) => {
         state.totalCategory = payload.totalCategory;
         state.categories = payload.categories;
+      })
+
+      .addCase(updateCategory.rejected, (state, { payload }) => {
+        state.loader = false;
+        state.errorMessage = payload.error;
+      })
+      .addCase(updateCategory.fulfilled, (state, { payload }) => {
+        state.loader = false;
+        state.successMessage = payload.message;
+        const index = state.categories.findIndex(
+          (cat) => cat._id === payload.category._id
+        );
+        if (index !== -1) {
+          state.categories[index] = payload.category;
+        }
+      })
+
+      .addCase(deleteCategory.fulfilled, (state, action) => {
+        state.categories = state.categories.filter(
+          (cat) => cat._id !== action.meta.arg
+        );
+        state.successMessage = action.payload.message;
+      })
+      .addCase(deleteCategory.rejected, (state, action) => {
+        state.errorMessage = action.payload;
       });
   },
 });

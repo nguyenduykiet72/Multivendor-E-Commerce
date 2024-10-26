@@ -12,6 +12,8 @@ import {
   categoryAdd,
   messageClear,
   getCategory,
+  updateCategory,
+  deleteCategory,
 } from "./../../store/Reducers/categoryReducer";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
@@ -27,6 +29,8 @@ const CategoryDashboard = () => {
   const [nextPage, setNextPage] = useState(5);
   const [show, setShow] = useState(false);
   const [imageShow, setImageShow] = useState("");
+  const [isEdit, setIsEdit] = useState(false);
+  const [editId, setEditId] = useState(null);
 
   const [state, setState] = useState({
     name: "",
@@ -44,9 +48,13 @@ const CategoryDashboard = () => {
     }
   };
 
-  const add_category = (e) => {
+  const addOrUpdateCategory = (e) => {
     e.preventDefault();
-    dispatch(categoryAdd(state));
+    if (isEdit) {
+      dispatch(updateCategory({ id: editId, ...state }));
+    } else {
+      dispatch(categoryAdd(state));
+    }
   };
 
   useEffect(() => {
@@ -58,12 +66,14 @@ const CategoryDashboard = () => {
         image: "",
       });
       setImageShow("");
+      setIsEdit(false);
+      setEditId(null);
     }
     if (errorMessage) {
       toast.error(errorMessage);
       dispatch(messageClear());
     }
-  }, [successMessage, errorMessage]);
+  }, [successMessage, errorMessage, dispatch]);
 
   useEffect(() => {
     const obj = {
@@ -73,6 +83,25 @@ const CategoryDashboard = () => {
     };
     dispatch(getCategory(obj));
   }, [searchValue, currentPage, nextPage]);
+
+  //edit button
+  const handleEdit = (category) => {
+    setState({
+      name: category.name,
+      image: category.image,
+    });
+    setImageShow(category.image);
+    setEditId(category._id);
+    setIsEdit(true);
+    setShow(true);
+  };
+
+  const handleDelete = (id) => {
+    if (window.confirm('Are you sure you want to delete this category?')) {
+      console.log('id:::',id)
+      dispatch(deleteCategory(id));
+    } 
+  };
 
   return (
     <div className="px-2 pt-5 lg:px-7">
@@ -145,10 +174,16 @@ const CategoryDashboard = () => {
                         className="px-4 py-[6.5px] font-medium whitespace-nowrap "
                       >
                         <div className="flex items-center justify-center gap-4">
-                          <Link className="p-[6px] bg-[#51a8ff] rounded hover:shadow-lg hover:shadow-blue-500/50 text-white">
+                          <Link
+                            onClick={() => handleEdit(k)}
+                            className="p-[6px] bg-[#51a8ff] rounded hover:shadow-lg hover:shadow-blue-500/50 text-white"
+                          >
                             <FaEdit />
                           </Link>
-                          <Link className="p-[6px] bg-[#fc334d] rounded hover:shadow-lg hover:shadow-red-500/50 text-white">
+                          <Link
+                            onClick={() => handleDelete(k._id)}
+                            className="p-[6px] bg-[#fc334d] rounded hover:shadow-lg hover:shadow-red-500/50 text-white"
+                          >
                             <BiSolidTrashAlt />
                           </Link>
                         </div>
@@ -179,7 +214,7 @@ const CategoryDashboard = () => {
             <div className="h-screen px-3 py-2 bg-white lg:h-auto lg:rounded-md">
               <div className="flex items-center justify-between mb-4 ">
                 <h1 className="w-full mb-4 text-xl font-semibold text-center">
-                  Add Category
+                  {isEdit ? "Edit Category" : "Add Category"}
                 </h1>
 
                 <div onClick={() => setShow(false)} className="block lg:hidden">
@@ -187,7 +222,7 @@ const CategoryDashboard = () => {
                 </div>
               </div>
 
-              <form onSubmit={add_category}>
+              <form onSubmit={addOrUpdateCategory}>
                 <div className="flex flex-col w-full gap-1 mb-3">
                   <label htmlFor="name">Category Name</label>
                   <input
@@ -236,6 +271,8 @@ const CategoryDashboard = () => {
                           cssOverride={overrideStyle}
                           color="white"
                         />
+                      ) : isEdit ? (
+                        "Update Category"
                       ) : (
                         "Add Category"
                       )}
