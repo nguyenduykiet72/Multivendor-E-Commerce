@@ -12,9 +12,9 @@ import toast from "react-hot-toast";
 import { FadeLoader } from "react-spinners";
 
 const Login = () => {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { loader, errorMessage, successMessage,userInfo } = useSelector(
+  const { loader, errorMessage, successMessage, userInfo } = useSelector(
     (state) => state.auth
   );
   const [state, setState] = useState({
@@ -31,7 +31,6 @@ const Login = () => {
     dispatch(customer_login(state));
   };
 
-
   useEffect(() => {
     if (successMessage) {
       toast.success(successMessage);
@@ -46,10 +45,9 @@ const Login = () => {
     }
   }, [successMessage, errorMessage]);
 
-    
   return (
     <div>
-       {loader && (
+      {loader && (
         <div className="fixed top-0 left-0 flex items-center justify-center w-screen h-screen bg-[#38303033] z-[999]">
           <FadeLoader />
         </div>
@@ -118,10 +116,20 @@ const Login = () => {
                 <p>
                   Don't Have An Account?{" "}
                   <Link className="text-blue-500" to="/register">
-                     Register
+                    Register
                   </Link>
                 </p>
               </div>
+              <a target="_blank" href="http://localhost:3001/login">
+                <div className="flex items-center justify-center w-full gap-2 px-8 py-2 mb-3 text-white bg-[#02e3e0] rounded-md shadow hover:shadow-red-500/50">
+                  Login As Seller
+                </div>
+              </a>
+              <a target="_blank" href="http://localhost:3001/register">
+                <div className="flex items-center justify-center w-full gap-2 px-8 py-2 mb-3 text-white bg-[#ad2cc4] rounded-md shadow hover:shadow-red-500/50">
+                  Register As Seller
+                </div>
+              </a>
             </div>
             <div className="w-full h-full py-4 pr-4">
               <img className="h-[430px] mt-5" src="/images/login.jpg" alt="" />

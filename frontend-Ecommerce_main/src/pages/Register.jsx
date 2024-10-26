@@ -133,6 +133,16 @@ const Register = () => {
                   </Link>
                 </p>
               </div>
+              <a target="_blank" href="http://localhost:3001/login">
+                <div className="flex items-center justify-center w-full gap-2 px-8 py-2 mb-3 text-white bg-[#02e3e0] rounded-md shadow hover:shadow-red-500/50">
+                  Login As Seller
+                </div>
+              </a>
+              <a target="_blank" href="http://localhost:3001/register">
+                <div className="flex items-center justify-center w-full gap-2 px-8 py-2 mb-3 text-white bg-[#ad2cc4] rounded-md shadow hover:shadow-red-500/50">
+                  Register As Seller
+                </div>
+              </a>
             </div>
             <div className="w-full h-full py-4 pr-4">
               <img className="h-[430px] mt-5" src="/images/login.jpg" alt="" />

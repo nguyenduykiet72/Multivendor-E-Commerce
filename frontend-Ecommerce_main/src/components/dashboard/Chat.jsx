@@ -12,6 +12,7 @@ import {
   updateMessage,
 } from "../../store/Reducers/chatReducer";
 import toast from "react-hot-toast";
+import { FaList } from "react-icons/fa";
 const socket = io("http://localhost:8080");
 
 const Chat = () => {
@@ -26,6 +27,7 @@ const Chat = () => {
   const [text, setText] = useState("");
   const [receiverMessage, setReceiverMessage] = useState("");
   const [activeSeller, setActiveSeller] = useState([]);
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     socket.emit("add_user", userInfo.id, userInfo);
@@ -94,7 +96,11 @@ const Chat = () => {
   return (
     <div className="p-3 bg-white rounded-md">
       <div className="flex w-full">
-        <div className="w-[230px]">
+        <div
+          className={`w-[230px] md-lg:absolute bg-white md-lg:h-full -left-[350px] ${
+            show ? "-left-0" : "-left-[350px]"
+          }`}
+        >
           <div className="flex justify-center gap-3 items-center text-slate-600 text-xl h-[50px]">
             <span>
               <AiOutlineMessage />
@@ -121,17 +127,29 @@ const Chat = () => {
             ))}
           </div>
         </div>
-        <div className="w-[calc(100%-230px)]">
+        <div className="w-[calc(100%-230px)] md-lg:w-full">
           {currentFr ? (
             <div className="w-full h-full">
-              <div className="flex justify-start gap-3 items-center text-slate-600 text-xl h-[50px]">
-                <div className="w-[30px] h-[30px] rounded-full relative">
-                  {activeSeller.some((c) => c.sellerId === currentFr.fdId) && (
-                    <div className="w-[10px] h-[10px] rounded-full bg-green-500 absolute right-0 bottom-0"></div>
-                  )}
-                  <img src={currentFr.image} alt="" />
+              <div className="flex justify-between gap-3 items-center text-slate-600 text-xl h-[50px]">
+                <div className="flex gap-2">
+                  <div className="w-[30px] h-[30px] rounded-full relative">
+                    {activeSeller.some(
+                      (c) => c.sellerId === currentFr.fdId
+                    ) && (
+                      <div className="w-[10px] h-[10px] rounded-full bg-green-500 absolute right-0 bottom-0"></div>
+                    )}
+                    <img src={currentFr.image} alt="" />
+                  </div>
+                  <span>{currentFr.name}</span>
                 </div>
-                <span>{currentFr.name}</span>
+                <div>
+                  <div
+                    onClick={() => setShow(!show)}
+                    className="w-[35px] h-[35px] hidden md-lg:flex cursor-pointer rounded-sm justify-center items-center bg-sky-500 text-white"
+                  >
+                    <FaList />
+                  </div>
+                </div>
               </div>
               <div className="h-[400px] w-full bg-slate-100 p-3 rounded-md">
                 <div
@@ -144,7 +162,6 @@ const Chat = () => {
                         <div
                           key={i}
                           className="w-full flex gap-2 justify-start items-center text-[14px]"
-                          // ref={scrollRef}
                         >
                           <img
                             className="w-[30px] h-[30px]"
@@ -160,7 +177,6 @@ const Chat = () => {
                         <div
                           key={i}
                           className="w-full flex gap-2 justify-end items-center text-[14px]"
-                          // ref={scrollRef}
                         >
                           <div className="p-2 text-white rounded-md bg-cyan-500">
                             <span>{m.message}</span>
@@ -204,7 +220,10 @@ const Chat = () => {
               </div>
             </div>
           ) : (
-            <div className="flex items-center justify-center w-full h-full text-lg ont-bold text-slate-600">
+            <div
+              onClick={() => setShow(true)}
+              className="flex items-center justify-center w-full h-[250px] text-lg ont-bold text-slate-600"
+            >
               <span>Select seller</span>
             </div>
           )}
