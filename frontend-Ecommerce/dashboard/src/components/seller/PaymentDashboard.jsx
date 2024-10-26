@@ -75,6 +75,27 @@ const PaymentDashboard = () => {
     );
   };
 
+  const Rows = ({ index, style }) => {
+    return (
+      <div style={style} className="flex text-sm font-medium text-center">
+        <div className="w-[15%] p-2 whitespace-nowrap">{index + 1}</div>
+        <div className="w-[25%] p-2 whitespace-nowrap">
+          {successWithdraws[index]?.amount} VND
+        </div>
+        <div className="w-[25%] p-2 whitespace-nowrap">
+          <span className="py-[1px] px-[5px] bg-[#51a8ff] rounded-md text-sm text-white">
+            {successWithdraws[index]?.status}
+          </span>
+        </div>
+        <div className="w-[25%] p-2 whitespace-nowrap">
+          {moment(successWithdraws[index]?.createdAt).format("LL")}
+        </div>
+      </div>
+    );
+  };
+
+  
+
   useEffect(() => {
     dispatch(get_seller_payment_details(userInfo._id));
   }, []);
@@ -188,11 +209,11 @@ const PaymentDashboard = () => {
                   style={{ minWidth: "340px" }}
                   className="List "
                   height={350}
-                  itemCount={10}
+                  itemCount={successWithdraws.length}
                   itemSize={35}
                   outerElementType={outerElementType}
                 >
-                  {Row}
+                  {Rows}
                 </List>
               }
             </div>
