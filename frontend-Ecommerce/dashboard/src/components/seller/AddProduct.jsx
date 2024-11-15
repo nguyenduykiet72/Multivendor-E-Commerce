@@ -72,28 +72,6 @@ const AddProduct = () => {
     }
   };
 
-  useEffect(() => {
-    if (successMessage) {
-      toast.success(successMessage);
-      dispatch(messageClear());
-      setState({
-        name: "",
-        description: "",
-        discount: "",
-        price: "",
-        brand: "",
-        quantity: "",
-      });
-      setImageShow([]);
-      setImages([]);
-      setCategory("");
-    }
-    if (errorMessage) {
-      toast.error(errorMessage);
-      dispatch(messageClear());
-    }
-  }, [successMessage, errorMessage]);
-
   const changeImage = (img, index) => {
     if (img) {
       let tempUrl = imageShow;
@@ -128,6 +106,28 @@ const AddProduct = () => {
     }
     dispatch(add_product(formData));
   };
+
+  useEffect(() => {
+    if (!loader && successMessage) {
+      toast.success(successMessage);
+      setState({
+        name: "",
+        description: "",
+        discount: "",
+        price: "",
+        brand: "",
+        quantity: "",
+      });
+      setImageShow([]);
+      setImages([]);
+      setCategory("");
+      dispatch(messageClear());
+    }
+    if (errorMessage) {
+      toast.error(errorMessage);
+      dispatch(messageClear());
+    }
+  }, [successMessage, errorMessage,loader]);
 
   useEffect(() => {
     setAllCategory(categories);

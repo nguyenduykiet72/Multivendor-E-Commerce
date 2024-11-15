@@ -14,6 +14,7 @@ export const get_seller_request = createAsyncThunk(
           withCredentials: true,
         }
       );
+      console.log("This is seller request data");
       console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
