@@ -53,7 +53,6 @@ const UserDashboard = () => {
               <ul className="px-4 py-2 text-slate-800">
                 <li className="flex items-center justify-start gap-2 py-2">
                   <span className="text-xl">
-                    {" "}
                     <GoHomeFill />
                   </span>
                   <Link className="block" to="/dashboard">
@@ -63,7 +62,6 @@ const UserDashboard = () => {
 
                 <li className="flex items-center justify-start gap-2 py-2">
                   <span className="text-xl">
-                    {" "}
                     <BsFillCartCheckFill />
                   </span>
                   <Link className="block" to="/dashboard/my-orders">
@@ -72,7 +70,6 @@ const UserDashboard = () => {
                 </li>
                 <li className="flex items-center justify-start gap-2 py-2">
                   <span className="text-xl">
-                    {" "}
                     <FaHeart />
                   </span>
                   <Link className="block" to="/dashboard/my-wishlist">
@@ -81,7 +78,6 @@ const UserDashboard = () => {
                 </li>
                 <li className="flex items-center justify-start gap-2 py-2">
                   <span className="text-xl">
-                    {" "}
                     <IoMdChatboxes />
                   </span>
                   <Link className="block" to="/dashboard/chat">
@@ -90,7 +86,6 @@ const UserDashboard = () => {
                 </li>
                 <li className="flex items-center justify-start gap-2 py-2">
                   <span className="text-xl">
-                    {" "}
                     <TbPassword />
                   </span>
                   <Link className="block" to="/dashboard/change-password">

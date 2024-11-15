@@ -19,7 +19,7 @@ const Login = () => {
   );
   const [state, setState] = useState({
     email: "",
-    password: "",
+    password: "", 
   });
 
   const inputHandle = (e) => {
