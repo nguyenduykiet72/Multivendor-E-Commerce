@@ -9,16 +9,7 @@ const add_product = async (req, res) => {
     multiples: true,
   });
   form.parse(req, async (err, fields, files) => {
-    let {
-      name,
-      category,
-      description,
-      quantity,
-      price,
-      discount,
-      shopName,
-      brand,
-    } = fields;
+    let { name, category, description, quantity, price, discount, shopName, brand } = fields;
     let { images } = files;
     name = name.trim();
     const slug = name.split(" ").join("-");
@@ -89,14 +80,8 @@ const get_products = async (req, res) => {
         .countDocuments();
       responseReturn(res, 200, { products, totalProduct });
     } else {
-      const products = await productModel
-        .find({ sellerId: id })
-        .skip(skipPage)
-        .limit(nextPage)
-        .sort({ createdAt: -1 });
-      const totalProduct = await productModel
-        .find({ sellerId: id })
-        .countDocuments();
+      const products = await productModel.find({ sellerId: id }).skip(skipPage).limit(nextPage).sort({ createdAt: -1 });
+      const totalProduct = await productModel.find({ sellerId: id }).countDocuments();
       responseReturn(res, 200, { products, totalProduct });
     }
   } catch (error) {
@@ -113,8 +98,7 @@ const get_product = async (req, res) => {
   }
 };
 const update_product = async (req, res) => {
-  let { name, description, quantity, price, discount, brand, productId } =
-    req.body;
+  let { name, description, quantity, price, discount, brand, productId, category } = req.body;
   name = name.trim();
   const slug = name.split(" ").join("-");
   try {
@@ -123,6 +107,7 @@ const update_product = async (req, res) => {
       description,
       quantity,
       price,
+      category,
       discount,
       brand,
       productId,

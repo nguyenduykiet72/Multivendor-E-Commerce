@@ -3,12 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  get_product,
-  messageClear,
-  update_product,
-  productImageUpdate
-} from "../../store/Reducers/productReducer";
+import { get_product, messageClear, update_product, productImageUpdate } from "../../store/Reducers/productReducer";
 import { getCategory } from "../../store/Reducers/categoryReducer";
 import { PropagateLoader } from "react-spinners";
 import { overrideStyle } from "../../utils/util";
@@ -18,9 +13,7 @@ const EditProduct = () => {
   const { productId } = useParams();
   const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.category);
-  const { product, loader, successMessage, errorMessage } = useSelector(
-    (state) => state.product
-  );
+  const { product, loader, successMessage, errorMessage } = useSelector((state) => state.product);
 
   useEffect(() => {
     dispatch(
@@ -61,9 +54,7 @@ const EditProduct = () => {
     const value = e.target.value;
     setSearchValue(value);
     if (value) {
-      let searchValue = allCategory.filter(
-        (c) => c.name.toLowerCase().indexOf(value.toLowerCase()) > -1
-      );
+      let searchValue = allCategory.filter((c) => c.name.toLowerCase().indexOf(value.toLowerCase()) > -1);
       setAllCategory(searchValue);
     } else {
       setAllCategory(categories);
@@ -78,7 +69,7 @@ const EditProduct = () => {
         productImageUpdate({
           oldImage: img,
           newImage: files[0],
-          productId
+          productId,
         })
       );
     }
@@ -123,6 +114,7 @@ const EditProduct = () => {
       price: state.price,
       brand: state.brand,
       quantity: state.quantity,
+      category: category,
       productId: productId,
     };
     dispatch(update_product(obj));
@@ -287,12 +279,7 @@ const EditProduct = () => {
                     <label htmlFor={i}>
                       <img src={img} alt="" />
                     </label>
-                    <input
-                      onChange={(e) => changeImage(img, e.target.files)}
-                      type="file"
-                      id={i}
-                      className="hidden"
-                    />
+                    <input onChange={(e) => changeImage(img, e.target.files)} type="file" id={i} className="hidden" />
                   </div>
                 ))}
             </div>
@@ -301,11 +288,7 @@ const EditProduct = () => {
                 disabled={loader ? true : false}
                 className="w-[280px] py-2 mb-3 text-white bg-red-500 rounded-md hover:shadow-red-300/50 hover:shadow-lg px-7"
               >
-                {loader ? (
-                  <PropagateLoader cssOverride={overrideStyle} color="white" />
-                ) : (
-                  "Save Changes"
-                )}
+                {loader ? <PropagateLoader cssOverride={overrideStyle} color="white" /> : "Save Changes"}
               </button>
             </div>
           </form>
