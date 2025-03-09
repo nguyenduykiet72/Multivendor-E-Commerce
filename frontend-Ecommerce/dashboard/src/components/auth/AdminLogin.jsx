@@ -84,22 +84,6 @@ const AdminLogin = () => {
                 required
               />
             </div>
-
-            {/* <div className="flex items-center w-full gap-3 mb-3">
-              <input
-                className="w-4 h-4 overflow-hidden text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500"
-                type="checkbox"
-                name="checkbox"
-                id="checkbox"
-              />
-              <label
-                className="text-sm leading-none text-black"
-                htmlFor="checkbox"
-              >
-                Tôi đồng ý với điều khoản và chính sách
-              </label>
-            </div> */}
-
             <button
               disabled={loader ? true : false}
               className="w-full py-2 mb-3 text-white bg-black rounded-md hover:shadow-black-300/50 hover:shadow-lg px-7"

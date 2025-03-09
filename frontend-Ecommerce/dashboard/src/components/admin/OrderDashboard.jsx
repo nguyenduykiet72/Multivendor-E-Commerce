@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 import Search from "../shared/Search";
 import { useDispatch, useSelector } from "react-redux";
-import { get_admin_orders } from "../../store/Reducers/oderReducer";
+import { get_admin_orders } from "../../store/Reducers/orderReducer";
 
 const OrderDashboard = () => {
   const dispatch = useDispatch();

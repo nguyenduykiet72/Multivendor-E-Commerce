@@ -8,6 +8,8 @@ const load = async () => {
   return await loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 };
 
+
+
 const ConfirmOrder = () => {
   const [loader, setLoader] = useState(true);
   const [stripe, setStripe] = useState("");

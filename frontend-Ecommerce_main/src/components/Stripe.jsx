@@ -13,6 +13,8 @@ const Stripe = ({ orderId, price }) => {
     clientSecret,
   };
 
+  console.log("ENV:::::",import.meta.env.VITE_STRIPE_PUBLIC_KEY);
+
   const create_payment = async () => {
     try {
       const { data } = await axios.post(

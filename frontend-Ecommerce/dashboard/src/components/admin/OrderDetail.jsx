@@ -5,7 +5,7 @@ import {
   get_admin_order_detail,
   messageClear,
   update_admin_order_status,
-} from "../../store/Reducers/oderReducer";
+} from "../../store/Reducers/orderReducer";
 import toast from "react-hot-toast";
 
 const OrderDetail = () => {

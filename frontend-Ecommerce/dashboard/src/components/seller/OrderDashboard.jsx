@@ -4,7 +4,7 @@ import Pagination from "../Pagination";
 import { Link } from "react-router-dom";
 import { TiEye } from "react-icons/ti";
 import { useDispatch, useSelector } from "react-redux";
-import { get_seller_orders } from "../../store/Reducers/oderReducer";
+import { get_seller_orders } from "../../store/Reducers/orderReducer";
 
 const OrderDashboard = () => {
   const [currentPage, setCurrentPage] = useState(1);

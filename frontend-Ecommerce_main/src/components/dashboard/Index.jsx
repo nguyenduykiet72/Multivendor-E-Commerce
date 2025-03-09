@@ -63,7 +63,7 @@ const Index = () => {
             <h2 className="text-3xl font-bold">{canceledOrder}</h2>
             <span>Canceled Orders</span>
           </div>
-        </div>
+        </div>  
       </div>
 
       <div className="p-5 mt-5 bg-white rounded-md">

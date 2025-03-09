@@ -5,7 +5,7 @@ import {
   get_seller_order_detail,
   messageClear,
   update_seller_order_status,
-} from "../../store/Reducers/oderReducer";
+} from "../../store/Reducers/orderReducer";
 import toast from "react-hot-toast";
 
 const OrderDetail = () => {
@@ -41,7 +41,7 @@ const OrderDetail = () => {
       dispatch(messageClear());
     }
   }, [errorMessage, successMessage]);
-  
+
   return (
     <div className="px-2 pt-5 lg:px-7">
       <div className="w-full p-4 bg-white rounded-md">
@@ -93,9 +93,7 @@ const OrderDetail = () => {
                         alt=""
                       />
                       <div>
-                        <h2 className="">
-                          Name: {op.name}
-                        </h2>
+                        <h2 className="">Name: {op.name}</h2>
                         <p>
                           <span>Brand:</span>
                           <span> {op.brand}</span>
