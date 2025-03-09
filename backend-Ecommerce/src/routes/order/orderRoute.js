@@ -1,4 +1,4 @@
-const orderController = require("../../controllers/order/orderControllers");
+const orderController = require("../../controllers/order/order.controller");
 const router = require("express").Router();
 
 //Customer routes

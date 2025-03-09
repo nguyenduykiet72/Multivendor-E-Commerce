@@ -1,9 +1,8 @@
-const chatController = require("../controllers/chat/chatControllers");
+const chatController = require("../controllers/chat/chat.controller");
 const router = require("express").Router();
-const { authMiddleware } = require("../middlewares/authMiddleware");
+const { authMiddleware } = require("../middlewares/auth.middleware");
 
-
-router.get("/chat/admin/get-sellers",authMiddleware, chatController.get_sellers);
+router.get("/chat/admin/get-sellers", authMiddleware, chatController.get_sellers);
 
 router.post("/chat/customer/add-customer-seller", chatController.add_customer_seller);
 

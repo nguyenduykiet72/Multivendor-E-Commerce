@@ -1,6 +1,6 @@
 
-const dashboardController = require("../../controllers/dashboard/dashboardController");
-const { authMiddleware } = require("../../middlewares/authMiddleware");
+const dashboardController = require("../../controllers/dashboard/dashboard.controller");
+const { authMiddleware } = require("../../middlewares/auth.middleware");
 
 const router = require("express").Router();
 

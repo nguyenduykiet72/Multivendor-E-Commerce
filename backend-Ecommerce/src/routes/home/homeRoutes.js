@@ -1,4 +1,4 @@
-const homeController = require("../../controllers/home/homeControllers");
+const homeController = require("../../controllers/home/home.controller");
 const router = require("express").Router();
 
 router.get("/home/get-category", homeController.get_category);
