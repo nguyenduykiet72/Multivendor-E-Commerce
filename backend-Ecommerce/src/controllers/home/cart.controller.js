@@ -1,5 +1,5 @@
-const cartModel = require("../../models/cartModel");
-const wishlistModel = require("../../models/wishlistModel");
+const cartModel = require("../../models/cart.model");
+const wishlistModel = require("../../models/wishlist.model");
 const { responseReturn } = require("../../utils/response");
 // const {
 //   mongo: { ObjectId },

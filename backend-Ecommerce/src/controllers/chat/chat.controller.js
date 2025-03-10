@@ -1,8 +1,8 @@
-const sellerModel = require("../../models/sellerModel");
-const customerModel = require("../../models/customerModel");
-const sellerCustomerModel = require("../../models/chat/sellerCustomerModel");
-const sellerCustomerMessageModel = require("../../models/chat/sellerCustomerMessageModel");
-const adminSellerMessageModel = require("../../models/chat/adminSellerMessageModel");
+const sellerModel = require("../../models/seller.model");
+const customerModel = require("../../models/customer.model");
+const sellerCustomerModel = require("../../models/chat/seller.customer.model");
+const sellerCustomerMessageModel = require("../../models/chat/seller.customer.message.model");
+const adminSellerMessageModel = require("../../models/chat/admin.seller.message.model");
 const { responseReturn } = require("../../utils/response");
 
 const add_customer_seller = async (req, res) => {
@@ -104,9 +104,7 @@ const add_customer_seller = async (req, res) => {
         myId: userId,
       }); // tim cac seller trong list message
 
-      const currentFriend = MyFriends.myFriends.find(
-        (s) => s.fdId === sellerId
-      ); // tim seller hien tai trong list message
+      const currentFriend = MyFriends.myFriends.find((s) => s.fdId === sellerId); // tim seller hien tai trong list message
 
       responseReturn(res, 200, {
         MyFriends: MyFriends.myFriends,

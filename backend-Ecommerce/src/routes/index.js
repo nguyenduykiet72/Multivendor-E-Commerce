@@ -1,16 +1,16 @@
 const express = require("express");
 const router = express.Router();
-const authRoutes = require("./authRoutes");
-const categoryRoutes = require("./dashboard/categoryRoutes");
-const productRoutes = require("./dashboard/productRoutes");
-const sellerRoutes = require("./dashboard/sellerRoutes");
-const homeRoutes = require("./home/homeRoutes");
-const customerRoutes = require("./home/customerAuthRoutes");
-const cartRoutes = require("./home/cartRoutes");
-const orderRoutes = require("./order/orderRoute");
-const chatRoutes = require("./chatRoutes");
-const paymentRoutes = require("./payment/paymentRoutes");
-const dashboardRoutes = require("./dashboard/dashboardRoutes");
+const authRoutes = require("./auth.route");
+const categoryRoutes = require("./dashboard/category.route");
+const productRoutes = require("./dashboard/product.route");
+const sellerRoutes = require("./dashboard/seller.route");
+const homeRoutes = require("./home/home.route");
+const customerRoutes = require("./home/customer.auth.route");
+const cartRoutes = require("./home/cart.route");
+const orderRoutes = require("./order/order.route");
+const chatRoutes = require("./chat.route");
+const paymentRoutes = require("./payment/payment.route");
+const dashboardRoutes = require("./dashboard/dashboard.route");
 
 router.use("/api", authRoutes);
 router.use("/api", categoryRoutes);

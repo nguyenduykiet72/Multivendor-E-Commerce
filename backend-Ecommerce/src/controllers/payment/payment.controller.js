@@ -1,7 +1,7 @@
-const stripeModel = require("../../models/stripeModel");
-const sellerModel = require("../../models/sellerModel");
-const sellerWalletModel = require("../../models/sellerWalletModel");
-const withdrawRequestModel = require("../../models/withDrawRequestModel");
+const stripeModel = require("../../models/stripe.model");
+const sellerModel = require("../../models/seller.model");
+const sellerWalletModel = require("../../models/seller.wallet.model");
+const withdrawRequestModel = require("../../models/withdrawal.request.model");
 
 const { v4: uuidv4 } = require("uuid");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);

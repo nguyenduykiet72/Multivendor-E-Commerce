@@ -1,6 +1,6 @@
-const adminModel = require("../models/adminModel");
-const sellerModel = require("../models/sellerModel");
-const sellerCustomerModel = require("../models/chat/sellerCustomerModel");
+const adminModel = require("../models/admin.model");
+const sellerModel = require("../models/seller.model");
+const sellerCustomerModel = require("../models/chat/seller.customer.model");
 const { createToken } = require("../utils/createToken");
 const { responseReturn } = require("../utils/response");
 const bcrypt = require("bcrypt");
@@ -190,4 +190,4 @@ module.exports = {
   upload_profile_image,
   add_profile_info,
   logout,
-}
+};

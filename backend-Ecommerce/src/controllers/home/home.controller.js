@@ -1,6 +1,6 @@
-const categoryModel = require("../../models/categoryModel");
-const productModel = require("../../models/productModel");
-const reviewModel = require("../../models/reviewModel");
+const categoryModel = require("../../models/category.model");
+const productModel = require("../../models/product.model");
+const reviewModel = require("../../models/review.model");
 const { responseReturn } = require("../../utils/response");
 const formateProduct = require("../../utils/formate");
 const queryProducts = require("../../utils/queryProducts");
@@ -20,26 +20,14 @@ const get_category = async (req, res) => {
 
 const get_products = async (req, res) => {
   try {
-    const products = await productModel
-      .find({})
-      .limit(12)
-      .sort({ createdAt: -1 });
-    const allProduct1 = await productModel
-      .find({})
-      .limit(9)
-      .sort({ createdAt: -1 });
+    const products = await productModel.find({}).limit(12).sort({ createdAt: -1 });
+    const allProduct1 = await productModel.find({}).limit(9).sort({ createdAt: -1 });
     const latestProduct = formateProduct(allProduct1);
 
-    const allProduct2 = await productModel
-      .find({})
-      .limit(9)
-      .sort({ rating: -1 });
+    const allProduct2 = await productModel.find({}).limit(9).sort({ rating: -1 });
     const topRatedProduct = formateProduct(allProduct2);
 
-    const allProduct3 = await productModel
-      .find({})
-      .limit(9)
-      .sort({ discount: -1 });
+    const allProduct3 = await productModel.find({}).limit(9).sort({ discount: -1 });
     const discountProduct = formateProduct(allProduct3);
 
     responseReturn(res, 200, {
@@ -59,10 +47,7 @@ const price_range_product = async (req, res) => {
       low: 0,
       high: 0,
     };
-    const products = await productModel
-      .find({})
-      .limit(9)
-      .sort({ createdAt: -1 }); //1 for ascending order, -1 for descending order
+    const products = await productModel.find({}).limit(9).sort({ createdAt: -1 }); //1 for ascending order, -1 for descending order
     const latestProduct = formateProduct(products);
     const getForPrice = await productModel.find({}).sort({ price: 1 });
     if (getForPrice.length > 0) {
@@ -235,11 +220,7 @@ const get_reviews = async (req, res) => {
     }
 
     const getAll = await reviewModel.find({ productId });
-    const reviews = await reviewModel
-      .find({ productId })
-      .skip(skipPage)
-      .limit(limit)
-      .sort({ createdAt: -1 });
+    const reviews = await reviewModel.find({ productId }).skip(skipPage).limit(limit).sort({ createdAt: -1 });
 
     responseReturn(res, 200, {
       reviews,

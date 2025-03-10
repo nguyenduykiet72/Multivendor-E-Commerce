@@ -1,16 +1,16 @@
-const myShopWalletModel = require("../../models/myShopWalletModel");
-const productModel = require("../../models/productModel");
-const customerOrderModel = require("../../models/customerOrderModel");
-const sellerModel = require("../../models/sellerModel");
+const myShopWalletModel = require("../../models/myshop.wallet.model");
+const productModel = require("../../models/product.model");
+const customerOrderModel = require("../../models/customer.order.model");
+const sellerModel = require("../../models/seller.model");
 const adminSellerMessageModel = require("../../models/chat/adminSellerMessageModel");
-const sellerWalletModel = require("../../models/sellerWalletModel");
-const authOrderModel = require("../../models/authOrderModel");
-const sellerCustomerMessageModel = require("../../models/chat/sellerCustomerMessageModel");
+const sellerWalletModel = require("../../models/seller.wallet.model");
+const authOrderModel = require("../../models/auth.order.model");
+const sellerCustomerMessageModel = require("../../models/chat/seller.customer.message.model");
 const { default: mongoose } = require("mongoose");
 const { formidable } = require("formidable");
 const cloudinary = require("cloudinary").v2;
 const { responseReturn } = require("../../utils/response");
-const bannerModel = require("../../models/bannerModel");
+const bannerModel = require("../../models/banner.model");
 
 const get_admin_dashboard_data = async (req, res) => {
   const { id } = req;
@@ -209,8 +209,8 @@ const get_banners = async (req, res) => {
       {
         $sample: {
           size: 5,
-        }
-      }
+        },
+      },
     ]);
     responseReturn(res, 200, { banners });
   } catch (error) {

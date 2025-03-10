@@ -1,7 +1,7 @@
 const { formidable } = require("formidable");
 const { responseReturn } = require("../../utils/response");
 const cloudinary = require("cloudinary").v2;
-const categoryModel = require("../../models/categoryModel");
+const categoryModel = require("../../models/category.model");
 
 const add_category = async (req, res) => {
   const form = formidable();

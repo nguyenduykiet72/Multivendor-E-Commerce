@@ -1,5 +1,5 @@
-const sellerCustomerModel = require("../../models/chat/sellerCustomerModel");
-const customerModel = require("../../models/customerModel");
+const sellerCustomerModel = require("../../models/chat/seller.customer.model");
+const customerModel = require("../../models/customer.model");
 const { createToken } = require("../../utils/createToken");
 const { responseReturn } = require("../../utils/response");
 const bcrypt = require("bcrypt");

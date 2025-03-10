@@ -1,4 +1,4 @@
-const sellerModel = require("../../models/sellerModel");
+const sellerModel = require("../../models/seller.model");
 const { responseReturn } = require("../../utils/response");
 
 const get_seller_request = async (req, res) => {

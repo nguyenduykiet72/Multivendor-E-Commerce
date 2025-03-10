@@ -1,17 +1,16 @@
 const moment = require("moment");
-const customerOrderModel = require("../../models/customerOrderModel");
-const authOrderModel = require("../../models/authOrderModel");
-const cartModel = require("../../models/cartModel");
-const myShopWalletModel = require("../../models/myShopWalletModel");
-const sellerWalletModel = require("../../models/sellerWalletModel");
+const customerOrderModel = require("../../models/customer.order.model");
+const authOrderModel = require("../../models/auth.order.model");
+const cartModel = require("../../models/cart.model");
+const myShopWalletModel = require("../../models/myshop.wallet.model");
+const sellerWalletModel = require("../../models/seller.wallet.model");
 const { responseReturn } = require("../../utils/response");
 
 const { default: mongoose } = require("mongoose");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const place_order = async (req, res) => {
-  const { price, products, shipping_fee, items, shippingInfo, userId } =
-    req.body;
+  const { price, products, shipping_fee, items, shippingInfo, userId } = req.body;
   let authorOrderData = [];
   let cartId = [];
   const tempDate = moment(Date.now()).format("LLL");
@@ -257,14 +256,8 @@ const get_seller_orders = async (req, res) => {
   try {
     if (searchValue) {
     } else {
-      const orders = await authOrderModel
-        .find({ sellerId })
-        .skip(skipPage)
-        .limit(nextPage)
-        .sort({ createdAt: -1 });
-      const totalOrder = await authOrderModel
-        .find({ sellerId })
-        .countDocuments();
+      const orders = await authOrderModel.find({ sellerId }).skip(skipPage).limit(nextPage).sort({ createdAt: -1 });
+      const totalOrder = await authOrderModel.find({ sellerId }).countDocuments();
       responseReturn(res, 200, { orders, totalOrder });
     }
   } catch (error) {
@@ -341,7 +334,7 @@ const get_confirm_order = async (req, res) => {
       amount: customerOrder.price,
       month: splitTime[0],
       year: splitTime[2],
-    })
+    });
 
     for (let i = 0; i < authorOrder.length; i++) {
       await sellerWalletModel.create({
@@ -349,11 +342,10 @@ const get_confirm_order = async (req, res) => {
         amount: authorOrder[i].price,
         month: splitTime[0],
         year: splitTime[2],
-      })
+      });
     }
 
-    responseReturn(res,200,{message: "Order confirmed successfully"});
-
+    responseReturn(res, 200, { message: "Order confirmed successfully" });
   } catch (error) {
     console.log(error.message);
     responseReturn(res, 500, { message: "Internal Sever Error" });

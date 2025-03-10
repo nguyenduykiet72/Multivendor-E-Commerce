@@ -1,7 +1,7 @@
 const { formidable } = require("formidable");
 const { responseReturn } = require("../../utils/response");
 const cloudinary = require("cloudinary").v2;
-const productModel = require("../../models/productModel");
+const productModel = require("../../models/product.model");
 
 const add_product = async (req, res) => {
   const { id } = req;
